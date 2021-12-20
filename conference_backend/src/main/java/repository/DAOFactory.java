@@ -5,6 +5,7 @@ import repository.jdbc.JdbcDAOFactory;
 public abstract class DAOFactory {
 
     public abstract UserDAO getUserDAO();
+    public abstract SectionDAO getSectionDAO();
 
     public static DAOFactory getInstance() {
         return new JdbcDAOFactory();

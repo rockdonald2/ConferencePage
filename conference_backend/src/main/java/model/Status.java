@@ -28,4 +28,10 @@ public enum Status implements Serializable {
 
         return ret;
     }
+
+    @Override
+    public String toString() {
+        return this.name();
+    }
+
 }

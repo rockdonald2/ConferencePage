@@ -13,16 +13,12 @@ public class User extends BaseEntity {
 
     public User() {}
 
-    public User(String email, String pwd, String firstName, String lastName, String role, String institution, String position, String academicDegree) {
+    public User(String email, String pwd, String firstName, String lastName, Role role, String institution, String position, String academicDegree) {
         this.email = email;
         this.pwd = pwd;
         this.firstName = firstName;
         this.lastName = lastName;
-        try {
-            this.role = Role.get(role);
-        } catch (ModelException e) {
-            this.role = Role.GUEST;
-        }
+        this.role = role;
         this.institution = institution;
         this.position = position;
         this.academicDegree = academicDegree;

@@ -33,4 +33,5 @@ public enum Role implements Serializable {
     public String toString() {
         return this.name();
     }
+
 }

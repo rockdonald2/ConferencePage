@@ -1,7 +1,7 @@
 package repository.jdbc;
 
-import model.ModelException;
 import model.User;
+import model.builders.UserBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import repository.RepositoryException;
@@ -82,7 +82,7 @@ public class JdbcUserDAO implements UserDAO {
 
             stmt.executeUpdate();
         } catch (SQLException | RepositoryException e) {
-            LOG.error("Failed to update user.", e);
+            LOG.error("Failed to update user {}.", user.getEmail(), e);
             throw new RepositoryException("Failed to update user.");
         } finally {
             if (!Objects.isNull(c)) {
@@ -104,7 +104,7 @@ public class JdbcUserDAO implements UserDAO {
 
             stmt.execute();
         } catch (SQLException | RepositoryException e) {
-            LOG.error("Failed to delete user.", e);
+            LOG.error("Failed to delete user {}.", id, e);
             throw new RepositoryException("Failed to delete user.");
         } finally {
             if (!Objects.isNull(c)) {
@@ -132,22 +132,8 @@ public class JdbcUserDAO implements UserDAO {
                 return null;
             }
 
-            u = new User();
-            u.setId(rs.getLong("UserID"));
-            u.setUuid(rs.getString("UUID"));
-            u.setEmail(rs.getString("Email"));
-            u.setFirstName(rs.getString("FirstName"));
-            u.setLastName(rs.getString("LastName"));
-            u.setPwd(rs.getString("Pwd"));
-            try {
-                u.setRole(rs.getString("Role"));
-            } catch (ModelException e) {
-                LOG.error("Invalid role for user with ID {}; setting to Guest.", id);
-                u.setRole("guest");
-            }
-            u.setInstitution(rs.getString("institution"));
-            u.setPosition(rs.getString("position"));
-            u.setAcademicDegree(rs.getString("AcademicDegree"));
+            UserBuilder builder = new UserBuilder();
+            u = builder.withEmail(rs.getString("Email")).withFirstName(rs.getString("FirstName")).withLastName(rs.getString("LastName")).withPwd(rs.getString("Pwd")).withRole(rs.getString("Role")).inInstitution(rs.getString("Institution")).inPosition(rs.getString("Position")).withDegree(rs.getString("AcademicDegree")).build();
 
             return u;
         } catch (SQLException | RepositoryException e) {
@@ -179,22 +165,8 @@ public class JdbcUserDAO implements UserDAO {
                 return null;
             }
 
-            u = new User();
-            u.setId(rs.getLong("UserID"));
-            u.setUuid(rs.getString("UUID"));
-            u.setEmail(rs.getString("Email"));
-            u.setFirstName(rs.getString("FirstName"));
-            u.setLastName(rs.getString("LastName"));
-            u.setPwd(rs.getString("Pwd"));
-            try {
-                u.setRole(rs.getString("Role"));
-            } catch (ModelException e) {
-                LOG.error("Invalid role for user with email {}; setting to Guest.", email);
-                u.setRole("guest");
-            }
-            u.setInstitution(rs.getString("institution"));
-            u.setPosition(rs.getString("position"));
-            u.setAcademicDegree(rs.getString("AcademicDegree"));
+            UserBuilder builder = new UserBuilder();
+            u = builder.withEmail(rs.getString("Email")).withFirstName(rs.getString("FirstName")).withLastName(rs.getString("LastName")).withPwd(rs.getString("Pwd")).withRole(rs.getString("Role")).inInstitution(rs.getString("Institution")).inPosition(rs.getString("Position")).withDegree(rs.getString("AcademicDegree")).build();
 
             return u;
         } catch (SQLException | RepositoryException e) {
@@ -225,22 +197,8 @@ public class JdbcUserDAO implements UserDAO {
 
             User u;
             while (rs.next()) {
-                u = new User();
-                u.setId(rs.getLong("UserID"));
-                u.setUuid(rs.getString("UUID"));
-                u.setEmail(rs.getString("Email"));
-                u.setFirstName(rs.getString("FirstName"));
-                u.setLastName(rs.getString("LastName"));
-                u.setPwd(rs.getString("Pwd"));
-                try {
-                    u.setRole(rs.getString("Role"));
-                } catch (ModelException e) {
-                    LOG.error("Invalid role for user with email {}; setting to Guest.", u.getEmail());
-                    u.setRole("guest");
-                }
-                u.setInstitution(rs.getString("institution"));
-                u.setPosition(rs.getString("position"));
-                u.setAcademicDegree(rs.getString("AcademicDegree"));
+                UserBuilder builder = new UserBuilder();
+                u = builder.withEmail(rs.getString("Email")).withFirstName(rs.getString("FirstName")).withLastName(rs.getString("LastName")).withPwd(rs.getString("Pwd")).withRole(rs.getString("Role")).inInstitution(rs.getString("Institution")).inPosition(rs.getString("Position")).withDegree(rs.getString("AcademicDegree")).build();
 
                 users.add(u);
             }
