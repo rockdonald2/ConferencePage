@@ -44,7 +44,10 @@ public class JdbcSectionDAO implements SectionDAO {
                         );ALTER TABLE `section`
                             ADD PRIMARY KEY (`SectionID`),
                             ADD UNIQUE KEY `Name` (`Name`),
-                            ADD KEY `FK_SECTION_RESPONSABLE` (`Email`);""");
+                            ADD KEY `FK_SECTION_RESPONSABLE` (`Email`);ALTER TABLE `section`
+                                                                         MODIFY `SectionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+                                                                         ALTER TABLE `section`
+                                                                           ADD CONSTRAINT `FK_SECTION_RESPONSABLE` FOREIGN KEY (`Email`) REFERENCES `conferenceuser` (`Email`);""");
 
                 LOG.info("Successfully created table for sections.");
             } catch (SQLException e) {

@@ -40,12 +40,16 @@ public class JdbcPaperDAO implements PaperDAO {
                           `CoAuthors` text NOT NULL,
                           `Email` varchar(128) NOT NULL,
                           `SectionID` int(10) UNSIGNED NOT NULL
-                        );ALTER TABLE `paper`
+                        );
+                        ALTER TABLE `paper`
                             ADD PRIMARY KEY (`PaperID`),
                             ADD UNIQUE KEY `UUID` (`UUID`),
                             ADD UNIQUE KEY `Document` (`Document`),
                             ADD KEY `FK_PAPER_REGISTERS` (`Email`),
-                            ADD KEY `FK_PAPER_SECTION` (`SectionID`);""");
+                            ADD KEY `FK_PAPER_SECTION` (`SectionID`);
+                            ALTER TABLE `paper` MODIFY `PaperID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;ALTER TABLE `paper`
+                                                                     ADD CONSTRAINT `FK_PAPER_REGISTERS` FOREIGN KEY (`Email`) REFERENCES `conferenceuser` (`Email`),
+                                                                     ADD CONSTRAINT `FK_PAPER_SECTION` FOREIGN KEY (`SectionID`) REFERENCES `section` (`SectionID`);""");
 
                 LOG.info("Successfully created table for papers.");
             } catch (SQLException e) {

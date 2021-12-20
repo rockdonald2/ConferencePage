@@ -46,7 +46,8 @@ public class JdbcUserDAO implements UserDAO {
                         ); ALTER TABLE `conferenceuser`
                              ADD PRIMARY KEY (`UserID`),
                              ADD UNIQUE KEY `UUID` (`UUID`),
-                             ADD UNIQUE KEY `Email` (`Email`)""");
+                             ADD UNIQUE KEY `Email` (`Email`);ALTER TABLE `conferenceuser`
+                                                                MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;""");
 
                 LOG.info("Successfully created table for users.");
             } catch (SQLException e) {
