@@ -7,6 +7,7 @@ import model.builders.PaperBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import repository.*;
+import util.PropertyProvider;
 
 import java.sql.*;
 import java.util.*;
@@ -18,6 +19,44 @@ public class JdbcPaperDAO implements PaperDAO {
 
     public JdbcPaperDAO() {
         connManager = ConnectionManager.getInstance();
+
+        boolean createTables = PropertyProvider.getBoolProperty("db.create.tables");
+        if (createTables) {
+            LOG.info("Creating table for papers.");
+
+            Connection c = null;
+            try {
+                c = connManager.getConnection();
+
+                Statement stmt = c.createStatement();
+                stmt.executeUpdate("""
+                        CREATE TABLE `paper` (
+                          `PaperID` int(10) UNSIGNED NOT NULL,
+                          `UUID` varchar(36) NOT NULL,
+                          `Document` varchar(512) DEFAULT NULL,
+                          `Status` enum('New','Accepted','Confirmed','Rejected') NOT NULL,
+                          `Abstract` mediumtext NOT NULL,
+                          `Title` varchar(512) NOT NULL,
+                          `CoAuthors` text NOT NULL,
+                          `Email` varchar(128) NOT NULL,
+                          `SectionID` int(10) UNSIGNED NOT NULL
+                        );ALTER TABLE `paper`
+                            ADD PRIMARY KEY (`PaperID`),
+                            ADD UNIQUE KEY `UUID` (`UUID`),
+                            ADD UNIQUE KEY `Document` (`Document`),
+                            ADD KEY `FK_PAPER_REGISTERS` (`Email`),
+                            ADD KEY `FK_PAPER_SECTION` (`SectionID`);""");
+
+                LOG.info("Successfully created table for papers.");
+            } catch (SQLException e) {
+                LOG.error("Failed to create table for papers.", e);
+                throw new RepositoryException("Failed to create table for papers.");
+            } finally {
+                if (!Objects.isNull(c)) {
+                    connManager.returnConnection(c);
+                }
+            }
+        }
     }
 
     @Override
@@ -45,6 +84,7 @@ public class JdbcPaperDAO implements PaperDAO {
 
             paper.setId(rs.getLong("PaperID"));
 
+            LOG.info("Successfully created paper {}.", paper.getId());
             return paper;
         } catch (SQLException e) {
             LOG.error("Failed to insert new paper.", e);
@@ -73,6 +113,8 @@ public class JdbcPaperDAO implements PaperDAO {
             stmt.setLong(6, paper.getId());
 
             stmt.executeUpdate();
+
+            LOG.info("Successfully updated paper {}.", paper.getId());
         } catch (SQLException e) {
             LOG.error("Failed to update paper {}.", paper.getId(), e);
             throw new RepositoryException("Failed to update paper.");
@@ -95,6 +137,8 @@ public class JdbcPaperDAO implements PaperDAO {
             stmt.setLong(1, id);
 
             stmt.execute();
+
+            LOG.info("Successfully deleted paper {}.", id);
         } catch (SQLException e) {
             LOG.error("Failed to delete paper {}.", id, e);
             throw new RepositoryException("Failed to update paper.");
@@ -144,7 +188,10 @@ public class JdbcPaperDAO implements PaperDAO {
             }
 
             p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+            p.setId(rs.getLong("PaperID"));
+            p.setUuid(rs.getString("UUID"));
 
+            LOG.info("Successfully retrieved paper {}.", p.getId());
             return p;
         } catch (SQLException e) {
             LOG.error("Failed to get paper {}.", id, e);
@@ -195,7 +242,10 @@ public class JdbcPaperDAO implements PaperDAO {
             }
 
             p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+            p.setId(rs.getLong("PaperID"));
+            p.setUuid(rs.getString("UUID"));
 
+            LOG.info("Successfully retrieved paper {}.", p.getId());
             return p;
         } catch (SQLException e) {
             LOG.error("Failed to get paper {}.", path, e);
@@ -248,7 +298,10 @@ public class JdbcPaperDAO implements PaperDAO {
                 }
 
                 p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+                p.setId(rs.getLong("PaperID"));
+                p.setUuid(rs.getString("UUID"));
 
+                LOG.info("Successfully retrieved paper {}.", p.getId());
                 papers.add(p);
             }
 
@@ -306,7 +359,10 @@ public class JdbcPaperDAO implements PaperDAO {
                 }
 
                 p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+                p.setId(rs.getLong("PaperID"));
+                p.setUuid(rs.getString("UUID"));
 
+                LOG.info("Successfully retrieved paper {}.", p.getId());
                 papers.add(p);
             }
 
@@ -364,7 +420,10 @@ public class JdbcPaperDAO implements PaperDAO {
                 }
 
                 p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+                p.setId(rs.getLong("PaperID"));
+                p.setUuid(rs.getString("UUID"));
 
+                LOG.info("Successfully retrieved paper {}.", p.getId());
                 papers.add(p);
             }
 

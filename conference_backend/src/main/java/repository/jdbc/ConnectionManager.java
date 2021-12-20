@@ -18,16 +18,16 @@ public class ConnectionManager {
 
     private static ConnectionManager instance;
     private List<Connection> pool;
-    private static final int POOL_SIZE = Integer.parseInt(PropertyProvider.getProperty("db.pool.size"));
+    private static final int POOL_SIZE = PropertyProvider.getIntProperty("db.pool.size");
 
     private ConnectionManager() throws RepositoryException {
         try {
-            Class.forName(PropertyProvider.getProperty("db.driver"));
+            Class.forName(PropertyProvider.getStringProperty("db.driver"));
 
             pool = new LinkedList<>();
 
             for (int i = 0; i < POOL_SIZE; ++i) {
-                pool.add(DriverManager.getConnection(PropertyProvider.getProperty("db.url"), PropertyProvider.getProperty("db.user"), PropertyProvider.getProperty("db.pwd")));
+                pool.add(DriverManager.getConnection(PropertyProvider.getStringProperty("db.url"), PropertyProvider.getStringProperty("db.user"), PropertyProvider.getStringProperty("db.pwd")));
             }
 
             LOG.info("Successfully initialized connection pool with {} connections.", POOL_SIZE);

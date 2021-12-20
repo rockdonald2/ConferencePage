@@ -24,8 +24,25 @@ public class PropertyProvider {
         }
     }
 
-    public static String getProperty(String key) {
+    public static String getStringProperty(String key) {
         return properties.getProperty(key);
+    }
+
+    public static int getIntProperty(String key) throws InvalidPropertyException {
+        int ret;
+
+        try {
+            ret = Integer.parseInt(properties.getProperty(key));
+        } catch (NumberFormatException e) {
+            LOG.error("Invalid property value for key {}.", key, e);
+            throw new InvalidPropertyException("Invalid property type.");
+        }
+
+        return ret;
+    }
+
+    public static boolean getBoolProperty(String key) {
+        return Boolean.parseBoolean(properties.getProperty(key));
     }
 
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import repository.RepositoryException;
 import repository.UserDAO;
+import util.PropertyProvider;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,8 +20,44 @@ public class JdbcUserDAO implements UserDAO {
 
     private final ConnectionManager connManager;
 
-    public JdbcUserDAO() {
+    public JdbcUserDAO() throws RepositoryException {
         connManager = ConnectionManager.getInstance();
+
+        boolean createTables = PropertyProvider.getBoolProperty("db.create.tables");
+        if (createTables) {
+            LOG.info("Creating table for users.");
+
+            Connection c = null;
+            try {
+                c = connManager.getConnection();
+                Statement stmt = c.createStatement();
+                stmt.executeUpdate("""
+                        CREATE TABLE `conferenceuser` (
+                          `UserID` int(11) NOT NULL,
+                          `UUID` varchar(36) NOT NULL,
+                          `Email` varchar(128) NOT NULL,
+                          `FirstName` varchar(64) NOT NULL,
+                          `LastName` varchar(64) NOT NULL,
+                          `Pwd` char(40) NOT NULL,
+                          `Role` enum('GUEST','ADMIN','PRESENTER','REPRESENTATIVE') NOT NULL,
+                          `Institution` varchar(128) DEFAULT NULL,
+                          `Position` varchar(128) DEFAULT NULL,
+                          `AcademicDegree` varchar(3) NOT NULL
+                        ); ALTER TABLE `conferenceuser`
+                             ADD PRIMARY KEY (`UserID`),
+                             ADD UNIQUE KEY `UUID` (`UUID`),
+                             ADD UNIQUE KEY `Email` (`Email`)""");
+
+                LOG.info("Successfully created table for users.");
+            } catch (SQLException e) {
+                LOG.error("Failed to create table for users.", e);
+                throw new RepositoryException("Failed to create table for users.");
+            } finally {
+                if (!Objects.isNull(c)) {
+                    connManager.returnConnection(c);
+                }
+            }
+        }
     }
 
     @Override
@@ -49,6 +86,7 @@ public class JdbcUserDAO implements UserDAO {
 
             user.setId(rs.getLong("UserID"));
 
+            LOG.info("Successfully created user {}.", user.getId());
             return user;
         } catch (SQLException | RepositoryException e) {
             LOG.error("Failed to insert new user.", e);
@@ -81,6 +119,8 @@ public class JdbcUserDAO implements UserDAO {
             stmt.setLong(9, user.getId());
 
             stmt.executeUpdate();
+
+            LOG.info("Successfully updated user {}.", user.getId());
         } catch (SQLException | RepositoryException e) {
             LOG.error("Failed to update user {}.", user.getEmail(), e);
             throw new RepositoryException("Failed to update user.");
@@ -103,6 +143,8 @@ public class JdbcUserDAO implements UserDAO {
             stmt.setLong(1, id);
 
             stmt.execute();
+
+            LOG.info("Successfully deleted user {}.", id);
         } catch (SQLException | RepositoryException e) {
             LOG.error("Failed to delete user {}.", id, e);
             throw new RepositoryException("Failed to delete user.");
@@ -134,7 +176,10 @@ public class JdbcUserDAO implements UserDAO {
 
             UserBuilder builder = new UserBuilder();
             u = builder.withEmail(rs.getString("Email")).withFirstName(rs.getString("FirstName")).withLastName(rs.getString("LastName")).withPwd(rs.getString("Pwd")).withRole(rs.getString("Role")).inInstitution(rs.getString("Institution")).inPosition(rs.getString("Position")).withDegree(rs.getString("AcademicDegree")).build();
+            u.setId(rs.getLong("UserID"));
+            u.setUuid(rs.getString("UUID"));
 
+            LOG.info("Successfully retrieved user {}.", u.getId());
             return u;
         } catch (SQLException | RepositoryException e) {
             LOG.error("Failed to get user by ID.", e);
@@ -167,7 +212,10 @@ public class JdbcUserDAO implements UserDAO {
 
             UserBuilder builder = new UserBuilder();
             u = builder.withEmail(rs.getString("Email")).withFirstName(rs.getString("FirstName")).withLastName(rs.getString("LastName")).withPwd(rs.getString("Pwd")).withRole(rs.getString("Role")).inInstitution(rs.getString("Institution")).inPosition(rs.getString("Position")).withDegree(rs.getString("AcademicDegree")).build();
+            u.setId(rs.getLong("UserID"));
+            u.setUuid(rs.getString("UUID"));
 
+            LOG.info("Successfully retrieved user {}.", u.getId());
             return u;
         } catch (SQLException | RepositoryException e) {
             LOG.error("Failed to get user by ID.", e);
@@ -199,6 +247,10 @@ public class JdbcUserDAO implements UserDAO {
             while (rs.next()) {
                 UserBuilder builder = new UserBuilder();
                 u = builder.withEmail(rs.getString("Email")).withFirstName(rs.getString("FirstName")).withLastName(rs.getString("LastName")).withPwd(rs.getString("Pwd")).withRole(rs.getString("Role")).inInstitution(rs.getString("Institution")).inPosition(rs.getString("Position")).withDegree(rs.getString("AcademicDegree")).build();
+                u.setId(rs.getLong("UserID"));
+                u.setUuid(rs.getString("UUID"));
+
+                LOG.info("Successfully retrieved user {}.", u.getId());
 
                 users.add(u);
             }

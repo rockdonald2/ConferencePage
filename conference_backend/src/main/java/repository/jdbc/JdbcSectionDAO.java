@@ -9,6 +9,7 @@ import repository.DAOFactory;
 import repository.RepositoryException;
 import repository.SectionDAO;
 import repository.UserDAO;
+import util.PropertyProvider;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,8 +22,40 @@ public class JdbcSectionDAO implements SectionDAO {
     private static final Logger LOG = LoggerFactory.getLogger(JdbcSectionDAO.class);
     private final ConnectionManager connManager;
 
-    public JdbcSectionDAO() {
+    public JdbcSectionDAO() throws RepositoryException {
         this.connManager = ConnectionManager.getInstance();
+
+        boolean createTables = PropertyProvider.getBoolProperty("db.create.tables");
+        if (createTables) {
+            LOG.info("Creating table for sections.");
+
+            Connection c = null;
+            try {
+                c = connManager.getConnection();
+
+                Statement stmt = c.createStatement();
+                stmt.executeUpdate("""
+                        CREATE TABLE `section` (
+                          `SectionID` int(10) UNSIGNED NOT NULL,
+                          `UUID` varchar(36) NOT NULL,
+                          `Name` varchar(64) NOT NULL,
+                          `Description` longtext NOT NULL,
+                          `Email` varchar(128) NOT NULL
+                        );ALTER TABLE `section`
+                            ADD PRIMARY KEY (`SectionID`),
+                            ADD UNIQUE KEY `Name` (`Name`),
+                            ADD KEY `FK_SECTION_RESPONSABLE` (`Email`);""");
+
+                LOG.info("Successfully created table for sections.");
+            } catch (SQLException e) {
+                LOG.error("Failed to create table for sections.");
+                throw new RepositoryException("Failed to create table for sections.");
+            } finally {
+                if (!Objects.isNull(c)) {
+                    connManager.returnConnection(c);
+                }
+            }
+        }
     }
 
     @Override
@@ -46,6 +79,7 @@ public class JdbcSectionDAO implements SectionDAO {
 
             section.setId(rs.getLong("SectionID"));
 
+            LOG.info("Successfully created section {}.", section.getId());
             return section;
         } catch (SQLException e) {
             LOG.error("Failed to insert new section.", e);
@@ -72,6 +106,8 @@ public class JdbcSectionDAO implements SectionDAO {
             stmt.setLong(4, section.getId());
 
             stmt.executeUpdate();
+
+            LOG.info("Successfully updated section {}.", section.getId());
         } catch (SQLException e) {
             LOG.error("Failed to update section {}.", section.getId(), e);
             throw new RepositoryException("Failed to update section.");
@@ -94,6 +130,8 @@ public class JdbcSectionDAO implements SectionDAO {
             stmt.setLong(1, id);
 
             stmt.execute();
+
+            LOG.info("Successfully deleted section {}.", id);
         } catch (SQLException e) {
             LOG.error("Failed to delete section {}.", id, e);
             throw new RepositoryException("Failed to delete section.");
@@ -138,6 +176,7 @@ public class JdbcSectionDAO implements SectionDAO {
             s.setId(rs.getLong("SectionID"));
             s.setUuid(rs.getString("UUID"));
 
+            LOG.info("Successfully retrieved section {}.", s.getId());
             return s;
         } catch (SQLException e) {
             LOG.error("Failed to query seciton {}.", id, e);
@@ -183,6 +222,7 @@ public class JdbcSectionDAO implements SectionDAO {
             s.setId(rs.getLong("SectionID"));
             s.setUuid(rs.getString("UUID"));
 
+            LOG.info("Successfully retrieved section {}.", s.getId());
             return s;
         } catch (SQLException e) {
             LOG.error("Failed to query section {}.", name, e);
@@ -229,6 +269,7 @@ public class JdbcSectionDAO implements SectionDAO {
                 s.setId(rs.getLong("SectionID"));
                 s.setUuid(rs.getString("UUID"));
 
+                LOG.info("Successfully retrieved section {}.", s.getId());
                 sections.add(s);
             }
 
@@ -280,6 +321,7 @@ public class JdbcSectionDAO implements SectionDAO {
                 s.setId(rs.getLong("SectionID"));
                 s.setUuid(rs.getString("UUID"));
 
+                LOG.info("Successfully retrieved section {}.", s.getId());
                 sections.add(s);
             }
 
