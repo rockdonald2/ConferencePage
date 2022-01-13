@@ -2,12 +2,13 @@ package util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import util.exception.InvalidPropertyException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class PropertyProvider {
+public final class PropertyProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(PropertyProvider.class);
 

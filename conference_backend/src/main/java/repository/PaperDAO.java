@@ -1,18 +1,19 @@
 package repository;
 
 import model.Paper;
+import repository.exception.RepositoryException;
 
 import java.util.List;
 
 public interface PaperDAO {
 
-    Paper create(Paper paper);
-    void update(Paper paper);
-    void delete(Long id);
-    Paper getById(Long id);
-    Paper getByPath(String path);
-    List<Paper> getAll();
-    List<Paper> getAllForPresenter(String email);
-    List<Paper> getAllForSection(Long id);
+    Paper create(Paper paper) throws RepositoryException;
+    void update(Paper paper) throws RepositoryException;
+    void delete(Long id) throws RepositoryException;
+    Paper getById(Long id) throws RepositoryException;
+    Paper getByPath(String path) throws RepositoryException;
+    List<Paper> getAll() throws RepositoryException;
+    List<Paper> getAllForPresenter(String email) throws RepositoryException;
+    List<Paper> getAllForSection(Long id) throws RepositoryException;
 
 }

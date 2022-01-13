@@ -1,5 +1,6 @@
 // ! Will be deleted, just for testing
 
+import model.Role;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ public class Main {
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDao = factory.getUserDAO();
 
-        User user = new User("lukacs.zsolt@email.com", "qwerty123", "Zsolt", "Lukacs", "admin", "BBTE", "Diak", "BSc");
+        User user = new User("lukacs.zsolt@email.com", "qwerty123", "Zsolt", "Lukacs", Role.get("admin"), "BBTE", "Diak", "BSc");
 
         userDao.create(user);
 

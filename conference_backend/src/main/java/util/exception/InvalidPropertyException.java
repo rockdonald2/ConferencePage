@@ -1,4 +1,4 @@
-package util;
+package util.exception;
 
 public class InvalidPropertyException extends RuntimeException {
 

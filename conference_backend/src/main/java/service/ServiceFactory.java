@@ -1,17 +1,23 @@
 package service;
 
+import service.impl.UserServiceImpl;
+
 public class ServiceFactory {
 
     public UserService getUserService() {
-        return null;
+        return new UserServiceImpl();
     }
 
     public SectionService getSectionService() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public PaperService getPaperService() {
-        return null;
+        throw new UnsupportedOperationException();
+    }
+
+    public static ServiceFactory getInstance() {
+        return new ServiceFactory();
     }
 
 }

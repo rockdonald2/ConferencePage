@@ -1,11 +1,13 @@
 package repository.jdbc;
 
+import model.Role;
 import model.User;
 import model.builders.UserBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import repository.RepositoryException;
+import repository.exception.RepositoryException;
 import repository.UserDAO;
+import repository.jdbc.utils.ConnectionManager;
 import util.PropertyProvider;
 
 import java.sql.*;
@@ -245,8 +247,8 @@ public class JdbcUserDAO implements UserDAO {
             }
 
             User u;
+            UserBuilder builder = new UserBuilder();
             while (rs.next()) {
-                UserBuilder builder = new UserBuilder();
                 u = builder.withEmail(rs.getString("Email")).withFirstName(rs.getString("FirstName")).withLastName(rs.getString("LastName")).withPwd(rs.getString("Pwd")).withRole(rs.getString("Role")).inInstitution(rs.getString("Institution")).inPosition(rs.getString("Position")).withDegree(rs.getString("AcademicDegree")).build();
                 u.setId(rs.getLong("UserID"));
                 u.setUuid(rs.getString("UUID"));
@@ -266,4 +268,46 @@ public class JdbcUserDAO implements UserDAO {
             }
         }
     }
+
+    @Override
+    public List<User> getByRole(Role role) {
+        Connection c = null;
+        ArrayList<User> users = new ArrayList<>();
+
+        try {
+            c = connManager.getConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT * FROM conferenceuser WHERE Role = ?;");
+
+            stmt.setString(1, role.toString());
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                LOG.info("No users found for role {}.", role);
+                return Collections.emptyList();
+            }
+
+            User u;
+            UserBuilder builder = new UserBuilder();
+            while (rs.next()) {
+                u = builder.withEmail(rs.getString("Email")).withFirstName(rs.getString("FirstName")).withLastName(rs.getString("LastName")).withPwd(rs.getString("Pwd")).withRole(rs.getString("Role")).inInstitution(rs.getString("Institution")).inPosition(rs.getString("Position")).withDegree(rs.getString("AcademicDegree")).build();
+                u.setId(rs.getLong("UserID"));
+                u.setUuid(rs.getString("UUID"));
+
+                LOG.info("Successfully retrieved user {}.", u.getId());
+
+                users.add(u);
+            }
+
+            return users;
+        } catch (SQLException | RepositoryException e) {
+            LOG.error("Failed to get users by role.", e);
+            throw new RepositoryException("Failed to get users by role.");
+        } finally {
+            if (!Objects.isNull(c)) {
+                connManager.returnConnection(c);
+            }
+        }
+    }
+
 }

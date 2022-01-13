@@ -6,9 +6,10 @@ import model.builders.SectionBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import repository.DAOFactory;
-import repository.RepositoryException;
+import repository.exception.RepositoryException;
 import repository.SectionDAO;
 import repository.UserDAO;
+import repository.jdbc.utils.ConnectionManager;
 import util.PropertyProvider;
 
 import java.sql.*;
@@ -338,4 +339,5 @@ public class JdbcSectionDAO implements SectionDAO {
             }
         }
     }
+
 }

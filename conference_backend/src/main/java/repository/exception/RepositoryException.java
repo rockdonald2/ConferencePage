@@ -1,4 +1,4 @@
-package repository;
+package repository.exception;
 
 public class RepositoryException extends RuntimeException {
 

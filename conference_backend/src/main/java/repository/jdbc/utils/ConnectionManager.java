@@ -1,8 +1,8 @@
-package repository.jdbc;
+package repository.jdbc.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import repository.RepositoryException;
+import repository.exception.RepositoryException;
 import util.PropertyProvider;
 
 import java.sql.Connection;
@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class ConnectionManager {
+public final class ConnectionManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionManager.class);
 

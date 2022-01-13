@@ -7,6 +7,8 @@ import model.builders.PaperBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import repository.*;
+import repository.exception.RepositoryException;
+import repository.jdbc.utils.ConnectionManager;
 import util.PropertyProvider;
 
 import java.sql.*;
