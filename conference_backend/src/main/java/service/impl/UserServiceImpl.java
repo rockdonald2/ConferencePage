@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService {
     public void update(User user) {
         try {
             uDao.update(user);
+            LOG.info("Successfully updated user {}.", user.getEmail());
         } catch (RepositoryException e) {
             LOG.error("Failed to update user with email {}.", user.getEmail());
             throw new ServiceException("Failed to update user with email " + user.getEmail() + ".");

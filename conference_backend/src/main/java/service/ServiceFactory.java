@@ -1,5 +1,6 @@
 package service;
 
+import service.impl.PaperServiceImpl;
 import service.impl.UserServiceImpl;
 
 public class ServiceFactory {
@@ -13,7 +14,7 @@ public class ServiceFactory {
     }
 
     public PaperService getPaperService() {
-        throw new UnsupportedOperationException();
+        return new PaperServiceImpl();
     }
 
     public static ServiceFactory getInstance() {
