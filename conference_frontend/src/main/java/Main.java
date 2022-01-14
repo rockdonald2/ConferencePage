@@ -1,12 +1,16 @@
 // ! Will be deleted, just for testing
 
 import model.Role;
+import model.Section;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import repository.DAOFactory;
+import repository.SectionDAO;
 import repository.UserDAO;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Main {
@@ -32,9 +36,20 @@ public class Main {
 
         LOG.info(String.valueOf(retrievedUser));
 
-        userDao.delete(retrievedUser.getId());
+        //userDao.delete(retrievedUser.getId());
 
         List<User> users = userDao.getAll();
         LOG.info(String.valueOf(users));
+
+        SectionDAO sectionDAO = factory.getSectionDAO();
+        Section math = new Section("Matematika", "Matematika leírása", retrievedUser);
+        sectionDAO.create(math);
+
+        List<Section> sections = sectionDAO.getAll();
+
+        List<Section> sections2 = sectionDAO.getAllForRepresentative(retrievedUser.getEmail());
+
+        LOG.info(sections.toString());
+        LOG.info(sections2.toString());
     }
 }

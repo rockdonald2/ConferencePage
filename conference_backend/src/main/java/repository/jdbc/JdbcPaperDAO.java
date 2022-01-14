@@ -32,8 +32,8 @@ public class JdbcPaperDAO implements PaperDAO {
 
                 Statement stmt = c.createStatement();
                 stmt.executeUpdate("""
-                        CREATE TABLE `paper` (
-                          `PaperID` int(10) UNSIGNED NOT NULL,
+                        CREATE TABLE IF NOT EXISTS `paper` (
+                          `PaperID` int AUTO_INCREMENT NOT NULL,
                           `UUID` varchar(36) NOT NULL,
                           `Document` varchar(512) DEFAULT NULL,
                           `Status` enum('New','Accepted','Confirmed','Rejected') NOT NULL,
@@ -41,17 +41,12 @@ public class JdbcPaperDAO implements PaperDAO {
                           `Title` varchar(512) NOT NULL,
                           `CoAuthors` text NOT NULL,
                           `Email` varchar(128) NOT NULL,
-                          `SectionID` int(10) UNSIGNED NOT NULL
-                        );
-                        ALTER TABLE `paper`
-                            ADD PRIMARY KEY (`PaperID`),
-                            ADD UNIQUE KEY `UUID` (`UUID`),
-                            ADD UNIQUE KEY `Document` (`Document`),
-                            ADD KEY `FK_PAPER_REGISTERS` (`Email`),
-                            ADD KEY `FK_PAPER_SECTION` (`SectionID`);
-                            ALTER TABLE `paper` MODIFY `PaperID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;ALTER TABLE `paper`
-                                                                     ADD CONSTRAINT `FK_PAPER_REGISTERS` FOREIGN KEY (`Email`) REFERENCES `conferenceuser` (`Email`),
-                                                                     ADD CONSTRAINT `FK_PAPER_SECTION` FOREIGN KEY (`SectionID`) REFERENCES `section` (`SectionID`);""");
+                          `SectionID` int(10) UNSIGNED NOT NULL,
+                          PRIMARY KEY (PaperID),
+                          UNIQUE (UUID, Document),
+                          FOREIGN KEY (Email) REFERENCES conferenceuser (Email),
+                          FOREIGN KEY (SectionID) REFERENCES section (SectionID)
+                        ) ENGINE=InnoDB;""");
 
                 LOG.info("Successfully created table for papers.");
             } catch (SQLException e) {
@@ -275,11 +270,6 @@ public class JdbcPaperDAO implements PaperDAO {
 
             ResultSet rs = stmt.executeQuery();
 
-            if (!rs.next()) {
-                LOG.warn("Paper table is empty.");
-                return Collections.emptyList();
-            }
-
             PaperBuilder builder = new PaperBuilder();
             DAOFactory factory = DAOFactory.getInstance();
             SectionDAO sectionDao = factory.getSectionDAO();
@@ -336,11 +326,6 @@ public class JdbcPaperDAO implements PaperDAO {
 
             ResultSet rs = stmt.executeQuery();
 
-            if (!rs.next()) {
-                LOG.warn("No papers found for user {}.", email);
-                return Collections.emptyList();
-            }
-
             PaperBuilder builder = new PaperBuilder();
             DAOFactory factory = DAOFactory.getInstance();
             SectionDAO sectionDao = factory.getSectionDAO();
@@ -349,7 +334,7 @@ public class JdbcPaperDAO implements PaperDAO {
             User u;
             Paper p;
 
-            u = userDao.getByEmail(rs.getString("Email"));
+            u = userDao.getByEmail(email);
 
             if (Objects.isNull(u)) {
                 LOG.warn("Non-existing user {} when querying paper {}.", rs.getLong("Email"), rs.getLong("PaperID"));
@@ -397,11 +382,6 @@ public class JdbcPaperDAO implements PaperDAO {
 
             ResultSet rs = stmt.executeQuery();
 
-            if (!rs.next()) {
-                LOG.warn("No papers found for section {}.", id);
-                return Collections.emptyList();
-            }
-
             PaperBuilder builder = new PaperBuilder();
             DAOFactory factory = DAOFactory.getInstance();
             SectionDAO sectionDao = factory.getSectionDAO();
@@ -410,7 +390,7 @@ public class JdbcPaperDAO implements PaperDAO {
             User u;
             Paper p;
 
-            s = sectionDao.getById(rs.getLong("SectionID"));
+            s = sectionDao.getById(id);
 
             if (Objects.isNull(s)) {
                 LOG.warn("Non-existing section {} when querying paper {}.", rs.getLong("SectionID"), rs.getLong("PaperID"));

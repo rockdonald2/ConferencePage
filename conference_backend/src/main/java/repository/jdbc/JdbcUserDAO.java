@@ -34,22 +34,7 @@ public class JdbcUserDAO implements UserDAO {
                 c = connManager.getConnection();
                 Statement stmt = c.createStatement();
                 stmt.executeUpdate("""
-                        CREATE TABLE `conferenceuser` (
-                          `UserID` int(11) NOT NULL,
-                          `UUID` varchar(36) NOT NULL,
-                          `Email` varchar(128) NOT NULL,
-                          `FirstName` varchar(64) NOT NULL,
-                          `LastName` varchar(64) NOT NULL,
-                          `Pwd` char(40) NOT NULL,
-                          `Role` enum('GUEST','ADMIN','PRESENTER','REPRESENTATIVE') NOT NULL,
-                          `Institution` varchar(128) DEFAULT NULL,
-                          `Position` varchar(128) DEFAULT NULL,
-                          `AcademicDegree` varchar(3) NOT NULL
-                        ); ALTER TABLE `conferenceuser`
-                             ADD PRIMARY KEY (`UserID`),
-                             ADD UNIQUE KEY `UUID` (`UUID`),
-                             ADD UNIQUE KEY `Email` (`Email`);ALTER TABLE `conferenceuser`
-                                                                MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;""");
+                        CREATE TABLE IF NOT EXISTS `conferenceuser` ( `UserID` int AUTO_INCREMENT NOT NULL, `UUID` varchar(36) UNIQUE NOT NULL, `Email` varchar(128) UNIQUE NOT NULL, `FirstName` varchar(256) NOT NULL, `LastName` varchar(256) NOT NULL, `Pwd` char(40) NOT NULL, `Role` enum('GUEST','ADMIN','PRESENTER','REPRESENTATIVE') NOT NULL, `Institution` varchar(128) DEFAULT NULL, `Position` varchar(128) DEFAULT NULL, `AcademicDegree` varchar(3) NOT NULL, PRIMARY KEY (UserID)) ENGINE=InnoDB;""");
 
                 LOG.info("Successfully created table for users.");
             } catch (SQLException e) {
@@ -241,11 +226,6 @@ public class JdbcUserDAO implements UserDAO {
 
             ResultSet rs = stmt.executeQuery("SELECT * FROM conferenceuser;");
 
-            if (!rs.next()) {
-                LOG.warn("No users found.");
-                return Collections.emptyList();
-            }
-
             User u;
             UserBuilder builder = new UserBuilder();
             while (rs.next()) {
@@ -281,11 +261,6 @@ public class JdbcUserDAO implements UserDAO {
             stmt.setString(1, role.toString());
 
             ResultSet rs = stmt.executeQuery();
-
-            if (!rs.next()) {
-                LOG.info("No users found for role {}.", role);
-                return Collections.emptyList();
-            }
 
             User u;
             UserBuilder builder = new UserBuilder();

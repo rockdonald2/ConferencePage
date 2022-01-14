@@ -36,23 +36,18 @@ public class JdbcSectionDAO implements SectionDAO {
 
                 Statement stmt = c.createStatement();
                 stmt.executeUpdate("""
-                        CREATE TABLE `section` (
-                          `SectionID` int(10) UNSIGNED NOT NULL,
-                          `UUID` varchar(36) NOT NULL,
-                          `Name` varchar(64) NOT NULL,
-                          `Description` longtext NOT NULL,
-                          `Email` varchar(128) NOT NULL
-                        );ALTER TABLE `section`
-                            ADD PRIMARY KEY (`SectionID`),
-                            ADD UNIQUE KEY `Name` (`Name`),
-                            ADD KEY `FK_SECTION_RESPONSABLE` (`Email`);ALTER TABLE `section`
-                                                                         MODIFY `SectionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-                                                                         ALTER TABLE `section`
-                                                                           ADD CONSTRAINT `FK_SECTION_RESPONSABLE` FOREIGN KEY (`Email`) REFERENCES `conferenceuser` (`Email`);""");
+                        CREATE TABLE IF NOT EXISTS `section` (
+                          `SectionID` int AUTO_INCREMENT NOT NULL,
+                          `UUID` varchar(36) NOT NULL UNIQUE,
+                          `Name` varchar(128) NOT NULL UNIQUE,
+                          `Description` varchar(256) NOT NULL,
+                          `Email` varchar(128) NOT NULL,
+                          PRIMARY KEY (SectionID),
+                          CONSTRAINT FK_RESPONSABLE FOREIGN KEY (Email) REFERENCES conferenceuser (Email)) ENGINE=InnoDB;""");
 
                 LOG.info("Successfully created table for sections.");
             } catch (SQLException e) {
-                LOG.error("Failed to create table for sections.");
+                LOG.error("Failed to create table for sections.", e);
                 throw new RepositoryException("Failed to create table for sections.");
             } finally {
                 if (!Objects.isNull(c)) {
@@ -250,11 +245,6 @@ public class JdbcSectionDAO implements SectionDAO {
 
             ResultSet rs = stmt.executeQuery();
 
-            if (!rs.next()) {
-                LOG.warn("Section table is empty.");
-                return Collections.emptyList();
-            }
-
             SectionBuilder sectionBuilder = new SectionBuilder();
             DAOFactory factory = DAOFactory.getInstance();
             UserDAO userDao = factory.getUserDAO();
@@ -302,18 +292,13 @@ public class JdbcSectionDAO implements SectionDAO {
 
             ResultSet rs = stmt.executeQuery();
 
-            if (!rs.next()) {
-                LOG.warn("No sections found for user {}.", email);
-                return Collections.emptyList();
-            }
-
             SectionBuilder sectionBuilder = new SectionBuilder();
             DAOFactory factory = DAOFactory.getInstance();
             UserDAO userDao = factory.getUserDAO();
             User u;
             Section s;
 
-            u = userDao.getByEmail(rs.getString("Email"));
+            u = userDao.getByEmail(email);
 
             if (Objects.isNull(u)) {
                 LOG.warn("Non-existing user {} while querying section {}.", rs.getString("Email"), rs.getString("Name"));

@@ -1,6 +1,7 @@
 package service;
 
 import service.impl.PaperServiceImpl;
+import service.impl.SectionServiceImpl;
 import service.impl.UserServiceImpl;
 
 public class ServiceFactory {
@@ -10,7 +11,7 @@ public class ServiceFactory {
     }
 
     public SectionService getSectionService() {
-        throw new UnsupportedOperationException();
+        return new SectionServiceImpl();
     }
 
     public PaperService getPaperService() {
