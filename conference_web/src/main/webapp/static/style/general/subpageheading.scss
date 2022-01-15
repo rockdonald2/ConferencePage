@@ -1,0 +1,39 @@
+@import "variables";
+@import "mixins";
+
+.sub-page-heading {
+	margin-bottom: $size-lg;
+	padding-bottom: $size-md;
+	@include flexAlignCenterize;
+	justify-content: center;
+	@include respond(950px) {
+		margin-bottom: $size-md;
+	}
+
+	&:hover {
+		.sub-page-heading--header::after {
+			width: 100%;
+		}
+	}
+
+	&--header {
+		font-size: $font-sub-page-heading--header;
+		position: relative;
+		z-index: 2;
+		display: inline-block;
+		padding: 0 $size-sm;
+		text-align: center;
+
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: 2.5px;
+			left: 0;
+			width: 60%;
+			height: 12.5px;
+			background-color: rgba($color-main, .5);
+			z-index: -1;
+			@include transitionAnimate(all, $animation-speed);
+		}
+	}
+}

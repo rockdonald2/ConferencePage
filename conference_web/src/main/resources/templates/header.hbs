@@ -1,0 +1,212 @@
+<header class="header"
+        id="header">
+    <div class="header--top">
+        <div class="header--box header--box__left">
+            <div class="header--logo"><a href="index"><img alt="EDTK logó"
+                                                       src="img/logo.svg"></a></div>
+        </div>
+        <div class="header--hamburger"><span></span><span></span><span></span></div>
+        <div class="header--backdrop"></div>
+        <nav class="header--box header--box__right">
+            <ul class="header--list">
+                <li class="header--list__item"><a class="header-link">Általános tudnivalók<span>
+									<svg viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         fill="rgb(32.939148%,32.939148%,32.939148%)"
+                                         height="24px"
+                                         width="24px">
+												<path d="M0 0h24v24H0V0z"
+                                                      fill="none"></path>
+												<path d="M7 10l5 5 5-5H7z"></path>
+											</svg></span></a>
+                    <div class="header--dropdown">
+                        <ul class="header--dropdown--list">
+                            <li class="header--dropdown--list__item"><a class=""
+                                                                        href="aboutus">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Konferenciáról</a></li>
+                            <li class="header--dropdown--list__item"><a class=""
+                                                                        href="rules">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Szabályok</a></li>
+                            <li class="header--dropdown--list__item"><a class=""
+                                                                        href="steps">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Jelentkezés lépései</a></li>
+                            <li class="header--dropdown--list__item"><a class=""
+                                                                        href="conditions">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Követelmények</a></li>
+                            <li class="header--dropdown--list__item"><a class=""
+                                                                        href="deadlines">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Határidők</a></li>
+                            <li class="header--dropdown--list__item"><a class=""
+                                                                        href="faq">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                GYIK</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="header--list__item"><a class="header-link"
+                                                  href="contact">Kapcsolat</a></li>
+            </ul>
+            {{#if logged }}
+                <a href="profile" class="btn btn--header btn--modal"
+                   type="button">
+                    Profil
+                </a>
+            {{else}}
+                <a href="login" class="btn btn--header btn--modal"
+                   type="button">
+                    Bejelentkezés
+                </a>
+            {{/if}}
+
+        </nav>
+        <nav class="header--menu">
+            <ul class="header--menu--list">
+                <li class="header--menu--list__item"><a class="header-link"
+                                                        id="submenuBtn">Általános tudnivalók<span><svg viewBox="0 0 24 24"
+                                                                                                       xmlns="http://www.w3.org/2000/svg"
+                                                                                                       fill="rgb(32.939148%,32.939148%,32.939148%)"
+                                                                                                       height="24px"
+                                                                                                       width="24px">
+												<path d="M0 0h24v24H0V0z"
+                                                      fill="none"></path>
+												<path d="M7 10l5 5 5-5H7z"></path>
+											</svg></span></a>
+                    <div class="header--menu--dropdown">
+                        <ul class="header--menu--dropdown--list">
+                            <li class="header--menu--dropdown--list__item"><a class=""
+                                                                              href="aboutus">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Konferenciáról</a></li>
+                            <li class="header--menu--dropdown--list__item"><a class=""
+                                                                              href="rules">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Szabályok</a></li>
+                            <li class="header--menu--dropdown--list__item"><a class=""
+                                                                              href="steps">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Jelentkezés lépései</a></li>
+                            <li class="header--menu--dropdown--list__item"><a class=""
+                                                                              href="conditions">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Követelmények</a></li>
+                            <li class="header--menu--dropdown--list__item"><a class=""
+                                                                              href="deadlines">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                Határidők</a></li>
+                            <li class="header--menu--dropdown--list__item"><a class=""
+                                                                              href="faq">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"></path>
+                                </svg>
+                                GYIK</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="header--menu--list__item"><a class="header-link"
+                                                        href="contact">Kapcsolat</a></li>
+            </ul>
+            <a href="login" class="btn btn--header btn--modal"
+               type="button">Bejelentkezés
+            </a>
+            </nav>
+    </div>
+</header>

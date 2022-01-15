@@ -1,0 +1,36 @@
+@import "variables";
+@import "mixins";
+
+.heading-general {
+	font-size: $font-heading;
+	text-transform: uppercase;
+	position: relative;
+	padding-left: $size-md;
+	z-index: 2;
+	letter-spacing: 3.5px;
+	line-height: 1.1;
+	color: $color-blue;
+
+	&::before {
+		content: "";
+		display: block;
+		width: 6rem;
+		height: 6rem;
+		border-radius: 50%;
+		border: 2px solid $color-main;
+		position: absolute;
+		top: -2rem;
+		left: 0;
+		z-index: -1;
+		box-shadow: -2px 2px $color-grey, -4px 4px rgba($color-blue, .75);
+	}
+}
+
+.subheading-general {
+	font-size: $font-subheading;
+	font-weight: 500;
+	margin: $size-md 0 $size-lg;
+	padding-left: $size-md;
+	letter-spacing: .02em;
+	color: $color-grey--mid;
+}

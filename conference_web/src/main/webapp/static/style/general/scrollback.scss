@@ -1,0 +1,43 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.scrollback {
+	position: fixed;
+	right: 5%;
+	bottom: 5%;
+	@include transitionAnimate(all, $animation-speed);
+	opacity: 0;
+	z-index: -1;
+
+	&--btn {
+		background: $color-grey;
+		width: $size-lg * 0.8;
+		height: $size-lg * 0.8;
+		border-radius: 50%;
+		@include dreamyShadow;
+		@include transitionAnimate(all, $animation-speed);
+		@include flexAlignCenterize;
+		justify-content: center;
+
+		svg {
+			width: $size-sm * 1.5;
+			height: $size-sm * 1.5;
+			@include transitionAnimate(all, $animation-speed);
+		}
+
+		&:focus,
+		&:hover {
+			@include longShadow;
+			color: $color-main--darker;
+
+			svg {
+				stroke: $color-main--darker;
+			}
+		}
+	}
+
+	&.show {
+		opacity: 1;
+		z-index: 45;
+	}
+}

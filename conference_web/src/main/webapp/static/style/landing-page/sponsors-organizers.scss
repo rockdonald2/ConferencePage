@@ -1,0 +1,98 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.sponsors {
+	margin-top: $size-lg;
+	padding: $size-lg;
+	@include respond(500px) {
+		padding: $size-lg $size-md;
+	}
+}
+
+.organizers {
+	margin-top: $size-md;
+	padding: $size-lg;
+	@include respond(500px) {
+		padding: $size-md;
+		margin-top: $size-sm;
+	}
+
+	&--container {
+		@include flexAlignCenterize;
+		justify-content: space-around;
+
+		div {
+			max-width: 50%;
+		}
+
+		@include respond(800px) {
+			@include flexColumn;
+
+			div {
+				max-width: 100%;
+
+				&:not(:last-of-type) {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}
+
+.organizers,
+.sponsors {
+	&:hover {
+		.organizers--heading,
+		.sponsors--heading {
+			&::after {
+				width: 100%;
+			}
+		}
+	}
+
+	&--heading {
+		text-align: center;
+		font-size: $font-sponsors--heading;
+		text-transform: uppercase;
+		z-index: 2;
+		letter-spacing: 2.5px;
+		line-height: 1.05;
+		color: $color-blue;
+		margin: 0 auto;
+		padding: $size-sm $size-md;
+		width: 25rem;
+		position: relative;
+		z-index: 2;
+		font-weight: 500;
+		cursor: default;
+
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: 12.5px;
+			left: 0;
+			width: 60%;
+			height: 12.5px;
+			background-color: rgba($color-main, .5);
+			z-index: -1;
+			@include transitionAnimate(all, $animation-speed);
+		}
+	}
+
+	&--container {
+		padding: $size-lg * 1.5 $size-md $size-md $size-md;
+		cursor: pointer;
+
+		img {
+			margin: auto;
+			height: 10rem;
+			-webkit-filter: grayscale(100%);
+			filter: grayscale(100%);
+			opacity: .5;
+			display: block;
+			width: 100%;
+			-o-object-fit: contain;
+			object-fit: contain;
+		}
+	}
+}

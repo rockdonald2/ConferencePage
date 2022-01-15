@@ -1,0 +1,91 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.why-join {
+	margin-top: $size-lg;
+	padding: $size-lg;
+	@include contentBackdrop;
+	@include respond(500px) {
+		padding: $size-lg $size-md;
+	}
+
+	&--cards {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-column-gap: $size-md;
+		@include respond(1000px) {
+			grid-template-columns: 1fr;
+			grid-template-rows: repeat(3, 1fr);
+			grid-column-gap: 0;
+			grid-row-gap: $size-md;
+		}
+	}
+
+	&--card {
+		@include flexAlignCenterize;
+		@include flexColumn;
+		padding: $size-md $size-sm;
+		@include transitionAnimate(all, $animation-speed);
+		position: relative;
+
+		&:hover {
+			.why-join--card {
+				&__title {
+					color: $color-main--darker;
+				}
+			}
+		}
+
+		&__img {
+			height: 15rem;
+
+			img {
+				display: block;
+				width: 80%;
+				height: 80%;
+				margin: 0 auto;
+			}
+		}
+
+		&__reasons,
+		&__title {
+			margin-top: $size-md;
+		}
+
+		&__title {
+			font-size: $font-card--title;
+			color: $color-blue;
+			letter-spacing: 2.5px;
+			@include transitionAnimate(all, $animation-speed);
+			text-transform: uppercase;
+			position: relative;
+			z-index: 5;
+			font-weight: 500;
+			padding-bottom: $size-sm;
+			text-align: center;
+			@include respond(1350px) {
+				font-size: $font-card--title * 0.9;
+			}
+		}
+
+		&__reasons {
+			font-size: $font-card--pr;
+			letter-spacing: .04em;
+			line-height: 1.7;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+			color: rgba($color-text, .9);
+			max-width: 90%;
+			@include respond(1350px) {
+				font-size: $font-card--pr * 0.9;
+			}
+			@include respond(1000px) {
+				max-width: 75%;
+			}
+			@include respond(500px) {
+				max-width: 100%;
+			}
+		}
+	}
+}

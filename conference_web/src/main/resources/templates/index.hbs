@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+{{> head }}
+
+<body>
+<div class="content">
+
+    {{> header }}
+
+    <main>
+        <section class="welcome-msg">
+            <div class="welcome-msg--left">
+                <div class="welcome-msg--slogans">
+                    <p class="welcome-msg--slogans__slogan">KUTASS.</p>
+                    <p class="welcome-msg--slogans__slogan">ÍRD.</p>
+                    <p class="welcome-msg--slogans__slogan">VÉDD.</p>
+                </div>
+                <h3 class="welcome-msg--date">Kolozsvár • 2022. Május 27-30</h3>
+                <h1 class="welcome-msg--header"><span class="welcome-msg--header__underline">XXX.
+						<svg viewBox="0 0 800 80"
+                             xmlns="http://www.w3.org/2000/svg"
+                             alt="underline"
+                             version="1.0">
+										<path
+                                                d="M9 73.4c-1.3-1.9-1.9-3.9-1.4-4.3.5-.4 4.9-1.5 9.9-2.5 5-.9 11-2.1 13.5-2.6 7.9-1.7 26.4-6 30-7 1.9-.5 5.5-1.4 8-1.9 5.6-1.4 38.2-7 47-8.1 3.6-.5 10.1-1.3 14.5-2 4.4-.6 15.7-1.9 25-3 9.4-1.1 18-2.2 19.3-2.5 7-1.7 45.3-5.2 65.2-6 19.9-.9 23.3-1.4 22.5-3.3-.4-.9-.7-2.1-.8-2.7-.1-.6 10.5-1.1 29.8-1.3 16.5-.1 30.6-.4 31.3-.7 1-.4 1-1 .2-2.5-1.1-2-1.9-2-49.3-1.9-43.2 0-52.1-.2-59.2-1.6-1.7-.4-5.5-5.1-5.5-6.8 0-1.2 4.5-2 16-2.8 6.9-.5 17.9-1.3 24.5-1.8 6.6-.6 28.4-1.8 48.5-2.7 30.6-1.5 59.3-1.7 177-1.7 87.7 0 152.1.4 171.5 1.2 17.1.6 43.8 1.3 59.5 1.6 40.9.8 77.7 3.2 81.8 5.4.9.5 2.5 2.3 3.5 4 1.8 3 1.8 3.1 0 3.9-2.2.9-97.7.9-172.8 0-54.7-.7-56.1-.1-5.5 2.1 43.2 1.9 82.8 4.7 84.6 5.9 1.6 1.1 4.6 6.3 4 6.9-.3.3-12.6.1-27.3-.5-32.5-1.2-75-1.4-70.8-.2 1.7.4 7.7.8 13.4.9 10.4.1 18.8.9 40.1 3.7 21.6 2.8 31.5 4.5 37.5 6.4 3.3 1 9.8 2.4 14.5 3 18.9 2.6 23.3 3.8 26.3 7.2 1.5 1.8 2.6 3.7 2.4 4.3-.2.6-6.5 1.1-16.2 1.3-14.6.2-28.5-.8-49-3.8-12.8-1.8-22.9-3-34-4.1-63.1-5.7-85.6-7-167-9.9-76.9-2.7-182 .3-249.5 7.1-33.2 3.4-39.9 3.9-57.7 4.6-12.5.4-18 .3-20.1-.6-2.2-.9-4.5-1-8.8-.2-3.3.5-9.5 1.5-13.9 2.2-23.7 3.4-54.9 9.4-77.5 14.8C33.7 73.4 15.8 77 13.6 77c-1.7 0-3.1-1-4.6-3.6zm446.5-59c28.6-1.3 20.7-2.1-23.5-2.1-46-.1-83.6 1-58.5 1.7 6.1.1 21.4.6 34 .9 12.7.4 25.7.6 29 .4 3.3-.1 11.9-.5 19-.9z">
+										</path>
+									</svg>
+					</span>Európai diákok tudományos konferenciája
+                </h1>
+                <p class="welcome-msg--paragraph">2022 tavaszán ismét megrendezésre kerül immár harmincadik alkalommal
+                    az
+                    EDTK.</p>
+                <div class="welcome-msg--btns">
+                    {{#if logged}}
+                        <a href="profile" class="btn btn--cta btn--modal"
+                           type="button">Profil
+                        </a>
+                    {{/if}}
+                    {{#unless logged }}
+                        <a href="login" class="btn btn--cta btn--modal"
+                           type="button">Bejelentkezés
+                        </a>
+                        <a class="btn btn--empty"
+                           href="registration">
+                            Regisztráció
+                        </a>
+                    {{/unless}}
+                </div>
+            </div>
+            <div class="welcome-msg--right">
+                <div class="welcome-msg--img"><img
+                        alt="Egy kisember, miközben egy könyvet tart készülve a konferenciára."
+                        src="./img/hero.svg"></div>
+            </div>
+        </section>
+        <section class="why-join">
+            <h3 class="heading-general why-join--title">Miért jelentkezz?</h3>
+            <h4 class="subheading-general why-join--subtitle">Az EDTK-n való részvételnek számos előnye van</h4>
+            <div class="why-join--cards">
+                <div class="why-join--card">
+                    <div class="why-join--card__img"><img
+                            alt="A konferencián való részvétellel akár értékes tapasztalatot is szerezhetsz."
+                            src="./img/feature1.svg"></div>
+                    <h4 class="why-join--card__title">Tapasztalat</h4>
+                    <p class="why-join--card__reasons">Egy EDTK-dolgozat megírása közben szerzetttapasztalatok,
+                        élmények,
+                        bírálatok
+                        nagyon hasznosnak bizonyulnak az államvizsga-dolgozat megírásakor.</p>
+                </div>
+                <div class="why-join--card">
+                    <div class="why-join--card__img"><img
+                            alt="A konferencián való részvétel akár egy szakmai publikációval is zárulhat."
+                            src="./img/feature2.svg"></div>
+                    <h4 class="why-join--card__title">Publikáció</h4>
+                    <p class="why-join--card__reasons">Az EDTK-n bemutatott dolgozatok szakmai publikációnak számítanak.
+                        Nagyon
+                        jól
+                        mutatnak majd a szakmai önéletrajzodban.</p>
+                </div>
+                <div class="why-join--card">
+                    <div class="why-join--card__img"><img
+                            alt="A konferencián való részvételnek, akár pénzbeli jutalma is lehet."
+                            src="./img/feature3.svg"></div>
+                    <h4 class="why-join--card__title">Pénzbeli jutalom</h4>
+                    <p class="why-join--card__reasons">Egy EDTK-díj elsősorban szakmai-erkölcsi siker, de részben anyagi
+                        siker is:
+                        a
+                        nyertes dolgozatok szerzői ugyanis pénzbeli díjakban részesülnek.</p>
+                </div>
+            </div>
+            <a class="embedded-link why-join--learnmore"
+               href="aboutus">Tudj meg többet ↗</a>
+        </section>
+        <section class="conditions">
+            <div class="conditions--left">
+                <h3 class="heading-general conditions--title">Általános részvételi feltételek</h3>
+                <h4 class="subheading-general conditions--subtitle">Mit kell teljesíts ahhoz, hogy részvehess a
+                    konferencián?</h4>
+                <p class="conditions--pr">Minden romániai felsőoktatási intézmény (alapképzésben vagy mesterképzésben
+                    részt
+                    vevő)
+                    hallgatójának joga van az EDTK bármely szekciójában dolgozatot bemutatni, ha a jelentkezési
+                    feltételeket
+                    teljesíti.</p>
+                <p class="conditions--pr">A külföldi felsőoktatási intézmények hallgatói versenyen kívül mutathatják be
+                    tudományos
+                    munkájukat, a többi résztvevővel azonos feltételek mellett.</p><a
+                    class="embedded-link conditions--learnmore"
+                    href="rules">Tudj meg többet ↗</a>
+            </div>
+            <div class="conditions--right"><img
+                    alt="A konferencián való részvételhez néhány feltétel teljesítésére van szükség."
+                    src="./img/conditions.svg"></div>
+        </section>
+        <section class="countdown">
+            <div class="countdown--part">
+                <div class="countdown--part__digit">224</div>
+                <div class="countdown--part__text">nap</div>
+            </div>
+            <div class="countdown--part">
+                <div class="countdown--part__digit">02</div>
+                <div class="countdown--part__text">óra</div>
+            </div>
+            <div class="countdown--part">
+                <div class="countdown--part__digit">49</div>
+                <div class="countdown--part__text">perc</div>
+            </div>
+            <div class="countdown--part">
+                <div class="countdown--part__digit">47</div>
+                <div class="countdown--part__text">másodperc</div>
+            </div>
+        </section>
+        <section class="steps">
+            <div class="steps--left">
+                <h3 class="heading-general steps--title">A jelentkezés lépései</h3>
+                <h4 class="subheading-general steps--subtitle">Hogyan történik a jelentkezés?</h4>
+                <div class="steps--wrapper">
+                    <p class="steps--pr">A jelentkezés folyamata, amit követned kell:</p>
+                    <ul class="steps--list">
+                        <li class="steps--list__item">Online jelentkezés – március 7-ig</li>
+                        <li class="steps--list__item">Kivonatok feltöltése – március 7-ig</li>
+                        <li class="steps--list__item">Dolgozatok online beküldése – május 5-ig</li>
+                    </ul>
+                </div>
+                <div class="steps--wrapper">
+                    <p class="steps--pr">Adatellenőrzéshez szükséges dokumentumok:</p>
+                    <ul class="steps--list">
+                        <li class="steps--list__item">Dolgozat</li>
+                        <li class="steps--list__item">Ellenőrző</li>
+                        <li class="steps--list__item">Személyi igazolvány</li>
+                    </ul>
+                </div>
+                <a class="embedded-link steps--learnmore"
+                   href="steps">Tudj meg többet ↗</a>
+            </div>
+            <div class="steps--right"><img alt="A konferenciára csakis az előzetes jelentkezés után lehet résztvenni."
+                                           src="./img/steps.svg"></div>
+        </section>
+        <section class="sponsors">
+            <h3 class="sponsors--heading">Támogatók</h3>
+            <div class="sponsors--container">
+                <div class="glide">
+                    <div class="glide__track"
+                         data-glide-el="track">
+                        <ul class="glide__slides">
+                            <li class="glide__slide"><img src="./img/sponsors/spo1.png" alt=""></li>
+                            <li class="glide__slide"><img src="./img/sponsors/spo2.png" alt=""></li>
+                            <li class="glide__slide"><img src="./img/sponsors/spo3.png" alt=""></li>
+                            <li class="glide__slide"><img src="./img/sponsors/spo4.png" alt=""></li>
+                            <li class="glide__slide"><img src="./img/sponsors/spo5.png" alt=""></li>
+                            <li class="glide__slide"><img src="./img/sponsors/spo6.png" alt=""></li>
+                            <li class="glide__slide"><img src="./img/sponsors/spo7.png" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="organizers">
+            <h3 class="organizers--heading">Szervezők</h3>
+            <div class="organizers--container">
+                <div><img alt=""
+                          src="./img/organizers/org1.png"></div>
+                <div><img alt=""
+                          src="./img/organizers/org2.png"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="./static/countdown.js"></script>
+
+    <script>
+        startCountdown();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+    <script>
+        if (document.querySelector('.glide')) {
+            new Glide('.glide', {
+                autoplay: 5000,
+                perView: 3,
+                hoverpause: false,
+
+            }).mount();
+        }
+    </script>
+
+    {{> footer }}
+
+</div>
+</body>
+</html>

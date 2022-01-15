@@ -1,0 +1,94 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.countdown {
+	display: flex;
+	align-items: center;
+	margin-top: $size-lg;
+	padding: $size-lg;
+	position: relative;
+	overflow: hidden;
+	@include respond(1250px) {
+		padding: $size-lg 0;
+	}
+	@include respond(900px) {
+		@include flexColumn;
+	}
+
+	&--part {
+		flex: 1;
+		@include flexAlignCenterize;
+		justify-content: center;
+		@include flexColumn;
+		border-radius: 5px;
+		padding: $size-md 0;
+		position: relative;
+		border: 2px solid rgba($color-blue, .75);
+		@include respond(900px) {
+			width: 80%;
+		}
+
+		&:not(:last-of-type) {
+			margin-right: $size-md;
+			@include respond(900px) {
+				margin-right: 0;
+				margin-bottom: $size-sm;
+			}
+		}
+
+		&__digit,
+		&__text {
+			@include transitionAnimate(all, $animation-speed);
+			cursor: default;
+			color: $color-blue;
+		}
+
+		&__digit {
+			font-size: $font-countdown--digit;
+			letter-spacing: 5px;
+			font-weight: 500;
+			opacity: .85;
+
+			&-active {
+				&-active,
+				&-done {
+					opacity: 0;
+				}
+			}
+		}
+
+		&__text {
+			font-size: $font-countdown--text;
+			text-transform: uppercase;
+			font-weight: 200;
+			letter-spacing: .1em;
+			color: rgba($color-blue, .75);
+			background-color: rgba($color-main, .1);
+			margin-top: $size-sm;
+			width: 100%;
+			text-align: center;
+			padding: $size-sm / 2 0;
+			@include respond(1250px) {
+				font-size: $font-countdown--text * 0.85;
+			}
+		}
+
+		&:hover {
+			.countdown--part__digit {
+				color: $color-main--darker;
+			}
+		}
+	}
+
+	&--msg {
+		color: rgba($color-text, .5);
+		font-size: $font-countdown--msg;
+		text-align: center;
+		font-weight: 300;
+		width: 100%;
+		line-height: 1.15;
+		@include respond(500px) {
+			font-size: $font-countdown--msg * 0.85;
+		}
+	}
+}

@@ -1,4 +1,4 @@
 rootProject.name = 'mp2-project'
 include 'conference_backend'
-include 'conference_frontend'
+include 'conference_web'
 

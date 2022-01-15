@@ -1,0 +1,111 @@
+@import "variables";
+@import "mixins";
+
+.btn {
+	cursor: pointer;
+	@include transitionAnimate(all, $animation-speed);
+
+	&--cta,
+	&--empty,
+	&--header,
+	&--login {
+		padding: $size-sm $size-md;
+		border-radius: 5px;
+		font-size: $font-header-btn;
+		background-color: transparent;
+		letter-spacing: .07em;
+		text-align: center;
+	}
+
+	&--cta:disabled {
+		opacity: .35;
+		pointer-events: none;
+	}
+
+	&--cta,
+	&--header,
+	&--login {
+		font-weight: 600;
+		color: $color-btn--text;
+		border: 2px solid $color-btn;
+
+		&:focus,
+		&:hover {
+			border-color: $color-btn--hover;
+			@include longShadow;
+			color: $color-bg;
+			background-color: $color-btn--hover;
+
+			&::before {
+				width: 100%;
+				background-color: $color-main--darker;
+			}
+		}
+	}
+
+	&--header {
+		@include respond(950px) {
+			font-size: $size-sm * 1.25;
+		}
+		@include respond(600px) {
+			font-size: $size-sm * 1.15;
+		}
+		@include respond(400px) {
+			font-size: $size-sm;
+		}
+	}
+
+	&--empty {
+		position: relative;
+		z-index: 2;
+		@include transitionAnimate(all, $animation-speed);
+		color: rgba($color-text, .9);
+		text-transform: uppercase;
+		font-weight: 500;
+		display: inline-block;
+		text-align: center;
+
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: -2px;
+			left: 0;
+			width: 100%;
+			height: 2px;
+			z-index: -1;
+			background-color: $color-btn--hover;
+			display: block;
+			@include transitionAnimate(all, $animation-speed);
+			border-radius: 2.5px;
+		}
+
+		&:focus,
+		&:hover {
+			color: $color-bg;
+			@include longShadow;
+
+			&::after {
+				height: 100%;
+			}
+		}
+	}
+
+	&--search {
+		padding: $size-sm;
+		margin-right: $size-md;
+
+		svg {
+			width: $size-sm * 1.5;
+			height: $size-sm * 1.5;
+			stroke: rgba($color-text, .8);
+			@include transitionAnimate(all, $animation-speed);
+		}
+
+		&:focus,
+		&:hover {
+			svg {
+				stroke: $color-main--darker;
+			}
+		}
+	}
+}

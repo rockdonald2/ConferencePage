@@ -1,0 +1,194 @@
+@import "variables";
+@import "mixins";
+
+.header--list__item {
+	& > a {
+		& > span svg {
+			@include transitionAnimate(fill, $animation-speed);
+		}
+
+		&::after {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 2px;
+			bottom: 0;
+			left: 0;
+			background-color: rgba($color-link--hover, .9);
+			visibility: hidden;
+			transform: scaleX(0);
+			@include transitionAnimate(all, $animation-speed);
+		}
+	}
+}
+
+.header--list__item:hover,
+.header--list__item:focus {
+	& > a {
+		& > span svg {
+			fill: $color-link--hover;
+		}
+
+		&::after {
+			visibility: visible;
+			transform: scaleX(1);
+		}
+	}
+}
+
+.profile {
+	a.link {
+		font-size: $font-profile--todo;
+		border-bottom: 2px solid rgba($color-grey--mid, .15);
+		padding: $size-sm 0 0 0;
+
+		&::after {
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: -2px;
+			left: 0;
+			width: 0;
+			height: 2px;
+			background-color: $color-main--darker;
+			@include transitionAnimate(all, $animation-speed);
+		}
+	}
+
+	a.link:hover,
+	a.link:active {
+		&::after {
+			width: 100%;
+		}
+	}
+}
+
+.footer--list__item {
+	padding: 0 0 $size-sm 0;
+
+	& > a.link {
+		font-size: $font-footer-list--item;
+		padding: $size-sm 0 0 0;
+		border-bottom: 2px solid rgba($color-grey--mid, .15);
+
+		&::after {
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: -2px;
+			left: 0;
+			width: 0;
+			height: 2px;
+			background-color: $color-main--darker;
+			@include transitionAnimate(all, $animation-speed);
+		}
+	}
+}
+
+.header--list__item,
+.footer--list__item {
+	& > a:hover,
+	& > a:focus {
+		color: $color-link--hover;
+		text-decoration: none;
+	}
+}
+
+.footer--list__item:hover {
+	& > a.link:hover,
+	& > a.link:focus {
+		&::after {
+			width: 100%;
+		}
+	}
+}
+
+.header--dropdown--list__item a.active,
+.header--menu--dropdown--list__item a.active {
+	color: $color-main--darker;
+}
+
+a.link,
+a.header-link {
+	text-decoration: none;
+	color: currentColor;
+	@include transitionAnimate(color, $animation-speed);
+	padding: $size-sm;
+	position: relative;
+	display: inline-block;
+
+	&.active {
+		color: $color-main--darker;
+
+		span {
+			svg {
+				fill: $color-main--darker;
+			}
+		}
+	}
+}
+
+.embedded-link {
+	display: inline-block;
+	margin-top: $size-md;
+	font-size: $font-subheading / 1.15;
+	position: relative;
+	@include transitionAnimate(all, $animation-speed);
+	z-index: 2;
+	padding: $size-sm / 3 $size-sm / 1.5;
+	color: rgba($color-text, .9);
+	font-weight: 500;
+
+	&::after {
+		content: "";
+		display: block;
+		position: absolute;
+		bottom: -$size-sm / 3;
+		left: 0;
+		background-color: $color-btn;
+		height: 3px;
+		width: 100%;
+		@include transitionAnimate(all, $animation-speed);
+		z-index: -1;
+		border-radius: 2.5px;
+	}
+
+	&:hover,
+	&:focus {
+		color: $color-bg;
+		text-decoration: none;
+
+		&::after {
+			height: 125%;
+		}
+
+		@include dreamyShadow;
+	}
+
+	@include respond(1000px) {
+		font-size: $font-subheading;
+	}
+
+	@include respond(450px) {
+		margin: $size-md 0;
+		width: 100%;
+		text-align: center;
+	}
+}
+
+.inner-link {
+	padding: 0 $size-sm * 0.15;
+	letter-spacing: .06em;
+	font-weight: 500;
+	position: relative;
+	-moz-column-break-inside: avoid;
+	break-inside: avoid;
+	color: inherit;
+	border-bottom: 2px solid rgba($color-grey--mid, .15);
+	@include transitionAnimate(all, $animation-speed);
+
+	&:hover,
+	&:focus {
+		border-bottom-color: $color-main;
+	}
+}

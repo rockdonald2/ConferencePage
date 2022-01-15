@@ -1,0 +1,24 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.loader {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1500;
+	background-color: $color-bg;
+	@include transitionAnimate(all, $animation-speed);
+
+	&-exit {
+		&-active,
+		&-done {
+			opacity: 0;
+			z-index: -1;
+		}
+	}
+}

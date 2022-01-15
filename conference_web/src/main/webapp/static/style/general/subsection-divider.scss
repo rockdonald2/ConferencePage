@@ -1,0 +1,35 @@
+@import "variables";
+@import "mixins";
+
+.subsection {
+	position: relative;
+	width: 100%;
+	@include flexAlignCenterize;
+	justify-content: center;
+
+	&__divider {
+		display: block;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 100%;
+		height: 4px;
+		background-color: $color-grey;
+	}
+
+	&__heading {
+		font-size: $font-subsection;
+		line-height: 1.7;
+		letter-spacing: .03em;
+		color: rgba($color-text, .9);
+		margin: $size-lg auto;
+		padding: $size-sm $size-md;
+		background-color: $color-bg;
+		display: inline-block;
+		z-index: 2;
+		text-align: center;
+		@include respond(950px) {
+			font-size: $font-subsection * 0.85;
+		}
+	}
+}

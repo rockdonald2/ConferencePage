@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+{{> head }}
+
+<body>
+<div class="content">
+
+    {{> header }}
+
+    <fieldset class="login">
+        <legend class="login--header">Bejelentkezés</legend>
+        <form class="login--form" action="login" method="post">
+            <div class="login--email"><input type="email"
+                                             id="loginEmail"
+                                             name="loginEmail"
+                                             required><label for="loginEmail">E-mail cím</label></div>
+            <div class="login--password"><input type="password"
+                                                id="loginPassword"
+                                                name="loginPwd"
+                                                required><label for="loginPassword">Jelszó</label></div>
+            <small class="input-error
+                        {{#if loginError }}
+                            show
+                        {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                Bejelentkezés sikertelen</small>
+            <div class="login--forgotten"><a href="forgottenpassword">Elfelejtett jelszó</a></div>
+            <button
+                    class="login--btn btn btn--login"
+                    name="submit"
+                    type="submit">Bejelentkezés
+            </button>
+        </form>
+
+        <div class="subsection">
+            <div class="subsection__divider"></div>
+            <h5 class="subsection__heading">VAGY</h5>
+        </div>
+
+        <div>
+            <a style="display: block; margin: 0 auto;" class="btn btn--empty" href="registration">Regisztrálj
+                most!</a>
+        </div>
+    </fieldset>
+
+    {{> footer }}
+
+</div>
+</body>
+</html>

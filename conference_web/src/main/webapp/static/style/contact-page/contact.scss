@@ -1,0 +1,169 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.contact {
+	&--grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(2, -webkit-min-content);
+		grid-template-rows: repeat(2, min-content);
+		grid-column-gap: $size-md;
+		padding: 0 $size-lg * 2;
+		@include respond(1400px) {
+			padding: 0;
+		}
+		@include respond(950px) {
+			grid-template-columns: 1fr;
+			grid-column-gap: 0;
+			grid-row-gap: $size-md;
+		}
+
+		&__col {
+			height: 100%;
+			padding: $size-md;
+			@include contentBackdrop;
+			@include respond(800px) {
+				width: 100%;
+			}
+
+			&:nth-of-type(2) {
+				grid-column: 2 / -1;
+				grid-row: 2 / -1;
+				@include respond(950px) {
+					grid-column: unset;
+				}
+			}
+		}
+	}
+
+	&--title {
+		font-size: $font-contact--title;
+		margin-bottom: $size-md;
+		font-weight: 500;
+		color: $color-blue;
+		position: relative;
+		padding-left: $size-md;
+
+		&::before {
+			content: "";
+			width: $size-sm;
+			height: $size-sm;
+			background-color: $color-main;
+			display: block;
+			position: absolute;
+			top: 50%;
+			left: 0;
+			transform: translateY(-50%);
+			border-radius: 50%;
+		}
+	}
+
+	&--text {
+		font-size: $font-contact--text;
+		letter-spacing: .03em;
+		line-height: 1.7;
+		color: rgba($color-text, .9);
+
+		&:not(:last-of-type) {
+			margin-bottom: $size-sm;
+		}
+	}
+
+	&--link {
+		@include flexAlignCenterize;
+		@include transitionAnimate(all, $animation-speed);
+
+		a,
+		p {
+			color: rgba($color-text, .9);
+		}
+
+		a {
+			@include transitionAnimate(all, $animation-speed);
+		}
+
+		svg {
+			width: $size-md;
+			height: $size-md;
+			min-width: $size-md;
+			min-height: $size-md;
+			margin-right: $size-md;
+			stroke: rgba($color-main, .75);
+		}
+
+		&:not(:last-of-type) {
+			margin-bottom: $size-sm;
+		}
+
+		&:focus,
+		&:hover {
+			color: $color-main--darker;
+			cursor: default;
+
+			a {
+				color: $color-main--darker;
+			}
+		}
+	}
+}
+
+.contact-form {
+	margin: $size-lg 0;
+	padding: $size-lg;
+	@include flexAlignCenterize;
+	@include respond(950px) {
+		flex-direction: column-reverse;
+	}
+
+	&--left {
+		flex: 0 0 60%;
+		@include respond(950px) {
+			width: 100%;
+		}
+	}
+
+	&--right {
+		flex: 0 0 40%;
+		@include respond(950px) {
+			width: 100%;
+			padding-bottom: $size-md;
+			margin-bottom: $size-lg;
+		}
+
+		img {
+			width: 75%;
+			height: 75%;
+			display: block;
+			margin: 0 auto;
+			@include respond(1300px) {
+				width: 90%;
+				height: 90%;
+			}
+			@include respond(950px) {
+				width: 50%;
+				height: 50%;
+			}
+		}
+	}
+
+	@include respond(500px) {
+		padding: $size-lg $size-md;
+	}
+
+	&--form {
+		max-width: 90%;
+		margin-right: auto;
+		@include respond(950px) {
+			margin: 0 auto;
+			max-width: 100%;
+		}
+
+		& > div {
+			margin-bottom: $size-md;
+		}
+
+		& button[type='submit'] {
+			margin-top: $size-md;
+		}
+	}
+}

@@ -1,0 +1,58 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+plugins {
+    id 'war'
+}
+
+dependencies {
+    implementation project(':conference_backend')
+    compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '5.0.0'
+    implementation group: 'com.github.jknack', name: 'handlebars', version: '4.3.0'
+}
+
+// beolvassuk környezeti változóból, hogy hova van telepítve a Tomcat
+def tomcatHome = System.getenv('CATALINA_HOME')
+
+// lefuttatja a Sass fordítót
+task compileSass(type: Exec) {
+    String sass = 'node-sass'
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        sass = "${sass}.cmd"
+    }
+
+    workingDir 'src/main/webapp/static'
+    commandLine sass, '--output-style', 'compressed', 'style/base.scss', '>', 'style.css'
+}
+
+// behelyezi a task listába
+compileSass.shouldRunAfter compileJava
+processResources.dependsOn compileSass
+
+// ezzel a taszkkal telepítjük ki a wart a Tomcatre
+task deploy(type: Copy, dependsOn: 'war') {
+    // futás előtt megnézzük, hogy a Tomcat home-ja helyesen be van-e állítva
+    doFirst {
+        if (!tomcatHome) {
+            throw new InvalidUserDataException("Tomcat home (CATALINA_HOME) not set")
+        }
+    }
+
+    // a "war" task kimenetét másoljuk
+    from war.archiveFile
+    // a másolás célpontja a Tomcat "webapps" almappája
+    into "${tomcatHome}/webapps"
+}
+
+// Tomcat kitelepítés törlése
+task undeploy(type: Delete) {
+
+    // futás előtt megnézzük, hogy a Tomcat home-ja helyesen be van-e állítva
+    doFirst {
+        if (!tomcatHome) {
+            throw new InvalidUserDataException("Tomcat home (CATALINA_HOME) not set")
+        }
+    }
+
+    // töröljük a kitelepített war file-t
+    delete "${tomcatHome}/webapps/${war.archiveFileName.get()}"
+}

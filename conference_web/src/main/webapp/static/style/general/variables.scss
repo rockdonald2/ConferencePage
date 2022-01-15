@@ -1,0 +1,133 @@
+/* COLORS */
+$color-text: #18191a;
+$color-bg: #ffffff;
+$color-main: #d6af7c;
+$color-main--darker: #c29a65;
+$color-link: #d6af7c;
+$color-link--hover: #c29a65;
+$color-btn: #d6ae7c;
+$color-btn--hover: #c29a65;
+$color-btn--text: #18191a;
+$color-selection--bg: #d6ae7c;
+$color-selection--text: #18191a;
+$color-blue: #243743;
+$color-grey: #ecf0f1;
+$color-grey--mid: #aaaaaa;
+$color-red: #c0392b;
+$color-green: #27ae60;
+$color-yellow: #f1c40f;
+
+/* SIZES */
+$size-lg: 6rem;
+$size-md: $size-lg / 2;
+$size-sm: $size-lg / 4;
+
+/* FONT */
+$font-header: 1.6rem;
+$font-header-btn: 1.5rem;
+
+$font-msg--h1: 5.2rem;
+$font-msg--h3: 1.8rem;
+$font-msg--para: 1.8rem;
+
+$font-footer--date: 1.6rem;
+$font-footer-list--item: 1.4rem;
+$font-footer-list--title: 1.6rem;
+
+$font-notfound: 3rem;
+
+$font-slogan: 2.2rem;
+
+$font-heading: 2.4rem;
+$font-subheading: 1.6rem;
+
+$font-card--title: 2.4rem;
+$font-card--pr: 1.7rem;
+
+$font-newsletter--title: 2.2rem;
+$font-newsletter--pr: 1.7rem;
+
+$font-copyright: 1.6rem;
+
+$font-conditions--pr: 1.7rem;
+
+$font-steps--pr: 1.7rem;
+$font-steps--title: 2.4rem;
+
+$font-mainnews--title: 2.4rem;
+$font-mainnews--author: 1.6rem;
+$font-mainnews--date: 1.7rem;
+
+$font-countdown--digit: 5rem;
+$font-countdown--text: 3rem;
+$font-countdown--msg: 3rem;
+
+$font-sponsors--heading: 2.5rem;
+
+$font-header--search: 1.4rem;
+
+$font-sub-page-heading--header: 3.6rem;
+
+$font-contact--title: 2.2rem;
+$font-contact--text: 1.8rem;
+
+$font-info: 1.4rem;
+
+$font-news--date: 1.7rem;
+$font-news--author: 1.6rem;
+$font-news--title: 2.2rem;
+$font-news--link: 1.4rem;
+$font-news--divider: 1.7rem;
+
+$font-date-selector--header: 2rem;
+$font-date-selector--date: 1.6rem;
+
+$font-registermodal--header: 2rem;
+$font-registermodal--label: 1.6rem;
+$font-registermodal--input: 1.6rem;
+$font-registermodal--link: 1.4rem;
+$font-registermodal--btn: 1.6rem;
+
+$font-error: 1.4rem;
+
+$font-accordion--question: 2rem;
+$font-accordion--answer: 1.7rem;
+
+$font-deadline--date: 2.2rem;
+$font-deadline--title: 2rem;
+$font-deadline--text: 1.7rem;
+
+$font-post--title: 2.8rem;
+$font-post--author: 2rem;
+$font-post--content: 1.6rem;
+
+$font-conditions-page--title: 2.5rem;
+$font-conditions-page--subtitle: 2.2rem;
+$font-conditions-page--text: 1.7rem;
+
+$font-rules-page--title: 2.5rem;
+$font-rules-page--text: 1.7rem;
+
+$font-input--title: 2rem;
+$font-input--text: 1.8rem;
+$font-input--label: 1.6rem;
+$font-input--input: 1.6rem;
+$font-input--submit: 1.8rem;
+$font-input--info: 1.4rem;
+
+$font-aboutus-page--title: 2.5rem;
+$font-aboutus-page--text: 1.7rem;
+
+$font-subsection: 2.2rem;
+
+$font-profile--header: 2.4rem;
+$font-profile--todo: 1.6rem;
+
+$font-profile--modal--title: 2.6rem;
+$font-profile--modal--authors: 2.2rem;
+$font-profile--modal--text: 1.6rem;
+
+$font-profile--pagination: 1.5rem;
+
+/* ANIMATION SPEED */
+$animation-speed: 0.3s;

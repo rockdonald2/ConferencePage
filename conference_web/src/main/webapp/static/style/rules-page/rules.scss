@@ -1,0 +1,124 @@
+@import "../general/mixins";
+@import "../general/variables";
+
+.rules-page {
+	max-width: 85%;
+	margin: 0 auto;
+	@include transitionAnimate(all, $animation-speed);
+	@include respond(950px) {
+		max-width: 100%;
+	}
+
+	&--comment,
+	&--list__item,
+	&--mpr,
+	&--olist__item {
+		font-size: $font-rules-page--text;
+		line-height: 1.7;
+		letter-spacing: .03em;
+		color: rgba($color-text, .9);
+	}
+
+	&--mpr {
+		margin-bottom: $size-lg;
+		text-align: center;
+	}
+
+	&--title {
+		font-size: $font-rules-page--title;
+		margin-bottom: $size-sm;
+		padding-left: $size-md;
+		position: relative;
+		color: $color-blue;
+		font-weight: 500;
+
+		&::before {
+			content: "";
+			display: block;
+			position: absolute;
+			width: $size-sm;
+			height: $size-sm;
+			background-color: $color-main;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			border-radius: 50%;
+		}
+	}
+
+	&--wrapper {
+		@include contentBackdrop;
+		padding: $size-lg $size-md;
+	}
+
+	&--grid {
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: repeat(2, -webkit-min-content);
+		grid-template-rows: repeat(2, min-content);
+		grid-row-gap: $size-lg;
+		justify-items: center;
+		align-items: center;
+	}
+
+	&--list,
+	&--olist {
+		&__item {
+			&::marker {
+				font-size: $font-rules-page--text * 1.15;
+				color: $color-main;
+				font-weight: 500;
+			}
+
+			&:not(:last-of-type) {
+				margin-bottom: $size-sm;
+			}
+		}
+	}
+
+	&--olist {
+		padding-left: $size-lg;
+		@include respond(500px) {
+			padding-left: $size-md;
+		}
+	}
+
+	&--list {
+		padding-left: $size-md;
+		@include respond(500px) {
+			padding-left: $size-sm;
+		}
+
+		&__item {
+			position: relative;
+			padding-left: $size-sm;
+
+			&::before {
+				content: "";
+				display: block;
+				width: 1rem;
+				height: 1rem;
+				background-color: $color-main;
+				border-radius: 50%;
+				position: absolute;
+				top: 50%;
+				left: -1%;
+				transform: translate(-50%, -50%);
+			}
+
+			&:not(:last-of-type) {
+				margin-bottom: $size-sm;
+			}
+		}
+	}
+
+	&--misc-wrapper {
+		margin-bottom: $size-sm;
+	}
+
+	&--comment {
+		margin-bottom: $size-sm;
+		font-weight: 300;
+		color: $color-grey--mid;
+	}
+}

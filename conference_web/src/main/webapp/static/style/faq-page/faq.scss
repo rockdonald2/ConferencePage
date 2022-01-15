@@ -1,0 +1,21 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.faq {
+	max-width: 85%;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-row-gap: $size-md;
+	grid-column-gap: $size-lg;
+	align-items: flex-start;
+	@include respond(1300px) {
+		max-width: 75%;
+	}
+	@include respond(950px) {
+		grid-template-columns: 1fr;
+	}
+	@include respond(500px) {
+		max-width: 90%;
+	}
+}

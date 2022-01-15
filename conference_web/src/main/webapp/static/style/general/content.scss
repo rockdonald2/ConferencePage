@@ -1,0 +1,24 @@
+@import "variables";
+@import "mixins";
+
+.content {
+	padding: $size-lg $size-sm 0;
+	max-width: 70vw;
+	margin: 10rem auto 0;
+	@include respond(3000px) {
+		max-width: 75vw;
+	}
+	@include respond(2560px) {
+		max-width: 80vw;
+	}
+	@include respond(1920px) {
+		max-width: 85vw;
+	}
+	@include respond(1250px) {
+		max-width: 95vw;
+	}
+	@include respond(800px) {
+		max-width: unset;
+		margin: 12.5rem auto 0;
+	}
+}

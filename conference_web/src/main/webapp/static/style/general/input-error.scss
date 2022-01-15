@@ -1,0 +1,31 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.input-error {
+	@include flexAlignCenterize;
+	font-size: $font-error;
+	color: $color-red;
+	opacity: 0;
+	max-height: 0;
+	@include transitionAnimate(all, $animation-speed);
+	@include respond(800px) {
+		font-size: $font-error * 1.15;
+	}
+
+	svg {
+		width: $size-sm * 1.35;
+		height: $size-sm * 1.35;
+		margin: 0 $size-sm;
+		stroke: $color-red;
+		@include respond(800px) {
+			min-width: $size-sm * 1.5;
+			min-height: $size-sm * 1.5;
+		}
+	}
+
+	&.show {
+		max-height: 1000px;
+		opacity: 1;
+		margin-top: $size-sm;
+	}
+}

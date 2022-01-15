@@ -1,0 +1,80 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.reg {
+	&--form {
+		max-width: 85%;
+		margin: 0 auto;
+		padding: 0 $size-lg $size-md;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-column-gap: $size-md;
+
+		@include respond(950px) {
+			max-width: 100%;
+		}
+
+		@include respond(700px) {
+			grid-template-columns: 1fr;
+		}
+
+		@include respond(700px) {
+			padding: $size-md 0;
+		}
+
+		& > div {
+			margin-bottom: $size-md;
+			@include transitionAnimate(all, $animation-speed);
+
+			&:nth-of-type(5) {
+				@include flexAlignCenterize;
+			}
+
+			&.disabled {
+				max-height: 0;
+				opacity: 0;
+				margin-bottom: 0 !important;
+				z-index: -1;
+			}
+
+			&:nth-of-type(7),
+			&:nth-of-type(11),
+			&:nth-of-type(12),
+			&:nth-of-type(13),
+			&:nth-of-type(14),
+			&:nth-of-type(15){
+				grid-column: 1 / -1;
+			}
+
+			&:nth-of-type(17) {
+				@include flexAlignCenterize;
+				width: 100%;
+
+				@include respond(450px) {
+					justify-content: flex-start;
+				}
+			}
+		}
+
+		&__is-presenting {
+			@include flexAlignCenterize;
+		}
+
+		&__agree {
+			grid-column: 1 / -2;
+			display: inline-block;
+		}
+
+		input[type="submit"] {
+			grid-column: 1 / -1;
+			margin-top: $size-md;
+			border: none;
+			font-family: inherit;
+			cursor: pointer;
+
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+}

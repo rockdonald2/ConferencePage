@@ -1,0 +1,40 @@
+@import "variables.scss";
+@import "mixins.scss";
+
+.changepwd {
+	&--wrapper {
+		max-width: 50vw;
+		margin: 0 auto;
+
+		@include respond(950px) {
+			max-width: 75vw;
+		}
+
+		&__separator {
+			display: block;
+			width: 100%;
+			border-bottom: 2px solid rgba($color-main, .5);
+			padding-top: $size-sm;
+			margin-bottom: $size-md;
+		}
+
+		form {
+			div {
+				margin-bottom: $size-sm;
+
+				& > .info {
+					margin-top: $size-sm;
+				}
+			}
+
+			button[type="submit"] {
+				margin-top: $size-md;
+				width: 100%;
+			}
+		}
+
+		.input-error.show {
+			margin-bottom: $size-sm;
+		}
+	}
+}

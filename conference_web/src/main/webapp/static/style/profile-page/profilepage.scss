@@ -1,0 +1,421 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.profile {
+	max-width: 90%;
+	margin: 0 auto;
+
+	& > div:not(:last-of-type) {
+		margin-bottom: $size-md;
+	}
+
+	&--about {
+		max-width: 65%;
+		margin: 0 auto;
+		@include flexAlignCenterize;
+		justify-content: space-evenly;
+
+		@include respond(650px) {
+			max-width: 85%;
+			justify-content: space-between;
+		}
+
+		&__card {
+			@include flexCenterize;
+			@include flexColumn;
+
+			&--icon {
+				height: $size-lg;
+				width: $size-lg;
+
+				@include respond(650px) {
+					height: $size-md;
+					width: $size-md;
+				}
+
+				svg {
+					stroke: rgba($color-main, .75);
+				}
+			}
+
+			&--text {
+				text-align: center;
+				font-size: $font-profile--header * .9;
+				color: $color-text;
+				margin: $size-sm 0;
+			}
+		}
+	}
+
+	&--todo {
+		h3 {
+			font-size: $font-profile--header;
+		}
+
+		&__list {
+			font-size: $font-profile--todo;
+			padding-left: $size-md;
+			margin-top: $size-sm;
+		}
+
+		&__listtext {
+			margin-bottom: $size-sm;
+			padding-left: $size-sm;
+			display: inline-block;
+		}
+
+		&__item {
+			form {
+				& > div:first-of-type {
+					margin-top: $size-sm;
+				}
+
+				& > div {
+					margin-bottom: $size-sm;
+					position: relative;
+				}
+			}
+		}
+
+		button[type="submit"] {
+			margin-top: $size-sm;
+			width: 100%;
+		}
+	}
+
+	&--uploaded {
+		h3 {
+			font-size: $font-profile--header;
+		}
+
+		&__btn {
+			background-color: $color-bg;
+			padding: $size-sm * 0.5 $size-sm * 0.75;
+			border-radius: 5px;
+			border: 1px solid rgba($color-grey--mid, .5);
+			@include transitionAnimate(all, $animation-speed);
+
+			&:hover,
+			&:active {
+				border-color: $color-main;
+				color: $color-main;
+			}
+		}
+
+		&__list {
+			font-size: $font-profile--todo;
+			max-height: 500px;
+			overflow: scroll;
+			padding: $size-sm 0;
+		}
+
+		&__head,
+		&__item {
+			display: grid;
+			grid-column-gap: $size-sm;
+			text-align: center;
+			align-items: center;
+
+			p {
+				word-wrap: anywhere;
+				@include flexCenterize;
+
+				@include respond(950px) {
+					justify-content: flex-start;
+				}
+			}
+		}
+
+		&__head {
+			font-size: $font-profile--todo;
+			margin: $size-md 0;
+			padding-bottom: $size-sm;
+			border-bottom: 2px solid $color-main;
+			padding-right: $size-md * .75;
+
+			&--presenter {
+				grid-template-columns: 12.5% 27.5% 10% 12.5% 20% 1fr;
+			}
+
+			&--rep {
+				grid-template-columns: 10% 30% 12.5% 12.5% 1fr;
+			}
+
+			@include respond(950px) {
+				display: none;
+			}
+		}
+
+		&__item {
+			&--presenter {
+				grid-template-columns: 12.5% 27.5% 10% 12.5% 20% 1fr;
+			}
+
+			&--rep {
+				grid-template-columns: 10% 30% 12.5% 12.5% 1fr;
+
+				@include respond(950px) {
+					form {
+						margin-bottom: 0;
+					}
+				}
+			}
+
+			&--file {
+				@include flexAlignCenterize;
+				@include flexColumn;
+				text-align: center;
+
+				svg {
+					min-height: $size-sm * 1.25;
+					min-width: $size-sm * 1.25;
+					height: $size-sm * 1.25;
+					width: $size-sm * 1.25;
+					margin-bottom: $size-sm * .75;
+					display: inline-block;
+				}
+
+				@include respond(950px) {
+					flex-direction: row;
+					display: inline-flex;
+
+					svg {
+						margin-bottom: 0;
+						margin-right: $size-sm * .75;
+					}
+				}
+			}
+
+			@include respond(950px) {
+				grid-template-columns: 1fr;
+				text-align: left;
+
+				& > * {
+					margin-bottom: $size-md;
+				}
+			}
+
+			&:not(:last-of-type) {
+				margin-bottom: $size-md;
+				padding-bottom: $size-md;
+				border-bottom: 2px dashed rgba($color-main, .5);
+			}
+
+			form {
+				button[type='submit'] {
+					width: 100%;
+					padding: $size-sm / 2;
+					margin-top: $size-sm;
+				}
+			}
+
+			a {
+				@include flexCenterize;
+
+				svg {
+					width: $size-md;
+					height: $size-md;
+					stroke: $color-red;
+				}
+
+				span {
+					display: none;
+
+					@include respond(950px) {
+						display: inline-block;
+						margin-left: $size-sm;
+					}
+				}
+			}
+		}
+
+		&__mod {
+			display: none;
+			height: 100%;
+
+			@include respond(950px) {
+				margin-right: $size-sm;
+				padding-right: $size-sm;
+				padding-top: $size-sm;
+				padding-bottom: $size-sm;
+				border-right: 2px solid $color-main;
+				display: inline-flex;
+				width: 25%;
+			}
+		}
+	}
+
+	&--new {
+		@include respond(950px) {
+			margin-bottom: $size-md;
+		}
+
+		h3 {
+			font-size: $font-profile--header;
+			margin-bottom: $size-md;
+		}
+
+		form {
+			& > div {
+				margin-bottom: $size-sm;
+			}
+
+			div:nth-of-type(1) {
+				position: relative;
+			}
+
+			button[type='submit'] {
+				margin-top: $size-sm;
+			}
+
+			small.info {
+				margin: $size-sm 0;
+			}
+		}
+	}
+
+	&--utils {
+		display: grid;
+		@include respond(950px) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	&--links {
+		h3 {
+			font-size: $font-profile--header;
+			margin-bottom: $size-sm;
+			text-align: right;
+		}
+
+		div {
+			display: flex;
+			justify-content: flex-start;
+			@include flexColumn;
+			align-items: flex-end;
+
+			a {
+				margin-bottom: $size-sm;
+			}
+		}
+	}
+
+	&--pagination {
+		width: 100%;
+		@include flexCenterize;
+		flex-wrap: wrap;
+		border-top: 2px solid $color-main;
+		padding-top: $size-md;
+
+		a {
+			font-size: $font-profile--pagination;
+			border: 1px solid rgba($color-grey--mid, .5);
+			padding: $size-sm * .75 $size-sm;
+			border-radius: 5px;
+
+			@include respond(450px) {
+				padding: $size-sm * .6 $size-sm * .9;
+			}
+
+			&:hover,
+			&:active {
+				border-color: $color-main;
+			}
+
+			&.active {
+				border: 1px solid $color-main;
+			}
+		}
+
+		a:not(:last-of-type) {
+			margin-right: $size-sm * .75;
+		}
+	}
+}
+
+.modal {
+	width: 100vw;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	@include flexCenterize;
+	@include transitionAnimate(all, $animation-speed);
+	opacity: 0;
+	z-index: -1;
+
+	&--background {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background-color: rgba($color-grey--mid, .5);
+	}
+
+	&--content {
+		background-color: $color-bg;
+		padding: $size-md $size-lg;
+		border-radius: 7px;
+		@include backdropShadow;
+		width: 50vw;
+		transform: translateY(-5rem) scale(.9);
+		position: relative;
+		@include transitionAnimate(all, $animation-speed);
+
+		@include respond(1250px) {
+			width: 75vw;
+		}
+
+		@include respond(950px) {
+			width: 85vw;
+		}
+
+		h4, h5, h6, p {
+			color: rgba($color-text, .9);
+		}
+
+		&__title {
+			font-size: $font-profile--modal--title;
+			margin-bottom: $size-md;
+			padding-bottom: $size-md;
+			border-bottom: 2px solid $color-main;
+			text-align: center;
+			font-weight: 500;
+		}
+
+		&__presenter,
+		&__coauthors {
+			border-left: 2px solid $color-main;
+			padding-left: $size-sm;
+		}
+
+		&__presenter {
+			font-size: $font-profile--modal--authors;
+			margin-bottom: $size-sm;
+		}
+
+		&__coauthors {
+			font-size: $font-profile--modal--authors * .9;
+			margin-bottom: $size-md;
+		}
+
+		&__abstract {
+			font-size: $font-profile--modal--text;
+			text-align: justify;
+			letter-spacing: .03em;
+			line-height: 1.7;
+
+			& p:not(:last-of-type) {
+				margin-bottom: $size-sm;
+			}
+		}
+	}
+
+	&.show {
+		z-index: 5000;
+		opacity: 1;
+
+		.modal--content {
+			transform: translate(0) scale(1);
+		}
+	}
+}

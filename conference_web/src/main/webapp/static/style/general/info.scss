@@ -1,0 +1,17 @@
+@import "variables";
+@import "mixins";
+
+.info {
+	font-size: $font-info;
+	font-weight: 300;
+	letter-spacing: .03em;
+	grid-column: 1 / -1;
+	@include flexAlignCenterize;
+
+	svg {
+		width: $size-md;
+		height: $size-md;
+		stroke: $color-yellow;
+		margin-right: $size-sm;
+	}
+}

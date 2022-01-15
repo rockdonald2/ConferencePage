@@ -1,0 +1,311 @@
+@import "mixins";
+@import "variables";
+
+.input {
+	&-text {
+		position: relative;
+		width: 100%;
+
+		label {
+			@include transitionAnimate(all, $animation-speed);
+			position: absolute;
+			top: 20px;
+			left: $size-md;
+			transform: translateY(-50%);
+			font-size: $font-input--label / 1.25;
+			color: rgba($color-text, .75);
+		}
+
+		input,
+		textarea {
+			width: 100%;
+			padding: $size-md * 1.25 $size-md $size-sm $size-md;
+			font-size: $font-input--input;
+			background-color: rgba($color-main, .1);
+			border: 1px solid rgba($color-grey--mid, .5);
+			border-radius: 5px;
+
+			&:focus {
+				box-shadow: 0 0 0 .05em #fff, 0 0 .15em .1em $color-main;
+			}
+
+			&:active,
+			&:focus {
+				border-color: $color-main--darker;
+			}
+		}
+
+		textarea {
+			resize: vertical;
+			min-height: 15vh;
+		}
+	}
+
+	&-button {
+		text-transform: uppercase;
+		background-color: $color-main;
+		width: 100%;
+		padding: $size-md * 0.75 $size-sm;
+		font-size: $font-input--submit;
+		letter-spacing: .1em;
+		font-weight: 500;
+		color: $color-blue;
+		position: relative;
+		z-index: 2;
+		border-radius: 5px;
+		@include dreamyShadow;
+		@include transitionAnimate(all, $animation-speed);
+
+		&:focus,
+		&:hover {
+			@include longShadow;
+		}
+	}
+
+	&-dropdown {
+		position: relative;
+		
+		label {
+			font-size: $font-input--label;
+			color: rgba($color-text, .9);
+			position: absolute;
+			top: 0;
+			left: $size-md;
+			transform: translateY(-50%);
+			background-color: $color-bg;
+			padding: $size-sm * 0.25 $size-sm * 0.75;
+			border-radius: 5px;
+			border: 1px solid rgba($color-grey--mid, .5);
+		}
+
+		select {
+			width: 100%;
+			padding: $size-md * 1.25 $size-md $size-sm $size-md;
+			font-size: $font-input--input;
+			background-color: rgba($color-main, .1);
+			border: 1px solid rgba($color-grey--mid, .5);
+			border-radius: 5px;
+			cursor: pointer;
+			@include transitionAnimate(all, $animation-speed);
+
+			&:focus {
+				box-shadow: 0 0 0 .05em #fff, 0 0 .15em .1em $color-main;
+			}
+		}
+
+		option,
+		select {
+			font-size: $font-input--label;
+			color: rgba($color-text, .9);
+		}
+	}
+
+	&-radio {
+		@include flexAlignCenterize;
+		justify-content: center;
+
+		&__label {
+			color: rgba($color-text, .9);
+			line-height: 1;
+		}
+
+		&__input {
+			@include flexAlignCenterize;
+
+			input {
+				opacity: 0;
+				width: 0;
+				height: 0;
+
+				&:focus + .input-radio__control {
+					box-shadow: 0 0 0 .05em #fff, 0 0 .15em .1em $color-main;
+				}
+
+				&:checked + .input-radio__control {
+					background: radial-gradient($color-main 30%, rgba(255, 0, 0, 0) 31%);
+
+					&::before {
+						transform: scale(1);
+					}
+				}
+			}
+		}
+
+		&__control {
+			width: 1em;
+			height: 1em;
+			border-radius: 50%;
+			border: .1em solid rgba($color-grey--mid, .5);
+			display: grid;
+			place-items: center;
+
+			&::before {
+				content: "";
+				width: 8px;
+				height: 8px;
+				box-shadow: inset 8px 8px $color-main;
+				border-radius: 50%;
+				@include transitionAnimate(transform, $animation-speed);
+				transform: scale(0);
+			}
+		}
+
+		label {
+			font-size: $font-input--label;
+			color: rgba($color-text, .9);
+			display: grid;
+			grid-template-columns: -webkit-min-content auto;
+			grid-template-columns: min-content auto;
+			grid-gap: $size-sm;
+			cursor: pointer;
+
+			&:not(:last-of-type) {
+				margin-right: $size-md;
+			}
+		}
+
+		div {
+			@include flexAlignCenterize;
+			width: 100%;
+
+			&:not(:last-of-type) {
+				margin-right: $size-sm;
+			}
+		}
+
+		@include respond(450px) {
+			flex-direction: column;
+			align-items: flex-start;
+
+			div {
+				&:not(:last-of-type) {
+					margin-right: 0;
+					margin-bottom: $size-sm;
+				}
+			}
+		}
+	}
+
+	&-checkbox {
+		display: grid;
+		grid-template-columns: -webkit-min-content auto;
+		grid-template-columns: min-content auto;
+		grid-gap: .5em;
+		font-size: $font-input--label;
+		align-items: center;
+		color: $color-main;
+		cursor: pointer;
+
+		&__input {
+			display: grid;
+			grid-template-areas: "checkbox";
+
+			> * {
+				grid-area: checkbox;
+			}
+
+			input {
+				opacity: 0;
+				width: 1em;
+				height: 1em;
+
+				&:focus + .input-checkbox__control {
+					box-shadow: 0 0 0 .05em #fff, 0 0 .15em .1em $color-main;
+				}
+
+				&:checked + .input-checkbox__control svg {
+					transform: scale(1);
+				}
+			}
+		}
+
+		&__control {
+			display: inline-grid;
+			width: 1em;
+			height: 1em;
+			border-radius: .25em;
+			border: .1em solid $color-main;
+
+			svg {
+				@include transitionAnimate(transform, $animation-speed);
+				transition-delay: 25ms;
+				transform: scale(0);
+				transform-origin: bottom left;
+				color: $color-main;
+			}
+		}
+
+		&__label {
+			color: rgba($color-text, .9);
+			margin-left: $size-sm * 0.5;
+		}
+	}
+
+	&-file {
+		position: relative;
+		width: 100%;
+		display: flex;
+		@include flexColumn;
+
+		label {
+			font-size: $font-input--label;
+			color: rgba($color-text, .9);
+			@include flexCenterize;
+			cursor: pointer;
+			background-color: $color-bg;
+			padding: $size-sm * 0.5 $size-sm * 0.75;
+			border-radius: 5px;
+			border: 1px solid rgba($color-grey--mid, .5);
+
+			&, span, svg {
+				@include transitionAnimate(all, $animation-speed);
+			}
+
+			span {
+				word-wrap: anywhere;
+			}
+
+			svg {
+				min-width: $size-sm * 1.25;
+				min-height: $size-sm * 1.25;
+				width: $size-sm * 1.25;
+				height: $size-sm * 1.25;
+				margin-right: $size-sm;
+			}
+
+			&:hover,
+			&:active {
+				border-color: $color-main;
+
+				span, svg {
+					color: $color-main;
+				}
+			}
+		}
+		input {
+			display: none;
+		}
+
+		&--info {
+			font-size: $font-input--info;
+			font-weight: 300;
+			margin-top: $size-sm;
+		}
+	}
+
+}
+
+input,
+select,
+textarea {
+	@include transitionAnimate(all, $animation-speed);
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: .5;
+
+		& + label {
+			cursor: not-allowed;
+		}
+	}
+}

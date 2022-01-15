@@ -1,0 +1,112 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.steps {
+	display: flex;
+	align-items: center;
+	margin-top: $size-lg;
+	padding: $size-lg;
+	@include respond(800px) {
+		@include flexColumn;
+	}
+	@include respond(500px) {
+		padding: $size-lg $size-md;
+	}
+
+	&--left {
+		flex: 0 0 50%;
+		@include respond(1400px) {
+			flex: 0 0 65%;
+		}
+		@include respond(800px) {
+			width: 100%;
+		}
+	}
+
+	&--right {
+		flex: 0 0 50%;
+
+		img {
+			width: 75%;
+			height: 75%;
+			display: block;
+			margin: 0 auto;
+		}
+
+		@include respond(1400px) {
+			flex: 0 0 35%;
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+		@include respond(800px) {
+			width: 100%;
+			margin-top: $size-lg;
+
+			img {
+				width: 60%;
+				height: 60%;
+			}
+		}
+	}
+
+	&--wrapper {
+		&:not(:last-of-type) {
+			margin-bottom: $size-md;
+		}
+	}
+
+	&--list__item,
+	&--pr {
+		font-size: $font-conditions--pr;
+		letter-spacing: .04em;
+		max-width: 75%;
+		padding-left: $size-md;
+		line-height: 1.7;
+		color: rgba($color-text, .9);
+		@include respond(1350px) {
+			font-size: $font-conditions--pr * 0.9;
+		}
+		@include respond(800px) {
+			max-width: 100%;
+		}
+	}
+
+	&--pr {
+		margin-bottom: $size-sm;
+	}
+
+	&--list {
+		padding-left: $size-lg;
+
+		&__item {
+			position: relative;
+
+			&::before {
+				content: "";
+				display: block;
+				width: 1rem;
+				height: 1rem;
+				background-color: $color-main;
+				border-radius: 50%;
+				position: absolute;
+				top: 50%;
+				left: 0;
+				transform: translate(-50%, -50%);
+			}
+
+			&:not(:last-of-type) {
+				margin-bottom: $size-sm;
+			}
+		}
+	}
+
+	&--learnmore {
+		margin-left: $size-md;
+		@include respond(450px) {
+			margin-left: 0;
+		}
+	}
+}

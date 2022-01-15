@@ -1,0 +1,29 @@
+@import "variables";
+@import "mixins";
+
+.notfound {
+	&--wrapper {
+		height: 20rem;
+		@include flexCenterize;
+	}
+
+	&--message {
+		font-size: $font-notfound;
+		@include flexAlignCenterize;
+		@include respond(750px) {
+			@include flexColumn;
+			text-align: center;
+		}
+
+		svg {
+			width: 4rem;
+			height: 4rem;
+			margin-right: 2rem;
+			fill: $color-red;
+			@include respond(750px) {
+				margin-right: 0;
+				margin-bottom: 2rem;
+			}
+		}
+	}
+}

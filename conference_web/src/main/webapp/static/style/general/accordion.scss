@@ -1,0 +1,94 @@
+@import "./mixins";
+@import "./variables";
+
+.accordion {
+	background-color: rgba($color-main, .1);
+	border-radius: 5px;
+	@include backdropShadow;
+	padding: $size-sm $size-md;
+	cursor: pointer;
+
+	&:not(:last-of-type) {
+		margin-bottom: $size-sm;
+	}
+
+	&--q {
+		pointer-events: none;
+
+		button {
+			font-size: $font-accordion--question;
+			@include flexAlignCenterize;
+			justify-content: space-between;
+			width: 100%;
+			color: $color-blue;
+			letter-spacing: .06em;
+			@include transitionAnimate(all, $animation-speed);
+			text-align: left;
+
+			svg {
+				width: $size-sm * 1.5;
+				height: $size-sm * 1.5;
+				min-width: $size-sm * 1.5;
+				min-height: $size-sm * 1.5;
+				@include transitionAnimate(all, $animation-speed);
+			}
+
+			@include respond(500px) {
+				svg {
+					width: $size-sm * 1.75;
+					height: $size-sm * 1.75;
+				}
+			}
+		}
+	}
+
+	&--a {
+		font-size: $font-accordion--answer;
+		max-height: 0;
+		overflow: hidden;
+		@include transitionAnimate(all, $animation-speed);
+		opacity: 0;
+		cursor: text;
+		text-align: justify;
+		transform: translateY(3%);
+
+		p {
+			color: rgba($color-text, .9);
+			line-height: 1.7;
+			letter-spacing: .03em;
+		}
+	}
+
+	&:focus,
+	&:hover {
+		.accordion {
+			&--q {
+				button {
+					color: $color-main--darker;
+				}
+			}
+		}
+	}
+
+	&.active {
+		.accordion {
+			&--q {
+				button {
+					margin-bottom: $size-sm;
+					padding-bottom: $size-sm;
+					color: $color-main--darker;
+
+					svg {
+						transform: rotate(90deg);
+					}
+				}
+			}
+
+			&--a {
+				max-height: 5000px;
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+	}
+}

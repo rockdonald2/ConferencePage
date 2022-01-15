@@ -1,0 +1,134 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.steps-page {
+	max-width: 85%;
+	margin: 0 auto;
+	@include transitionAnimate(all, $animation-speed);
+	@include respond(1250px) {
+		max-width: 100%;
+	}
+
+	&--grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(3, -webkit-min-content);
+		grid-template-rows: repeat(3, min-content);
+		grid-column-gap: $size-lg;
+		justify-items: center;
+		align-items: center;
+		position: relative;
+		@include respond(950px) {
+			grid-template-columns: 1fr;
+			grid-column-gap: unset;
+			grid-row-gap: $size-md;
+		}
+
+		&::after {
+			@include middleLineDivider;
+		}
+
+		@include respond(950px) {
+			&::after {
+				display: none;
+			}
+		}
+	}
+
+	&--wrapper {
+		@include contentBackdrop;
+		padding: $size-lg $size-md;
+		position: relative;
+
+		&::after {
+			@include middleLineDividerBubble;
+		}
+
+		&::before {
+			@include middleLineDividerLine;
+		}
+
+		&:nth-of-type(even) {
+			grid-column: 2 / -1;
+
+			&::after {
+				left: -$size-md;
+			}
+
+			&::before {
+				left: -$size-sm;
+			}
+		}
+
+		&:nth-of-type(odd) {
+			grid-column: 1 / 2;
+
+			&::after {
+				right: -$size-lg;
+			}
+
+			&::before {
+				right: -$size-lg / 1.25;
+			}
+		}
+
+		&:nth-of-type(2) {
+			grid-row: 2 / 3;
+		}
+
+		&:nth-of-type(3) {
+			grid-row: 3 / -1;
+		}
+
+		@include respond(950px) {
+			&::after {
+				display: none;
+			}
+
+			&::before {
+				display: none;
+			}
+
+			&:nth-of-type(even),
+			&:nth-of-type(odd) {
+				grid-column: 1 / -1;
+				grid-row: unset;
+			}
+		}
+	}
+
+	&--mpr,
+	&--pr {
+		font-size: $font-steps--pr;
+		line-height: 1.7;
+		letter-spacing: .03em;
+		color: rgba($color-text, .9);
+	}
+
+	&--mpr {
+		margin-bottom: $size-lg;
+		text-align: center;
+	}
+
+	&--title {
+		font-size: $font-steps--title;
+		margin-bottom: $size-sm;
+		padding-left: $size-md;
+		position: relative;
+		color: $color-blue;
+		font-weight: 500;
+
+		&::before {
+			content: "";
+			display: block;
+			position: absolute;
+			width: $size-sm;
+			height: $size-sm;
+			background-color: $color-main;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			border-radius: 50%;
+		}
+	}
+}

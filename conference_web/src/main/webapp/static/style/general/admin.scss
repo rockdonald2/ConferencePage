@@ -1,0 +1,44 @@
+@import 'variables.scss';
+@import 'mixins.scss';
+
+.createsection,
+.regrep {
+	&--wrapper {
+		min-height: 26rem;
+		margin: 0 auto;
+		max-width: 50%;
+
+		div:not(:last-of-type) {
+			margin-bottom: $size-sm;
+		}
+
+		.input-dropdown {
+			margin-top: $size-md;
+		}
+
+		@include respond(1500px) {
+			max-width: 70%;
+		}
+
+		@include respond(900px) {
+			max-width: 85%;
+		}
+
+		button[type='submit'] {
+			margin-top: $size-md;
+			width: 100%;
+		}
+	}
+
+	&--message {
+		font-size: $font-notfound * .65;
+		text-align: center;
+		margin-bottom: $size-lg;
+	}
+}
+
+.regrep--wrapper {
+	.input-error.show {
+		margin-bottom: $size-sm;
+	}
+}

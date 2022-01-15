@@ -20,3 +20,8 @@ gradle-app.setting
 gradlew*
 build
 gradle
+packages-lock.json
+node_modules
+yarn.lock
+bin
+tmp

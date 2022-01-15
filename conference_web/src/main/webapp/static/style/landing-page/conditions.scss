@@ -1,0 +1,81 @@
+@import "../general/variables";
+@import "../general/mixins";
+
+.conditions {
+	display: flex;
+	align-items: center;
+	margin-top: $size-lg;
+	padding: $size-lg;
+	@include respond(800px) {
+		@include flexColumn;
+	}
+	@include respond(500px) {
+		padding: $size-lg $size-md;
+	}
+
+	&--left {
+		flex: 0 0 50%;
+		@include respond(1400px) {
+			flex: 0 0 65%;
+		}
+		@include respond(800px) {
+			width: 100%;
+		}
+	}
+
+	&--right {
+		flex: 0 0 50%;
+
+		img {
+			width: 65%;
+			height: 65%;
+			display: block;
+			margin: 0 auto;
+		}
+
+		@include respond(1400px) {
+			flex: 0 0 35%;
+
+			img {
+				width: 85%;
+				height: 85%;
+			}
+		}
+		@include respond(800px) {
+			width: 100%;
+			margin-top: $size-lg;
+
+			img {
+				width: 40%;
+				height: 40%;
+			}
+		}
+	}
+
+	&--pr {
+		font-size: $font-conditions--pr;
+		letter-spacing: .04em;
+		max-width: 75%;
+		padding-left: $size-md;
+		line-height: 1.7;
+		color: rgba($color-text, .9);
+
+		&:not(:last-of-type) {
+			margin-bottom: $size-sm;
+		}
+
+		@include respond(1350px) {
+			font-size: $font-conditions--pr * 0.9;
+		}
+		@include respond(800px) {
+			max-width: 100%;
+		}
+	}
+
+	&--learnmore {
+		margin-left: $size-md;
+		@include respond(450px) {
+			margin-left: 0;
+		}
+	}
+}
