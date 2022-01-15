@@ -75,6 +75,10 @@ public class UserBuilder {
     }
 
     public User build() {
+        if (this.email == null || this.pwd == null) {
+            throw new ModelException("Invalid user builder, missing email or password.");
+        }
+
         User u = new User(this.email, this.pwd, this.firstName, this.lastName, this.role, this.institution, this.position, this.academicDegree);
 
         LOG.info("Successfully builded user {}.", this.email);

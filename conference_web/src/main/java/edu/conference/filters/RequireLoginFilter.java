@@ -22,7 +22,7 @@ public class RequireLoginFilter extends HttpFilter {
         HttpServletResponse httpResp = (HttpServletResponse) res;
 
         HttpSession session = httpReq.getSession();
-        boolean isLogged = !Objects.isNull(session.getAttribute("email"));
+        boolean isLogged = !Objects.isNull(session.getAttribute("logged"));
 
         if (isLogged) {
             chain.doFilter(req, res);

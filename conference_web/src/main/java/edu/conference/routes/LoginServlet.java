@@ -1,6 +1,7 @@
 package edu.conference.routes;
 
 import edu.conference.model.User;
+import edu.conference.model.builders.UserBuilder;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.UserService;
 import edu.conference.utils.TemplateFactory;
@@ -33,14 +34,16 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User requestedLogin = new User(req.getParameter("loginEmail"), req.getParameter("loginPwd"));
+        User requestedLogin = new UserBuilder().withEmail(req.getParameter("loginEmail")).withPwd(req.getParameter("loginPwd")).build();
         boolean successful = uService.login(requestedLogin);
         requestedLogin = uService.getByEmail(requestedLogin.getEmail());
 
+        requestedLogin.setPwd(null);
+
         HttpSession session = req.getSession();
         if (successful) {
-            session.setAttribute("email", requestedLogin.getEmail());
-            session.setAttribute("role", requestedLogin.getRole().toString());
+            session.setAttribute("logged", true);
+            session.setAttribute("user", requestedLogin);
             resp.sendRedirect(req.getContextPath() + "/index");
         } else {
             Map<String, Object> model = new ConcurrentHashMap<>();

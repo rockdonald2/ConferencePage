@@ -1,5 +1,6 @@
 package edu.conference.utils;
 
+import edu.conference.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -14,9 +15,15 @@ public final class ModelFactory {
 
     public static synchronized ConcurrentHashMap<String, Object> createModel(HttpServletRequest req) {
         HttpSession session = req.getSession();
-        boolean isLogged = !Objects.isNull(session.getAttribute("email"));
+        boolean isLogged = !Objects.isNull(session.getAttribute("logged"));
         ConcurrentHashMap<String, Object> model = new ConcurrentHashMap<>();
         model.put("logged", isLogged);
+
+        if (isLogged) {
+            model.put("user", session.getAttribute("user"));
+        } else {
+            model.put("user", new User());
+        }
 
         return model;
     }

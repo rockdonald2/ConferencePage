@@ -1,9 +1,10 @@
 package edu.conference.service.impl;
 
-import edu.conference.model.ModelException;
-import edu.conference.model.Role;
-import edu.conference.model.User;
+import edu.conference.model.*;
 import edu.conference.repository.exception.RepositoryException;
+import edu.conference.service.PaperService;
+import edu.conference.service.SectionService;
+import edu.conference.service.ServiceFactory;
 import edu.conference.service.UserService;
 import edu.conference.service.exception.ServiceException;
 import edu.conference.util.PasswordEncrypter;
@@ -22,9 +23,13 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserDAO uDao;
+    private final PaperService pService;
+    private final SectionService sService;
 
     public UserServiceImpl() {
         uDao = DAOFactory.getInstance().getUserDAO();
+        pService = ServiceFactory.getInstance().getPaperService();
+        sService = ServiceFactory.getInstance().getSectionService();
     }
 
     @Override
@@ -70,6 +75,31 @@ public class UserServiceImpl implements UserService {
         } catch (RepositoryException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
             LOG.error("Failed to log in user with email {}.", user.getEmail());
             throw new ServiceException("Failed to log in user with email " + user.getEmail() + ".");
+        }
+    }
+
+    @Override
+    public boolean arePapersUploaded(User user) throws ServiceException {
+        try {
+            List<Paper> papers = pService.getAllForPresenter(user.getEmail());
+            return papers.stream().noneMatch(paper -> paper.getDoc() == null);
+        } catch (ServiceException | RepositoryException e) {
+            LOG.error("Failed to verify if all papers are uploaded for {}.", user.getEmail());
+            throw new ServiceException("Failed to verify if all papers are uploaded for " + user.getEmail() + ".");
+        }
+    }
+
+    @Override
+    public boolean arePapersJudged(User user) throws ServiceException {
+        try {
+            List<Section> sections = sService.getAllForRepresentative(user.getEmail());
+            return sections.stream().map(section -> {
+                List<Paper> papers = pService.getAllForSection(section.getId());
+                return papers.stream().noneMatch(paper -> paper.getStatus().equals(Status.NEW));
+            }).noneMatch(elem -> elem.equals(false));
+        } catch (RepositoryException | ServiceException e) {
+            LOG.error("Failed to verify if all papers are judged for {}.", user.getEmail());
+            throw new ServiceException("Failed to verify if all papers are judged for " + user.getEmail() + ".");
         }
     }
 

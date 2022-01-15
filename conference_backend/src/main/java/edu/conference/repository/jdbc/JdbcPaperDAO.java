@@ -37,18 +37,17 @@ public class JdbcPaperDAO implements PaperDAO {
                 stmt.executeUpdate("""
                         CREATE TABLE IF NOT EXISTS `paper` (
                           `PaperID` int AUTO_INCREMENT NOT NULL,
-                          `UUID` varchar(36) NOT NULL,
-                          `Document` varchar(512) DEFAULT NULL,
+                          `UUID` varchar(36) NOT NULL UNIQUE,
+                          `Document` varchar(512) DEFAULT NULL UNIQUE,
                           `Status` enum('New','Accepted','Confirmed','Rejected') NOT NULL,
                           `Abstract` mediumtext NOT NULL,
                           `Title` varchar(512) NOT NULL,
                           `CoAuthors` text NOT NULL,
                           `Email` varchar(128) NOT NULL,
-                          `SectionID` int(10) UNSIGNED NOT NULL,
+                          `SectionID` int(11) NOT NULL,
                           PRIMARY KEY (PaperID),
-                          UNIQUE (UUID, Document),
-                          FOREIGN KEY (Email) REFERENCES conferenceuser (Email),
-                          FOREIGN KEY (SectionID) REFERENCES section (SectionID)
+                          CONSTRAINT FK_BELONGSUSER FOREIGN KEY (Email) REFERENCES conferenceuser (Email),
+                          CONSTRAINT FK_BELONGSSECTION FOREIGN KEY (SectionID) REFERENCES section (SectionID)
                         ) ENGINE=InnoDB;""");
 
                 LOG.info("Successfully created table for papers.");
