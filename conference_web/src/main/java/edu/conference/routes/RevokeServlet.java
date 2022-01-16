@@ -49,7 +49,7 @@ public class RevokeServlet extends HttpServlet {
         pService.update(paper);
 
         HttpSession session = req.getSession();
-        session.setAttribute("popups", new String[] {"Dolgozat sikeresen visszavonva."});
+        session.setAttribute("popups", new String[]{"Dolgozat sikeresen visszavonva."});
         resp.sendRedirect(req.getContextPath() + "/profile");
     }
 

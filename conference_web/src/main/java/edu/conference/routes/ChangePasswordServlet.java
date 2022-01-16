@@ -17,7 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
+
+import static edu.conference.utils.Constants.PWD_REGEXP;
 
 @WebServlet("/changepassword")
 public class ChangePasswordServlet extends HttpServlet {
@@ -48,25 +51,38 @@ public class ChangePasswordServlet extends HttpServlet {
         String newPwd = req.getParameter("changepwd-new");
         String newConf = req.getParameter("changepwd-newconf");
 
+        HttpSession session = req.getSession();
+        Map<String, Boolean> errors = new HashMap<>();
+
         try {
             String oldEncrpyted = PasswordEncrypter.generateHashedPassword(oldPwd, user.getUuid());
+            boolean successful = true;
 
             if (!user.getPwd().equals(oldEncrpyted)) {
-                resp.setStatus(400);
-                resp.sendRedirect(req.getContextPath() + "/changepassword");
-                return;
+                errors.put("old", true);
+                successful = false;
+            }
+
+            if (!newPwd.matches(PWD_REGEXP)) {
+                errors.put("new", true);
+                successful = false;
             }
 
             if (!newPwd.equals(newConf)) {
+                errors.put("newconf", true);
+                successful = false;
+            }
+
+            if (!successful) {
                 resp.setStatus(400);
                 resp.sendRedirect(req.getContextPath() + "/changepassword");
+                session.setAttribute("errors", errors);
                 return;
             }
 
             user.setPwd(newPwd);
             uService.changePwd(user);
 
-            HttpSession session = req.getSession();
             session.invalidate();
             session = req.getSession();
             session.setAttribute("popups", new String[] {"Jelszó sikeresen megváltoztatva."});
