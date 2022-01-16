@@ -16,6 +16,8 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.invalidate();
+        session = req.getSession();
+        session.setAttribute("popups", new String[] {"Sikeres kijelentkezés."});
         resp.sendRedirect(req.getContextPath() + "/index");
     }
 

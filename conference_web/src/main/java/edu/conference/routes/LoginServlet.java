@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet {
         if (successful) {
             session.setAttribute("logged", true);
             session.setAttribute("user", requestedLogin);
+            session.setAttribute("popups", new String[] {"Sikeres bejelentkezés."});
             resp.sendRedirect(req.getContextPath() + "/index");
         } else {
             Map<String, Object> model = new ConcurrentHashMap<>();

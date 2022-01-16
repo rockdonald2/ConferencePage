@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +65,12 @@ public class ChangePasswordServlet extends HttpServlet {
 
             user.setPwd(newPwd);
             uService.changePwd(user);
-            resp.sendRedirect(req.getContextPath() + "/logout");
+
+            HttpSession session = req.getSession();
+            session.invalidate();
+            session = req.getSession();
+            session.setAttribute("popups", new String[] {"Jelszó sikeresen megváltoztatva."});
+            resp.sendRedirect(req.getContextPath() + "/index");
         } catch (NoSuchAlgorithmException e) {
             throw new ServletException();
         }

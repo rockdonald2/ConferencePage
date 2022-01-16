@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Map;
@@ -47,6 +48,8 @@ public class RevokeServlet extends HttpServlet {
         paper.setDoc(null);
         pService.update(paper);
 
+        HttpSession session = req.getSession();
+        session.setAttribute("popups", new String[] {"Dolgozat sikeresen visszavonva."});
         resp.sendRedirect(req.getContextPath() + "/profile");
     }
 

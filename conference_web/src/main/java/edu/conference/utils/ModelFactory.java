@@ -6,12 +6,11 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class ModelFactory {
-
-    private static Logger LOG = LoggerFactory.getLogger(ModelFactory.class);
 
     public static synchronized ConcurrentHashMap<String, Object> createModel(HttpServletRequest req) {
         HttpSession session = req.getSession();
@@ -24,6 +23,10 @@ public final class ModelFactory {
         } else {
             model.put("user", new User());
         }
+
+        Object popups = session.getAttribute("popups");
+        model.put("popups", popups == null ? Collections.emptyList() : popups);
+        session.setAttribute("popups", Collections.emptyList());
 
         return model;
     }

@@ -44,7 +44,7 @@ import java.math.RoundingMode;
  * @see java.math.BigDecimal
  * @see java.math.MathContext
  */
-public class MathHelpers implements Helper<Object> {
+public final class MathHelpers implements Helper<Object> {
 
     public enum Operator {
         add("+"),

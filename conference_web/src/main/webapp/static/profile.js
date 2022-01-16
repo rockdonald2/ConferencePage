@@ -56,9 +56,9 @@
         fetch(`verifyPaper?paperId=${id}&newStatus=${status}`)
             .then(resp => {
                 if (resp.status === 200) {
-                    window.alert('Dolgozat frissítése sikeres.')
+                    showPopup('Dolgozat frissítése sikeres.');
                 } else {
-                    window.alert('Dolgozat frissítése sikertelen.')
+                    showPopup('Dolgozat frissítése sikertelen.');
                 }
             })
             .catch(err => console.warn(err));
