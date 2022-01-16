@@ -79,6 +79,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void changePwd(User user) throws ServiceException {
+        try {
+            if (Objects.isNull(uDao.getByEmail(user.getEmail()))) {
+                LOG.info("User does not exist by email {}.", user.getEmail());
+                return;
+            }
+
+            user.setPwd(PasswordEncrypter.generateHashedPassword(user.getPwd(), user.getUuid()));
+
+            uDao.update(user);
+
+            LOG.info("Successfully updated user's password with email {}.", user.getEmail());
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | NullPointerException e) {
+            LOG.error("Failed to encrypt user password.");
+            throw new ServiceException("Failed to encrypt user password.");
+        }
+    }
+
+    @Override
     public boolean arePapersUploaded(User user) throws ServiceException {
         try {
             List<Paper> papers = pService.getAllForPresenter(user.getEmail());

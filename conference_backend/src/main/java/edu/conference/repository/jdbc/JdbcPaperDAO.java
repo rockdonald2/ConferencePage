@@ -76,7 +76,7 @@ public class JdbcPaperDAO implements PaperDAO {
             stmt.setString(3, paper.getStatus().toString());
             stmt.setString(4, paper.getAbstr());
             stmt.setString(5, paper.getTitle());
-            stmt.setString(6, String.join(",", paper.getCoAuthors()));
+            stmt.setString(6, paper.getCoAuthors() != null ? String.join(",", paper.getCoAuthors()) : null);
             stmt.setString(7, paper.getPresenter().getEmail());
             stmt.setLong(8, paper.getSection().getId());
 
@@ -190,7 +190,9 @@ public class JdbcPaperDAO implements PaperDAO {
                 return null;
             }
 
-            p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+            p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status"))
+                    .withCoAuthors(rs.getString("CoAuthors") != null ? rs.getString("CoAuthors").split(", ") : null)
+                    .inSection(s).presents(u).build();
             p.setId(rs.getLong("PaperID"));
             p.setUuid(rs.getString("UUID"));
 
@@ -244,7 +246,9 @@ public class JdbcPaperDAO implements PaperDAO {
                 return null;
             }
 
-            p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+            p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status"))
+                    .withCoAuthors(rs.getString("CoAuthors") != null ? rs.getString("CoAuthors").split(", ") : null)
+                    .inSection(s).presents(u).build();
             p.setId(rs.getLong("PaperID"));
             p.setUuid(rs.getString("UUID"));
 
@@ -295,7 +299,9 @@ public class JdbcPaperDAO implements PaperDAO {
                     continue;
                 }
 
-                p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+                p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status"))
+                        .withCoAuthors(rs.getString("CoAuthors") != null ? rs.getString("CoAuthors").split(", ") : null)
+                        .inSection(s).presents(u).build();
                 p.setId(rs.getLong("PaperID"));
                 p.setUuid(rs.getString("UUID"));
 
@@ -351,7 +357,9 @@ public class JdbcPaperDAO implements PaperDAO {
                     continue;
                 }
 
-                p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status")).withCoAuthors(rs.getString("CoAuthors").split(", ")).inSection(s).presents(u).build();
+                p = builder.withTitle(rs.getString("Title")).withAbstract(rs.getString("Abstract")).withDocument(rs.getString("Document")).withStatus(rs.getString("Status"))
+                        .withCoAuthors(rs.getString("CoAuthors") != null ? rs.getString("CoAuthors").split(", ") : null)
+                        .inSection(s).presents(u).build();
                 p.setId(rs.getLong("PaperID"));
                 p.setUuid(rs.getString("UUID"));
 

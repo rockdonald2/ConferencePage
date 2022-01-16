@@ -1,8 +1,8 @@
 package edu.conference.routes;
 
-import com.cedarsoftware.util.io.JsonWriter;
 import edu.conference.model.Paper;
 import edu.conference.model.Role;
+import edu.conference.model.Status;
 import edu.conference.model.User;
 import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
@@ -12,16 +12,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet({"/getPaper", "/getpaper"})
-public class GetPaperServlet extends HttpServlet {
-
-    private static final Logger LOG = LoggerFactory.getLogger(GetPaperServlet.class);
+@WebServlet({"/verifypaper", "/verifyPaper"})
+public class JudgePaperServlet extends HttpServlet {
 
     private PaperService pService;
 
@@ -34,21 +30,19 @@ public class GetPaperServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, Object> model = ModelFactory.createModel(req);
+        long paperId = Long.parseLong(req.getParameter("paperId"));
+        User user = (User) model.get("user");
+        String newStatus = req.getParameter("newStatus");
 
-        boolean isLogged = (boolean) model.get("logged");
-        User curr = (User) model.get("user");
-
-        if (!isLogged) {
-            resp.setStatus(401);
-            resp.sendRedirect(req.getContextPath() + "/login");
+        if (!user.getRole().equals(Role.REPRESENTATIVE)) {
+            resp.setStatus(403);
+            resp.sendRedirect(req.getContextPath() + "/profile");
             return;
         }
 
-        long paperId = Long.parseLong(req.getParameter("paperId"));
         Paper paper = pService.getById(paperId);
-        String jsonResp = JsonWriter.objectToJson(paper);
-
-        JsonWriter.writeJsonUtf8String(jsonResp, resp.getWriter());
+        paper.setStatus(Status.get(newStatus));
+        pService.update(paper);
     }
 
 }

@@ -9,6 +9,7 @@ public interface UserService {
 
     void register(User user) throws ServiceException;
     boolean login(User user) throws ServiceException;
+    void changePwd(User user) throws ServiceException;
     boolean arePapersUploaded(User user) throws ServiceException;
     boolean arePapersJudged(User user) throws ServiceException;
 

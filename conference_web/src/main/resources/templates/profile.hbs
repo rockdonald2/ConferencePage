@@ -115,7 +115,8 @@
                         <li class="profile--uploaded__item profile--uploaded__item--presenter">
                             <p><span class="profile--uploaded__mod">Szekció</span> {{ section.name }} </p>
                             <p><span class="profile--uploaded__mod">Cím</span>
-                                <button class="profile--uploaded__btn __view-btn" data-paper="{{ id }}">{{ title }}</button>
+                                <button class="profile--uploaded__btn __view-btn"
+                                        data-paper="{{ id }}">{{ title }}</button>
                             </p>
                             <p><span class="profile--uploaded__mod">Státusz</span>{{ status }}</p>
                             <p><span class="profile--uploaded__mod">Feltöltött dolgozat</span>
@@ -159,24 +160,228 @@
                                     </svg>
                                 </small>
                                 <input name="paper-id" type="hidden" value="{{ id }}">
-                                <button id="paper-submit-paper{{@index}}" type="submit" class="btn btn--cta" disabled>Feltölt
+                                <button id="paper-submit-paper{{@index}}" type="submit" class="btn btn--cta" disabled>
+                                    Feltölt
                                 </button>
                             </form>
-                            <a
+                                <a
                             {{#if doc }}
-                                href="revoke?path={{ doc }}"
+                            href="revoke?path={{ doc }}"
                             {{else}}
                                 style="opacity: 0.5; cursor: not-allowed;"
                             {{/if}}>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                <span>Dolgozat visszavonása</span></a>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>Dolgozat visszavonása</span></a>
                         </li>
                     {{/each}}
                 </ul>
+            </div>
+            {{#if missingSectionsForUser }}
+                <div class="profile--new">
+                    <h3>Újabb dolgozat regisztrálása</h3>
+                    <div class="profile--new__upload">
+                        <form action="registerPaper" method="post" class="profile--new__form">
+                            <div>
+                                <div class="input-dropdown">
+                                    <label for="new-section">Szekció*</label><select id="new-section"
+                                                                                     name="new-section"
+                                                                                     required>
+                                    <option value=""
+                                            disabled
+                                            selected></option>
+                                    {{#each missingSectionsForUser }}
+                                        <option value="{{ name }}">{{ name }}</option>
+                                    {{/each}}
+                                </select></div>
+                                <small class="input-error">
+                                    <svg viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         fill="none"
+                                         stroke="currentColor">
+                                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                              stroke-width="2"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                    </svg>
+                                    Nem létező szekció!</small>
+                            </div>
+                            <div>
+                                <div class="input-text"><input type="text"
+                                                               id="new-title"
+                                                               name="new-title"
+                                                               value=""
+                                                               required><label for="new-title">Dolgozat címe*</label>
+                                </div>
+                                <small class="input-error">
+                                    <svg viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         fill="none"
+                                         stroke="currentColor">
+                                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                              stroke-width="2"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                    </svg>
+                                    A cím csupán karakterekből állhat</small>
+                            </div>
+                            <div>
+                                <div class="input-text"><input type="text"
+                                                               id="new-coauthors"
+                                                               name="new-coauthors"
+                                                               value=""><label
+                                        for="new-coauthors">Dolgozat társszerzői</label></div>
+                                <small class="input-error">
+                                    <svg viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         fill="none"
+                                         stroke="currentColor">
+                                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                              stroke-width="2"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                    </svg>
+                                    A társszerzők méző csupán karakterekből állhat</small>
+                            </div>
+                            <div>
+                                <div class="input-text">
+                                    <label for="new-abstract">Absztrakt*</label>
+                                    <textarea
+                                            name="new-abstract"
+                                            id="new-abstract"
+                                            required
+                                            minlength="500"
+                                            maxlength="7500"></textarea>
+                                    <p class="input-file--info">Angolul vagy magyarul megírt kivonat a bemutatandó
+                                        dolgozathoz. A
+                                        kivonat
+                                        terjedelme
+                                        2
+                                        000 - 3 000 karakter hosszúságú, amelyben a dolgozat kidolgozói ismertetik a
+                                        kutatott tematikát, a
+                                        probléma
+                                        relevanciáját, illetve az alkalmazott módszertanukat.</p>
+                                </div>
+                            </div>
+                            <small class="info">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     stroke="currentColor">
+                                    <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"></path>
+                                </svg>
+                                * – kötelezően kitöltendő mezők</small>
+                            <button class="input-button"
+                                    type="submit"
+                                    name="submit" value="Regisztrálás">Regisztrálás
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {{/if}}
+        {{/ifb}}
+        {{#ifb (compare 'REPRESENTATIVE' '==' user.role)}}
+            <div class="profile--uploaded">
+                <h3>Jelenleg elbírálásra váró dolgozatok</h3>
+                <div class="profile--uploaded__head profile--uploaded__head--rep">
+                    <p>Szekció</p>
+                    <p>Cím</p>
+                    <p>Dolgozat információk</p>
+                    <p>Dolgozat</p>
+                    <p>&nbsp;</p>
+                </div>
+                <ul class="profile--uploaded__list">
+                    {{#each papers}}
+                        <li class="profile--uploaded__item profile--uploaded__item--rep">
+                            <p><span class="profile--uploaded__mod">Szekció</span>{{ section.name }}</p>
+                            <p><span class="profile--uploaded__mod">Cím</span>{{ title }}</p>
+                            <p><span class="profile--uploaded__mod">Dolgozat információk</span>
+                                <button
+                                        class="profile--uploaded__btn __view-btn"
+                                        data-paper="{{ id }}">Megtekintés
+                                </button>
+                            </p>
+                            <p><span class="profile--uploaded__mod">Feltöltött dolgozat</span>
+                                {{#if doc }}
+                                    <a class="profile--uploaded__btn" href="download?path={{ doc }}">Letöltés</a>
+                                {{else}}
+                                    <span class="profile--uploaded__item--file"><svg fill="none" stroke="currentColor"
+                                                                                     viewBox="0 0 24 24"
+                                                                                     xmlns="http://www.w3.org/2000/svg"><path
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Nincs feltöltés</span>
+                                {{/if}}
+                            </p>
+                            <form>
+                                <input type="hidden" name="verify-id"
+                                       value="{{ id }}">
+                                <div class="input-dropdown">
+                                    <label for="verify-status">Státusz</label>
+                                    <select
+                                        id="verify-status"
+                                        name="verify-status"
+                                    {{#unless doc}}disabled{{/unless}}>
+                                        {{#each statuses}}
+                                            <option value="{{ this }}"
+                                                {{#ifb (compare status '==' this)}}
+                                                    selected
+                                                {{/ifb}}>{{ this }}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </form>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile--pagination">
+                {{#unless onFirstPage }}
+                    <a href="profile?page={{ math currPage "-" 1 }}">Előző</a>
+                {{/unless}}
+                {{#unless onLastPage }}
+                    <a href="profile?page={{ math currPage "+" 1 }}">Következő</a>
+                {{/unless}}
+            </div>
+        {{/ifb}}
+        {{#ifb (or (compare 'GUEST' '==' user.role) (compare 'ADMIN' '==' user.role)) }}
+            <div class="profile--uploaded">
+                <h3>Jelenleg bejegyzett dolgozatok</h3>
+                <div class="profile--uploaded__head profile--uploaded__head--rep">
+                    <p>Szekció</p>
+                    <p>Cím</p>
+                    <p>Dolgozat információk</p>
+                    <p>Dolgozat státusza</p>
+                    <p>&nbsp;</p>
+                </div>
+                <ul class="profile--uploaded__list">
+                    {{#each papers}}
+                        <li class="profile--uploaded__item profile--uploaded__item--rep">
+                            <p><span class="profile--uploaded__mod">Szekció</span>{{ section.name }}</p>
+                            <p><span class="profile--uploaded__mod">Cím</span>{{ title }}</p>
+                            <p><span class="profile--uploaded__mod">Dolgozat információk</span>
+                                <button
+                                        class="profile--uploaded__btn __view-btn"
+                                        data-paper="{{ id }}">Megtekintés
+                                </button>
+                            </p>
+                            <p><span class="profile--uploaded__mod">Státusz</span>{{ status }}</p>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile--pagination">
+                {{#unless onFirstPage }}
+                    <a href="profile?page={{ math currPage "-" 1 }}">Előző</a>
+                {{/unless}}
+                {{#unless onLastPage }}
+                    <a href="profile?page={{ math currPage "+" 1 }}">Következő</a>
+                {{/unless}}
             </div>
         {{/ifb}}
         <div class="profile--links">

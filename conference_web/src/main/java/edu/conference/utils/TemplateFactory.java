@@ -27,6 +27,7 @@ public final class TemplateFactory {
             loader.setSuffix(".hbs");
             handlebars = new Handlebars(loader);
             Helpers.register(handlebars);
+            handlebars.registerHelper("math", new MathHelpers());
         }
 
         return handlebars.compile(templateName);

@@ -17,13 +17,13 @@
 
                 modal.querySelector('.modal--content__title').textContent = json['title'];
                 modal.querySelector('.modal--content__presenter').querySelector('.__content').textContent = `${json['presenter']['lastName']} ${json['presenter']['firstName']}`;
-                modal.querySelector('.modal--content__coauthors').querySelector('.__content').textContent = json['coAuthors'].join(', ');
+                modal.querySelector('.modal--content__coauthors').querySelector('.__content').textContent =  json['coAuthors'] == null ? '' : json['coAuthors'].join(', ');
 
                 let abstractHtml = "";
                 json['abstr'].split('\n').filter(l => l !== '').forEach(l => abstractHtml += `<p>${l}</p>`);
                 modal.querySelector('.modal--content__abstract').innerHTML = abstractHtml;
             })
-            .catch(error => console.warn(error));
+            .catch(error => console.warn("Trying to access missing resource or error in parsing."));
     };
 
     if (modalBg) {
@@ -47,6 +47,26 @@
     if (paperUpload) {
         paperUpload.forEach(f => f.addEventListener('change', () => {
             toggleUploadBtn(f);
+        }));
+    }
+
+    const statusInputs = document.querySelectorAll('select[name="verify-status"]');
+
+    const updateStatus = (id, status) => {
+        fetch(`verifyPaper?paperId=${id}&newStatus=${status}`)
+            .then(resp => {
+                if (resp.status === 200) {
+                    window.alert('Dolgozat frissítése sikeres.')
+                } else {
+                    window.alert('Dolgozat frissítése sikertelen.')
+                }
+            })
+            .catch(err => console.warn(err));
+    };
+
+    if (statusInputs) {
+        statusInputs.forEach(statusInput => statusInput.addEventListener('change', () => {
+            updateStatus(statusInput.parentNode.parentNode.querySelector('input[name="verify-id"]').value, statusInput.value);
         }));
     }
 })();
