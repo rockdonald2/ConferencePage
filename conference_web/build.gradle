@@ -9,6 +9,7 @@ dependencies {
     compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '5.0.0'
     implementation group: 'com.github.jknack', name: 'handlebars', version: '4.3.0'
     implementation 'org.beryx:handlebars-java-helpers:0.4.1'
+    implementation 'com.cedarsoftware:json-io:4.13.0'
 }
 
 // beolvassuk környezeti változóból, hogy hova van telepítve a Tomcat

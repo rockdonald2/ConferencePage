@@ -8,6 +8,16 @@
 
     {{> header }}
 
+    <div class="modal" id="profile-modal">
+        <div class="modal--background"></div>
+        <div class="modal--content">
+            <h4 class="modal--content__title"></h4>
+            <h5 class="modal--content__presenter">Bemutatja: <span class="__content"></span></h5>
+            <h6 class="modal--content__coauthors">Társszerzői: <span class="__content"></span></h6>
+            <p class="modal--content__abstract"></p>
+        </div>
+    </div>
+
     <div class="profile">
         <div class="sub-page-heading">
             <h2 class="sub-page-heading--header">Kedves {{ user.firstName }},</h2>
@@ -15,7 +25,8 @@
         <div class="profile--about">
             <div class="profile--about__card">
                 <div class="profile--about__card--icon">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
                     </svg>
@@ -26,7 +37,8 @@
             </div>
             <div class="profile--about__card">
                 <div class="profile--about__card--icon">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
@@ -37,7 +49,8 @@
             </div>
             <div class="profile--about__card">
                 <div class="profile--about__card--icon">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
                         <path
                                 d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
@@ -60,10 +73,10 @@
                                  aria-hidden="true"
                                  focusable="false"
                                  style="
-                                    {{#if todoStatus }}
-                                    transform: scale(1) !important
-                                    {{/if}}
-                                    ">
+                                     {{#if todoStatus }}
+                                     transform: scale(1) !important
+                                     {{/if}}
+                                         ">
 										<path d="M1.73 12.91l6.37 6.37L22.79 4.59"
                                               stroke-width="3"
                                               fill="none"
@@ -86,6 +99,86 @@
                 </li>
             </ul>
         </div>
+        {{#ifb (compare 'PRESENTER' '==' user.role) }}
+            <div class="profile--uploaded">
+                <h3>Jelenleg feltöltött dolgozatok</h3>
+                <div class="profile--uploaded__head profile--uploaded__head--presenter">
+                    <p>Szekció</p>
+                    <p>Cím</p>
+                    <p>Dolgozat státusza</p>
+                    <p>Feltöltött dolgozat</p>
+                    <p>Dolgozat feltöltése</p>
+                    <p>Feltöltés törlése</p>
+                </div>
+                <ul class="profile--uploaded__list">
+                    {{#each papers }}
+                        <li class="profile--uploaded__item profile--uploaded__item--presenter">
+                            <p><span class="profile--uploaded__mod">Szekció</span> {{ section.name }} </p>
+                            <p><span class="profile--uploaded__mod">Cím</span>
+                                <button class="profile--uploaded__btn __view-btn" data-paper="{{ id }}">{{ title }}</button>
+                            </p>
+                            <p><span class="profile--uploaded__mod">Státusz</span>{{ status }}</p>
+                            <p><span class="profile--uploaded__mod">Feltöltött dolgozat</span>
+                                {{#if doc }}
+                                    <a class="profile--uploaded__btn" href="download?path={{ doc }}">Letöltés</a>
+                                {{else}}
+                                    <span class="profile--uploaded__item--file"><svg fill="none" stroke="currentColor"
+                                                                                     viewBox="0 0 24 24"
+                                                                                     xmlns="http://www.w3.org/2000/svg"><path
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Nincs feltöltés</span>
+                                {{/if}}
+                            </p>
+                            <form method="POST" action="uploadPaper" enctype="multipart/form-data">
+                                <div class="input-file">
+                                    <label for="paper{{@index}}">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                        </svg>
+                                        <span class="__input-text">Csatolás</span>
+                                    </label>
+                                    <input type="file"
+                                           id="paper{{@index}}"
+                                           style="margin-bottom: 0;"
+                                           name="paper-file"
+                                           accept=".pdf"
+                                           size="51200">
+                                </div>
+                                <small
+                                        class="input-error">
+                                    <svg viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         fill="none"
+                                         stroke="currentColor">
+                                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                              stroke-width="2"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                    </svg>
+                                </small>
+                                <input name="paper-id" type="hidden" value="{{ id }}">
+                                <button id="paper-submit-paper{{@index}}" type="submit" class="btn btn--cta" disabled>Feltölt
+                                </button>
+                            </form>
+                            <a
+                            {{#if doc }}
+                                href="revoke?path={{ doc }}"
+                            {{else}}
+                                style="opacity: 0.5; cursor: not-allowed;"
+                            {{/if}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>Dolgozat visszavonása</span></a>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/ifb}}
         <div class="profile--links">
             <h3>Hasznos hivatkozások</h3>
             <div>
@@ -94,6 +187,8 @@
             </div>
         </div>
     </div>
+
+    <script src="./static/profile.js"></script>
 
     {{> footer }}
 
