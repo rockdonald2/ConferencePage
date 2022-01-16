@@ -199,17 +199,6 @@
                                         <option value="{{ name }}">{{ name }}</option>
                                     {{/each}}
                                 </select></div>
-                                <small class="input-error">
-                                    <svg viewBox="0 0 24 24"
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         stroke="currentColor">
-                                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                              stroke-width="2"
-                                              stroke-linecap="round"
-                                              stroke-linejoin="round"></path>
-                                    </svg>
-                                    Nem létező szekció!</small>
                             </div>
                             <div>
                                 <div class="input-text"><input type="text"
@@ -218,7 +207,7 @@
                                                                value=""
                                                                required><label for="new-title">Dolgozat címe*</label>
                                 </div>
-                                <small class="input-error">
+                                <small class="input-error {{#if errors.title }} show {{/if}}">
                                     <svg viewBox="0 0 24 24"
                                          xmlns="http://www.w3.org/2000/svg"
                                          fill="none"
@@ -236,7 +225,7 @@
                                                                name="new-coauthors"
                                                                value=""><label
                                         for="new-coauthors">Dolgozat társszerzői</label></div>
-                                <small class="input-error">
+                                <small class="input-error {{#if errors.coAuthors }} show {{/if}}">
                                     <svg viewBox="0 0 24 24"
                                          xmlns="http://www.w3.org/2000/svg"
                                          fill="none"
@@ -326,9 +315,9 @@
                                 <div class="input-dropdown">
                                     <label for="verify-status">Státusz</label>
                                     <select
-                                        id="verify-status"
-                                        name="verify-status"
-                                    {{#unless doc}}disabled{{/unless}}>
+                                            id="verify-status"
+                                            name="verify-status"
+                                            {{#unless doc}}disabled{{/unless}}>
                                         {{#each statuses}}
                                             <option value="{{ this }}"
                                                 {{#ifb (compare status '==' this)}}
