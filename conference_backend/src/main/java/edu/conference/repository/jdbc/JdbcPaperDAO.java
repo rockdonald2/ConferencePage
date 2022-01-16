@@ -112,7 +112,7 @@ public class JdbcPaperDAO implements PaperDAO {
             stmt.setString(2, paper.getStatus().toString());
             stmt.setString(3, paper.getAbstr());
             stmt.setString(4, paper.getTitle());
-            stmt.setString(5, String.join(", ", paper.getCoAuthors()));
+            stmt.setString(5, paper.getCoAuthors() != null ? String.join(",", paper.getCoAuthors()) : null);
             stmt.setLong(6, paper.getId());
 
             stmt.executeUpdate();

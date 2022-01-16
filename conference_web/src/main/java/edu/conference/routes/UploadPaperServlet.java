@@ -6,10 +6,7 @@ import edu.conference.service.ServiceFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +51,10 @@ public class UploadPaperServlet extends HttpServlet {
             String fileName = paper.getUuid() + PDF_SUFFIX;
             filePart.write(uploadPath + File.separator + fileName);
             paper.setDoc(fileName);
+
+            HttpSession session = req.getSession();
+            session.setAttribute("popups", new String[]{"Dolgozat sikeresen feltöltve."});
+
             pService.update(paper);
         }
 
