@@ -3,6 +3,8 @@ package edu.conference.routes;
 import edu.conference.model.Paper;
 import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
+import edu.conference.service.exception.ServiceException;
+import edu.conference.utils.commands.CommandException;
 import edu.conference.utils.commands.impl.UploadFileCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -41,12 +43,27 @@ public class UploadPaperServlet extends HttpServlet {
             long paperId = Long.parseLong(req.getParameter("paper-id"));
             Paper paper = pService.getById(paperId);
 
-            new UploadFileCommand(filePart, getServletContext(), paper).execute();
-
             HttpSession session = req.getSession();
-            session.setAttribute("popups", new String[]{"Dolgozat sikeresen feltöltve."});
 
-            pService.update(paper);
+            try {
+                new UploadFileCommand(filePart, getServletContext(), paper).execute();
+            } catch (CommandException e) {
+                LOG.error("Failed to upload document for paper {}.", paper.getId());
+                session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
+                resp.sendRedirect(req.getContextPath() + "/profile");
+                return;
+            }
+
+            try {
+                pService.update(paper);
+            } catch (ServiceException e) {
+                LOG.error("Failed to upload document for paper {}.", paper.getId());
+                session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
+                resp.sendRedirect(req.getContextPath() + "/profile");
+                return;
+            }
+
+            session.setAttribute("popups", new String[]{"Dolgozat sikeresen feltöltve."});
         }
 
         resp.sendRedirect(req.getContextPath() + "/profile");

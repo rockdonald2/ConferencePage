@@ -137,7 +137,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-        throw new UnsupportedOperationException();
+        try {
+            uDao.delete(id);
+        } catch (RepositoryException e) {
+            LOG.error("Failed to delete user with id {}.", id);
+            throw new ServiceException("Failed to delete user with id " + id + ".");
+        }
     }
 
     @Override

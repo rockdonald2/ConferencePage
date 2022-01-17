@@ -3,6 +3,7 @@ package edu.conference.routes;
 import edu.conference.model.User;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.UserService;
+import edu.conference.service.exception.ServiceException;
 import edu.conference.util.PasswordEncrypter;
 import edu.conference.utils.ModelFactory;
 import edu.conference.utils.TemplateFactory;
@@ -45,13 +46,21 @@ public class ChangePasswordServlet extends HttpServlet {
         Map<String, Object> model = ModelFactory.createModel(req);
         User user = (User) model.get("user");
 
-        user = uService.getById(user.getId());
+        HttpSession session = req.getSession();
+
+        try {
+            user = uService.getById(user.getId());
+        } catch (ServiceException e) {
+            LOG.error("Failed to get user {}.", user.getEmail());
+            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
+            resp.sendRedirect(req.getContextPath() + "/changepassword");
+            return;
+        }
 
         String oldPwd = req.getParameter("changepwd-old");
         String newPwd = req.getParameter("changepwd-new");
         String newConf = req.getParameter("changepwd-newconf");
 
-        HttpSession session = req.getSession();
         Map<String, Boolean> errors = new HashMap<>();
 
         try {
@@ -81,11 +90,19 @@ public class ChangePasswordServlet extends HttpServlet {
             }
 
             user.setPwd(newPwd);
-            uService.changePwd(user);
+
+            try {
+                uService.changePwd(user);
+            } catch (ServiceException e) {
+                LOG.error("Failed to change password for user {}.", user.getEmail());
+                session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
+                resp.sendRedirect(req.getContextPath() + "/changepassword");
+                return;
+            }
 
             session.invalidate();
             session = req.getSession();
-            session.setAttribute("popups", new String[] {"Jelszó sikeresen megváltoztatva."});
+            session.setAttribute("popups", new String[]{"Jelszó sikeresen megváltoztatva."});
             resp.sendRedirect(req.getContextPath() + "/index");
         } catch (NoSuchAlgorithmException e) {
             throw new ServletException();

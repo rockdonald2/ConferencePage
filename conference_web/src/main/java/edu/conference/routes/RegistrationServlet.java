@@ -9,9 +9,11 @@ import edu.conference.service.PaperService;
 import edu.conference.service.SectionService;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.UserService;
+import edu.conference.service.exception.ServiceException;
 import edu.conference.utils.ModelFactory;
 import edu.conference.utils.TemplateFactory;
 import edu.conference.utils.Utility;
+import edu.conference.utils.commands.CommandException;
 import edu.conference.utils.commands.impl.UploadFileCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -115,8 +117,15 @@ public class RegistrationServlet extends HttpServlet {
                     .withPwd(pwd).inInstitution(fac.trim().length() == 0 ? null : fac).inPosition(position.trim().length() == 0 ? null : position).withDegree(degree)
                     .withRole(isPresenting ? "presenter" : "guest").build();
 
-            if (!uService.register(user)) {
-                session.setAttribute("popups", new String[]{"Már létező felhasználó."});
+            try {
+                if (!uService.register(user)) {
+                    session.setAttribute("popups", new String[]{"Már létező felhasználó."});
+                    resp.sendRedirect(req.getContextPath() + "/registration");
+                    return;
+                }
+            } catch (ServiceException e) {
+                LOG.error("Failed to register user {}.", user.getEmail());
+                session.setAttribute("popups", new String[] {"Hiba történt, kérlek próbáld újra."});
                 resp.sendRedirect(req.getContextPath() + "/registration");
                 return;
             }
@@ -154,11 +163,34 @@ public class RegistrationServlet extends HttpServlet {
                             .presents(user)
                             .withCoAuthors(concreteCoAuthors.size() != 0 ? concreteCoAuthors.toArray(new String[]{}) : null)
                             .build();
-                    paper = pService.register(paper);
+
+                    try {
+                        paper = pService.register(paper);
+                    } catch (ServiceException e) {
+                        LOG.error("Failed to register paper {}.", paper.getTitle());
+                        session.setAttribute("popups", new String[] {"Hiba történt, kérlek próbáld újra."});
+
+                        // azonban ekkor a User már beszúrásra került, kikell törölni
+                        try {
+                            uService.delete(user.getId());
+                        } catch (ServiceException ignored) {
+                            LOG.error("Failed to delete user {} after paper registration failure.", user.getEmail());
+                        }
+
+                        resp.sendRedirect(req.getContextPath() + "/registration");
+                        return;
+                    }
 
                     if (filePart != null) {
-                        new UploadFileCommand(filePart, getServletContext(), paper).execute();
-                        pService.update(paper);
+                        try {
+                            new UploadFileCommand(filePart, getServletContext(), paper).execute();
+                            pService.update(paper);
+                        } catch (CommandException e) {
+                            LOG.error("Failed to upload document for paper {}.", paper.getId());
+                            session.setAttribute("popups", new String[] {"Hiba történt a dokumentum feltöltésekor, jelentkezz be és próbáld újra."});
+                            resp.sendRedirect(req.getContextPath() + "/index");
+                            return;
+                        }
                     }
                 } else {
                     session.setAttribute("errors", errors);

@@ -6,12 +6,14 @@ import edu.conference.model.Role;
 import edu.conference.model.User;
 import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
+import edu.conference.service.exception.ServiceException;
 import edu.conference.utils.ModelFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,9 +47,20 @@ public class GetPaperServlet extends HttpServlet {
         }
 
         long paperId = Long.parseLong(req.getParameter("paperId"));
-        Paper paper = pService.getById(paperId);
-        String jsonResp = JsonWriter.objectToJson(paper);
 
+        HttpSession session = req.getSession();
+
+        Paper paper;
+        try {
+            paper = pService.getById(paperId);
+        } catch (ServiceException e) {
+            LOG.error("Failed to get paper {}.", paperId);
+            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
+            resp.sendRedirect(req.getContextPath() + "/profile");
+            return;
+        }
+
+        String jsonResp = JsonWriter.objectToJson(paper);
         JsonWriter.writeJsonUtf8String(jsonResp, resp.getWriter());
     }
 

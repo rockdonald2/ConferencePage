@@ -7,6 +7,7 @@ import edu.conference.model.builders.PaperBuilder;
 import edu.conference.service.PaperService;
 import edu.conference.service.SectionService;
 import edu.conference.service.ServiceFactory;
+import edu.conference.service.exception.ServiceException;
 import edu.conference.utils.ModelFactory;
 import edu.conference.utils.Utility;
 import jakarta.servlet.ServletException;
@@ -74,7 +75,12 @@ public class RegisterPaperServlet extends HttpServlet {
                     .presents(user)
                     .build();
 
-            pService.register(paper);
+            try {
+                pService.register(paper);
+            } catch (ServiceException e) {
+                LOG.error("Failed to register paper for user {}.", user.getEmail());
+                session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
+            }
         } else {
             session.setAttribute("errors", errors);
         }
