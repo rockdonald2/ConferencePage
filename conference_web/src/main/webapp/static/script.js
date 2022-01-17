@@ -1,4 +1,4 @@
-(function () {
+(() => {
     // header logic
     const header = document.querySelector('.header');
     const handleScroll = () => {

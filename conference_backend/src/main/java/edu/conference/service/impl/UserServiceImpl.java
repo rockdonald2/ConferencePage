@@ -33,11 +33,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(User user) {
+    public boolean register(User user) {
         try {
             if (!Objects.isNull(uDao.getByEmail(user.getEmail()))) {
                 LOG.info("User already exists by email {}.", user.getEmail());
-                return;
+                return false;
             }
 
             user.setPwd(PasswordEncrypter.generateHashedPassword(user.getPwd(), user.getUuid()));
@@ -45,6 +45,8 @@ public class UserServiceImpl implements UserService {
             uDao.create(user);
 
             LOG.info("Successfully created user with email {}.", user.getEmail());
+
+            return true;
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | NullPointerException e) {
             LOG.error("Failed to encrypt user password.");
             throw new ServiceException("Failed to encrypt user password.");

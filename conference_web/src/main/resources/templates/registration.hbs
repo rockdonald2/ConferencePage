@@ -10,114 +10,114 @@
 
     {{> popup }}
 
-	<div class="sub-page-heading">
-		<h2 class="sub-page-heading--header">Regisztráció</h2>
-	</div>
-	<form action="registration"
-	      class="reg--form"
-	      method="POST"
-	      enctype="multipart/form-data">
-		<div>
-			<div class="input-text"><input type="text"
-			                               id="reg-name"
-			                               name="reg-name"
-			                               required><label for="reg-name">Keresztneve*</label></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				Keresztnév csak karakterekből állhat</small>
-		</div>
-		<div>
-			<div class="input-text"><input type="text"
-			                               id="reg-surname"
-			                               name="reg-surname"
-			                               required><label for="reg-surname">Vezetékneve*</label></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				Vezetéknév csak karakterekből állhat</small>
-		</div>
-		<div>
-			<div class="input-text"><input type="password"
-			                               id="reg-pwd"
-			                               name="reg-pwd"
-			                               required><label for="reg-pwd">Jelszó*</label></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				Nem megfelelő jelszóformátum</small>
-		</div>
-		<div>
-			<div class="input-text"><input type="password"
-			                               id="reg-pwd2"
-			                               name="reg-pwd2"
-			                               required><label for="reg-pwd2">Jelszó megerősítés*</label></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				Nincs egyezés a megadott jelszóval</small>
-		</div>
-		<div><small class="info">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				* – Jelszó min. 8 karakterből kell állnia, 1 nagybetűvel, és 1 számmal.</small></div>
-		<div>
-			<div class="input-text"><input type="email"
-			                               id="reg-email"
-			                               name="reg-email"
-			                               required><label for="reg-email">E-mail címe*</label></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				Helytelen e-mail cím formátum</small>
-		</div>
+    <div class="sub-page-heading">
+        <h2 class="sub-page-heading--header">Regisztráció</h2>
+    </div>
+    <form action="registration"
+          class="reg--form"
+          method="POST"
+          enctype="multipart/form-data">
+        <div>
+            <div class="input-text"><input type="text"
+                                           id="reg-name"
+                                           name="reg-name"
+                                           required><label for="reg-name">Keresztneve*</label></div>
+            <small class="input-error {{#if errors.name }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                Keresztnév csak karakterekből állhat</small>
+        </div>
+        <div>
+            <div class="input-text"><input type="text"
+                                           id="reg-surname"
+                                           name="reg-surname"
+                                           required><label for="reg-surname">Vezetékneve*</label></div>
+            <small class="input-error {{#if errors.surname }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                Vezetéknév csak karakterekből állhat</small>
+        </div>
+        <div>
+            <div class="input-text"><input type="password"
+                                           id="reg-pwd"
+                                           name="reg-pwd"
+                                           required><label for="reg-pwd">Jelszó*</label></div>
+            <small class="input-error {{#if errors.pwd }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                Nem megfelelő jelszóformátum</small>
+        </div>
+        <div>
+            <div class="input-text"><input type="password"
+                                           id="reg-pwd2"
+                                           name="reg-pwd2"
+                                           required><label for="reg-pwd2">Jelszó megerősítés*</label></div>
+            <small class="input-error {{#if errors.pwdconf }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                Nincs egyezés a megadott jelszóval</small>
+        </div>
+        <div><small class="info">
+            <svg viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 stroke="currentColor">
+                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+            </svg>
+            * – Jelszó min. 8 karakterből kell állnia, 1 nagybetűvel, és 1 számmal.</small></div>
+        <div>
+            <div class="input-text"><input type="email"
+                                           id="reg-email"
+                                           name="reg-email"
+                                           required><label for="reg-email">E-mail címe*</label></div>
+            <small class="input-error {{#if errors.email }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                Helytelen e-mail cím formátum</small>
+        </div>
         <div>
             <div class="input-text"><input type="text"
                                            id="reg-fac"
                                            name="reg-fac"><label for="reg-fac">Intézet</label></div>
-            <small class="input-error">
+            <small class="input-error {{#if errors.fac }} show {{/if}}">
                 <svg viewBox="0 0 24 24"
                      xmlns="http://www.w3.org/2000/svg"
                      fill="none"
@@ -129,198 +129,182 @@
                 </svg>
                 Az intézet csupán karakterekből állhat</small>
         </div>
-		<div>
-			<div class="input-dropdown"><label for="reg-academic-status">Akadémiai státusz*</label><select
-						id="reg-academic-status"
-						name="reg-academic-status"
-						required>
-					<option value="" selected disabled></option>
-					<option value="">Nincs</option>
-					<option value="BSc">BSc</option>
-					<option value="BA">BA</option>
-					<option value="MSc">MSc</option>
-					<option value="MA">MA</option>
-					<option value="Phd">Phd</option>
-				</select></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				Nem létező akadémiai státusz!</small>
-		</div>
-		<div>
-			<div class="input-text"><input type="text"
-			                               id="reg-position"
-			                               name="reg-position"><label for="reg-position">Pozíció</label></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				A pozíció csupán karakterekből állhat</small>
-		</div>
-		<div class="reg--form__is-presenting"><label for="reg-is-presenting"
-		                                             class="input-checkbox"><span class="input-checkbox__input"><input
-							type="checkbox"
-							name="reg-is-presenting"
-							id="reg-is-presenting"><span class="input-checkbox__control"><svg viewBox="0 0 24 24"
-		                                                                            xmlns="http://www.w3.org/2000/svg"
-		                                                                            aria-hidden="true"
-		                                                                            focusable="false">
+        <div>
+            <div class="input-dropdown"><label for="reg-academic-status">Akadémiai státusz*</label><select
+                    id="reg-academic-status"
+                    name="reg-academic-status"
+                    required>
+                <option value="" selected disabled></option>
+                <option value="">Nincs</option>
+                <option value="BSc">BSc</option>
+                <option value="BA">BA</option>
+                <option value="MSc">MSc</option>
+                <option value="MA">MA</option>
+                <option value="Phd">Phd</option>
+            </select></div>
+        </div>
+        <div>
+            <div class="input-text"><input type="text"
+                                           id="reg-position"
+                                           name="reg-position"><label for="reg-position">Pozíció</label></div>
+            <small class="input-error {{#if errors.position }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                A pozíció csupán karakterekből állhat</small>
+        </div>
+        <div class="reg--form__is-presenting"><label for="reg-is-presenting"
+                                                     class="input-checkbox"><span class="input-checkbox__input"><input
+                type="checkbox"
+                name="reg-is-presenting"
+                id="reg-is-presenting"><span class="input-checkbox__control"><svg viewBox="0 0 24 24"
+                                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                                  aria-hidden="true"
+                                                                                  focusable="false">
 											<path d="M1.73 12.91l6.37 6.37L22.79 4.59"
-											      stroke-width="3"
-											      fill="none"
-											      stroke="currentColor"></path>
+                                                  stroke-width="3"
+                                                  fill="none"
+                                                  stroke="currentColor"></path>
 										</svg></span></span><span class="input-checkbox__label">Tervez dolgozatot bemutatni?</span></label>
-		</div>
-		<div class="reg--conditional-field disabled">
-			<div class="input-dropdown">
-				<label for="reg-section">Szekció*</label><select id="reg-section"
-				                                                 name="reg-section"
+        </div>
+        <div class="reg--conditional-field disabled">
+            <div class="input-dropdown">
+                <label for="reg-section">Szekció*</label><select id="reg-section"
+                                                                 name="reg-section"
                                                                  class="reg--conditional-field__input"
-				                                                 required
-				                                                 disabled>
-					<option value=""
-					        disabled
-					        selected></option>
-                <option value=""></option>
-				</select></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				Nem létező szekció!</small>
-		</div>
-		<div class="reg--conditional-field disabled">
-			<div class="input-text"><input type="text"
-			                               id="reg-title"
-			                               name="reg-title"
+                                                                 required
+                                                                 disabled>
+                <option value=""
+                        disabled
+                        selected></option>
+                {{#each sections }}
+                    <option value="{{ name }}">{{ name }}</option>
+                {{/each}}
+            </select></div>
+        </div>
+        <div class="reg--conditional-field disabled">
+            <div class="input-text"><input type="text"
+                                           id="reg-title"
+                                           name="reg-title"
                                            class="reg--conditional-field__input"
-			                               required
-			                               disabled><label for="reg-title">Dolgozat címe*</label></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				A cím csupán karakterekből állhat</small>
-		</div>
-		<div class="reg--conditional-field disabled">
-			<div class="input-text"><input type="text"
-			                               id="reg-coauthors"
-			                               name="reg-coauthors"
-                                           class="reg--conditional-field__input"
-			                               disabled><label for="reg-coauthors">Dolgozat társszerzői</label></div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				A társszerzők méző csupán karakterekből állhat</small>
-		</div>
-		<div class="reg--conditional-field disabled">
-			<div class="input-text">
-				<label for="reg-abstract">Absztrakt*</label>
-				<textarea
-						name="reg-abstract"
-						id="reg-abstract"
+                                           required
+                                           disabled><label for="reg-title">Dolgozat címe*</label></div>
+            <small class="input-error {{#if errors.title }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                A cím csupán karakterekből állhat</small>
+        </div>
+        <div class="reg--conditional-field disabled">
+            <div class="input-text"><input type="text"
+                                           id="reg-coauthors"
+                                           name="reg-coauthors"
+                                           class="reg--conditional-field__input reg--conditional-field__nonmandatory"
+                                           disabled><label for="reg-coauthors">Dolgozat társszerzői</label></div>
+            <small class="input-error {{#if errors.coAuthors }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                A társszerzők méző csupán karakterekből állhat</small>
+        </div>
+        <div class="reg--conditional-field disabled">
+            <div class="input-text">
+                <label for="reg-abstract">Absztrakt*</label>
+                <textarea
+                        name="reg-abstract"
+                        id="reg-abstract"
                         class="reg--conditional-field__input"
-						required
-						disabled
-						minlength="500"
-						maxlength="7500"></textarea>
-				<p class="input-file--info">Angolul vagy magyarul megírt kivonat a bemutatandó dolgozathoz. A kivonat terjedelme
-					2
-					000 - 3 000 karakter hosszúságú, amelyben a dolgozat kidolgozói ismertetik a kutatott tematikát, a probléma
-					relevanciáját, illetve az alkalmazott módszertanukat.</p>
-			</div>
-		</div>
-		<div class="reg--conditional-field disabled">
-			<div class="input-file">
-				<label for="reg-file">
-					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-						      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-					</svg>
-					<span class="__input-text">Dolgozat csatolás</span></label>
-				<input type="file"
-				       name="reg-file"
-				       id="reg-file"
-				       accept=".pdf"
-                       class="reg--conditional-field__input"
-				       size="51200"
-				       disabled>
-				<p class="input-file--info">A bemutatandó dolgozat szigorúan PDF formátumban.</p>
-			</div>
-			<small class="input-error">
-				<svg viewBox="0 0 24 24"
-				     xmlns="http://www.w3.org/2000/svg"
-				     fill="none"
-				     stroke="currentColor">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					      stroke-width="2"
-					      stroke-linecap="round"
-					      stroke-linejoin="round"></path>
-				</svg>
-				</small>
-		</div>
-		<div class="reg--form__agree"><label for="reg-agree"
-		                                     class="input-checkbox"><span class="input-checkbox__input"><input
-							type="checkbox"
-							name="reg-agree"
-							id="reg-agree"
-							required><span class="input-checkbox__control"><svg viewBox="0 0 24 24"
-		                                                              xmlns="http://www.w3.org/2000/svg"
-		                                                              aria-hidden="true"
-		                                                              focusable="false">
+                        required
+                        disabled
+                        minlength="500"
+                        maxlength="7500"></textarea>
+                <p class="input-file--info">Angolul vagy magyarul megírt kivonat a bemutatandó dolgozathoz. A kivonat
+                    terjedelme
+                    2
+                    000 - 3 000 karakter hosszúságú, amelyben a dolgozat kidolgozói ismertetik a kutatott tematikát, a
+                    probléma
+                    relevanciáját, illetve az alkalmazott módszertanukat.</p>
+            </div>
+        </div>
+        <div class="reg--conditional-field disabled ">
+            <div class="input-file">
+                <label for="reg-file">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <span class="__input-text">Dolgozat csatolás</span></label>
+                <input type="file"
+                       name="reg-file"
+                       id="reg-file"
+                       accept=".pdf"
+                       class="reg--conditional-field__input reg--conditional-field__nonmandatory"
+                       size="51200"
+                       disabled>
+                <p class="input-file--info">A bemutatandó dolgozat szigorúan PDF formátumban.</p>
+            </div>
+            <small class="input-error {{#if errors.file }} show {{/if}}">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                {{#if errors.file }} show {{/if}}
+            </small>
+        </div>
+        <div class="reg--form__agree"><label for="reg-agree"
+                                             class="input-checkbox"><span class="input-checkbox__input"><input
+                type="checkbox"
+                name="reg-agree"
+                id="reg-agree"
+                required><span class="input-checkbox__control"><svg viewBox="0 0 24 24"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    aria-hidden="true"
+                                                                    focusable="false">
 											<path d="M1.73 12.91l6.37 6.37L22.79 4.59"
-											      stroke-width="3"
-											      fill="none"
-											      stroke="currentColor"></path>
+                                                  stroke-width="3"
+                                                  fill="none"
+                                                  stroke="currentColor"></path>
 										</svg></span></span><span class="input-checkbox__label">Elfogadod-e az Adatvédelmi
 									Irányelveinket?</span></label></div>
-		<small class="info">
-			<svg viewBox="0 0 24 24"
-			     xmlns="http://www.w3.org/2000/svg"
-			     fill="none"
-			     stroke="currentColor">
-				<path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-				      stroke-width="2"
-				      stroke-linecap="round"
-				      stroke-linejoin="round"></path>
-			</svg>
-			* – kötelezően kitöltendő mezők</small>
-		<input class="input-button"
-		       type="submit"
-		       name="submit" value="Regisztrálás">
-	</form>
+        <small class="info">
+            <svg viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 stroke="currentColor">
+                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+            </svg>
+            * – kötelezően kitöltendő mezők</small>
+        <input class="input-button"
+               type="submit"
+               name="submit" value="Regisztrálás">
+    </form>
 
     <script src="./static/registration.js"></script>
 

@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 
+import static edu.conference.utils.Constants.*;
+
 @WebServlet({"/uploadpaper", "/uploadPaper"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -20,9 +22,6 @@ import java.io.IOException;
 public class UploadPaperServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadPaperServlet.class);
-    private static final String UPLOAD_DIRECTORY = "uploads";
-    private static final String PDF_SUFFIX = ".pdf";
-    private static final String PDF_CONTENT_TYPE = "application/pdf";
 
     private PaperService pService;
     private String uploadPath;

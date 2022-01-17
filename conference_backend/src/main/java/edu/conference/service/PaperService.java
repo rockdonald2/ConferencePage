@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PaperService {
 
-    void register(Paper paper) throws ServiceException;
+    Paper register(Paper paper) throws ServiceException;
     void update(Paper paper) throws ServiceException;
     void revoke(Long id) throws ServiceException;
     Paper getById(Long id) throws ServiceException;

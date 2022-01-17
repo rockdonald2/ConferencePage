@@ -11,7 +11,10 @@
         });
         conditionalFieldInputs.forEach((elem) => {
             elem.disabled = !isPresenting.checked;
-            elem.setAttribute('required', isPresenting.checked);
+
+            if (!elem.classList.contains("reg--conditional-field__nonmandatory")) {
+                elem.setAttribute('required', isPresenting.checked);
+            }
         });
     }
 

@@ -23,10 +23,11 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
-    public void register(Paper paper) {
+    public Paper register(Paper paper) {
         try {
             paper = pDao.create(paper);
             LOG.info("Successfully registered paper {} for presenter {}.", paper.getId(), paper.getPresenter().getEmail());
+            return paper;
         } catch (RepositoryException e) {
             LOG.error("Failed to register new paper for presenter {}.", paper.getPresenter().getEmail());
             throw new ServiceException("Failed to register new paper for presenter " + paper.getPresenter().getEmail() + ".");
