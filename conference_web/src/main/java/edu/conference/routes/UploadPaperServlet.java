@@ -3,6 +3,7 @@ package edu.conference.routes;
 import edu.conference.model.Paper;
 import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
+import edu.conference.utils.commands.impl.UploadFileCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +11,6 @@ import jakarta.servlet.http.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 
 import static edu.conference.utils.Constants.*;
@@ -24,18 +24,11 @@ public class UploadPaperServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(UploadPaperServlet.class);
 
     private PaperService pService;
-    private String uploadPath;
 
     @Override
     public void init() throws ServletException {
         super.init();
         pService = ServiceFactory.getInstance().getPaperService();
-
-        uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
     }
 
     @Override
@@ -47,9 +40,8 @@ public class UploadPaperServlet extends HttpServlet {
         } else {
             long paperId = Long.parseLong(req.getParameter("paper-id"));
             Paper paper = pService.getById(paperId);
-            String fileName = paper.getUuid() + PDF_SUFFIX;
-            filePart.write(uploadPath + File.separator + fileName);
-            paper.setDoc(fileName);
+
+            new UploadFileCommand(filePart, getServletContext(), paper).execute();
 
             HttpSession session = req.getSession();
             session.setAttribute("popups", new String[]{"Dolgozat sikeresen feltöltve."});

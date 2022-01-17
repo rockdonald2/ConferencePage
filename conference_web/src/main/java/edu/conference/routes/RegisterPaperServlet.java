@@ -9,14 +9,12 @@ import edu.conference.service.SectionService;
 import edu.conference.service.ServiceFactory;
 import edu.conference.utils.ModelFactory;
 import edu.conference.utils.Utility;
-import groovy.json.StringEscapeUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +35,9 @@ public class RegisterPaperServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        pService = ServiceFactory.getInstance().getPaperService();
-        sService = ServiceFactory.getInstance().getSectionService();
+        ServiceFactory factory = ServiceFactory.getInstance();
+        pService = factory.getPaperService();
+        sService = factory.getSectionService();
     }
 
     @Override

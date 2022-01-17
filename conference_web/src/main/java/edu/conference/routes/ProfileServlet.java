@@ -33,9 +33,10 @@ public class ProfileServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        uService = ServiceFactory.getInstance().getUserService();
-        pService = ServiceFactory.getInstance().getPaperService();
-        sService = ServiceFactory.getInstance().getSectionService();
+        ServiceFactory factory = ServiceFactory.getInstance();
+        uService = factory.getUserService();
+        pService = factory.getPaperService();
+        sService = factory.getSectionService();
     }
 
     @Override

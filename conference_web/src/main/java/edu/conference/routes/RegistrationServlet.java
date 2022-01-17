@@ -12,6 +12,7 @@ import edu.conference.service.UserService;
 import edu.conference.utils.ModelFactory;
 import edu.conference.utils.TemplateFactory;
 import edu.conference.utils.Utility;
+import edu.conference.utils.commands.impl.UploadFileCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,7 +20,6 @@ import jakarta.servlet.http.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,20 +40,13 @@ public class RegistrationServlet extends HttpServlet {
     private PaperService pService;
     private SectionService sService;
 
-    private String uploadPath;
-
     @Override
     public void init() throws ServletException {
         super.init();
-        uService = ServiceFactory.getInstance().getUserService();
-        pService = ServiceFactory.getInstance().getPaperService();
-        sService = ServiceFactory.getInstance().getSectionService();
-
-        uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
+        ServiceFactory factory = ServiceFactory.getInstance();
+        uService = factory.getUserService();
+        pService = factory.getPaperService();
+        sService = factory.getSectionService();
     }
 
     @Override
@@ -164,10 +157,7 @@ public class RegistrationServlet extends HttpServlet {
                     paper = pService.register(paper);
 
                     if (filePart != null) {
-                        String fileName = paper.getUuid() + PDF_SUFFIX;
-                        filePart.write(uploadPath + File.separator + fileName);
-                        paper.setDoc(fileName);
-
+                        new UploadFileCommand(filePart, getServletContext(), paper).execute();
                         pService.update(paper);
                     }
                 } else {
