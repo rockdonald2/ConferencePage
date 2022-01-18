@@ -66,7 +66,7 @@ public class DownloadServlet extends HttpServlet {
         }
 
         try {
-            new DownloadFileCommand(resp, req, path);
+            new DownloadFileCommand(resp, req, path).execute();
         } catch (CommandException e) {
             session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
             resp.sendRedirect(req.getContextPath() + "/profile");

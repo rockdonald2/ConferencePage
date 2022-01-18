@@ -62,14 +62,14 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String firstName = req.getParameter("reg-name");
-        String lastName = req.getParameter("reg-surname");
-        String pwd = req.getParameter("reg-pwd");
-        String pwdConf = req.getParameter("reg-pwd2");
-        String email = req.getParameter("reg-email");
-        String fac = req.getParameter("reg-fac");
+        String firstName = req.getParameter("reg-name").trim();
+        String lastName = req.getParameter("reg-surname").trim();
+        String pwd = req.getParameter("reg-pwd").trim();
+        String pwdConf = req.getParameter("reg-pwd2").trim();
+        String email = req.getParameter("reg-email").trim();
+        String fac = req.getParameter("reg-fac").trim();
         String degree = req.getParameter("reg-academic-status");
-        String position = req.getParameter("reg-position");
+        String position = req.getParameter("reg-position").trim();
         boolean isPresenting = "on".equals(req.getParameter("reg-is-presenting"));
 
         boolean successful = true;
@@ -114,7 +114,7 @@ public class RegistrationServlet extends HttpServlet {
 
         if (successful) {
             User user = new UserBuilder().withEmail(email).withFirstName(firstName).withLastName(lastName)
-                    .withPwd(pwd).inInstitution(fac.trim().length() == 0 ? null : fac).inPosition(position.trim().length() == 0 ? null : position).withDegree(degree)
+                    .withPwd(pwd).inInstitution(fac.length() == 0 ? null : fac).inPosition(position.trim().length() == 0 ? null : position).withDegree(degree)
                     .withRole(isPresenting ? "presenter" : "guest").build();
 
             try {
@@ -131,10 +131,10 @@ public class RegistrationServlet extends HttpServlet {
             }
 
             if (isPresenting) {
-                String title = req.getParameter("reg-title");
+                String title = req.getParameter("reg-title").trim();
                 String section = req.getParameter("reg-section");
-                String coAuthors = req.getParameter("reg-coauthors");
-                String abstr = req.getParameter("reg-abstract");
+                String coAuthors = req.getParameter("reg-coauthors").trim();
+                String abstr = req.getParameter("reg-abstract").trim();
                 Part filePart = req.getPart("reg-file");
 
                 if (filePart != null && !filePart.getContentType().equals(PDF_CONTENT_TYPE)) {

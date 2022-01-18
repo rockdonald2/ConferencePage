@@ -1,5 +1,5 @@
 package edu.conference.utils.commands;
 
 public interface Command {
-    void execute();
+    void execute() throws CommandException;
 }

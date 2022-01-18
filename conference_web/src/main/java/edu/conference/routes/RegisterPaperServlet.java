@@ -45,16 +45,24 @@ public class RegisterPaperServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, Object> model = ModelFactory.createModel(req);
 
-        Section section = sService.getByName(req.getParameter("new-section"));
+        HttpSession session = req.getSession();
+        Section section;
+        try {
+            section = sService.getByName(req.getParameter("new-section"));
+        } catch (ServiceException e) {
+            LOG.error("Failed to access service.");
+            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
+            return;
+        }
+
         User user = (User) model.get("user");
 
         List<String> coAuthors = Arrays.stream(req.getParameter("new-coauthors").split(", "))
                 .dropWhile(elem -> elem.equals(" ") || elem.equals("")).toList();
-        String title = req.getParameter("new-title");
-        String abstr = req.getParameter("new-abstract");
+        String title = req.getParameter("new-title").trim();
+        String abstr = req.getParameter("new-abstract").trim();
 
         boolean successful = true;
-        HttpSession session = req.getSession();
         Map<String, Boolean> errors = new HashMap<>();
 
         if (Utility.containsInvalidMarkupCharacter(title)) {
@@ -70,7 +78,7 @@ public class RegisterPaperServlet extends HttpServlet {
         if (successful) {
             Paper paper = new PaperBuilder().withTitle(title)
                     .withAbstract(abstr).withStatus("new")
-                    .withCoAuthors(coAuthors.size() != 0 ? coAuthors.toArray(new String[] {}) : null)
+                    .withCoAuthors(coAuthors.size() != 0 ? coAuthors.toArray(new String[]{}) : null)
                     .inSection(section)
                     .presents(user)
                     .build();
@@ -79,7 +87,7 @@ public class RegisterPaperServlet extends HttpServlet {
                 pService.register(paper);
             } catch (ServiceException e) {
                 LOG.error("Failed to register paper for user {}.", user.getEmail());
-                session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
+                session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
             }
         } else {
             session.setAttribute("errors", errors);

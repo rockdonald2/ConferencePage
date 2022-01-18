@@ -23,6 +23,7 @@ public class DownloadFileCommand implements Command {
     public DownloadFileCommand(HttpServletResponse resp, HttpServletRequest req, String path) {
         this.resp = resp;
         this.path = path;
+        this.req = req;
     }
 
     @Override
@@ -30,8 +31,8 @@ public class DownloadFileCommand implements Command {
         resp.setContentType("text/plain");
         resp.setHeader("Content-disposition", "attachment; filename=" + path);
 
-        try(InputStream in = req.getServletContext().getResourceAsStream("/uploads/" + path);
-            OutputStream out = resp.getOutputStream()) {
+        try (InputStream in = req.getServletContext().getResourceAsStream("/uploads/" + path);
+             OutputStream out = resp.getOutputStream()) {
 
             byte[] buffer = new byte[SIZE];
 
