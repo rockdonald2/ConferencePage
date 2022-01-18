@@ -40,7 +40,7 @@ public class JdbcSectionDAO implements SectionDAO {
                           `SectionID` int AUTO_INCREMENT NOT NULL,
                           `UUID` varchar(36) NOT NULL UNIQUE,
                           `Name` varchar(128) NOT NULL UNIQUE,
-                          `Description` varchar(256) NOT NULL,
+                          `Description` longtext NOT NULL,
                           `Email` varchar(128) NOT NULL,
                           PRIMARY KEY (SectionID),
                           CONSTRAINT FK_RESPONSABLE FOREIGN KEY (Email) REFERENCES conferenceuser (Email)) ENGINE=InnoDB;""");

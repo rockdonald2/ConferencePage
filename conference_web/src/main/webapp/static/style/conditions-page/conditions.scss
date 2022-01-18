@@ -42,6 +42,10 @@
 		}
 
 		&__general {
+			&:first-of-type {
+				margin-bottom: 1rem;
+			}
+
 			@include respond(500px) {
 				font-size: $font-conditions-page--text * 0.9;
 			}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+{{> head }}
+
+<body>
+<div class="content" id="content">
+
+    {{> header }}
+
+    <div class="sub-page-heading">
+        <h2 class="sub-page-heading--header">Szekció létrehozása</h2>
+    </div>
+    <div class="createsection--wrapper">
+        <p class="createsection--message">Kérlek add meg a szükséges adatok az új szekció létrehozásához</p>
+        <form action="createsection" method="post">
+            <div class="input-text">
+                <label for="cr-name">Szekció neve*</label>
+                <input type="text"
+                       name="cr-name"
+                       required
+                       value=""
+                       id="cr-name">
+                <small class="input-error">
+                    <svg
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            stroke="currentColor">
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                    A név csak karakterekből állhat</small>
+            </div>
+            <div class="input-text">
+                <label for="cr-desc">Szekció leírása*</label>
+                <textarea
+                        name="cr-desc"
+                        id="cr-desc"
+                        required
+                        minlength="100"
+                        maxlength="15000"></textarea>
+            </div>
+            <div class="input-dropdown"><label for="cr-rep">Szekciófelelős*</label><select
+                    id="cr-rep"
+                    name="cr-rep"
+                    required>
+                <option value="" selected disabled></option>
+                {{#each representatives}}
+                    <option value="{{ email }}">{{ lastName }} {{ firstName }} </option>
+                {{/each}}
+            </select></div>
+            <button type="submit" class="btn btn--cta">Létrehoz</button>
+        </form>
+    </div>
+
+
+    {{> footer }}
+
+</div>
+</body>
+</html>

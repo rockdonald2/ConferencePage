@@ -378,6 +378,10 @@
         <div class="profile--links">
             <h3>Hasznos hivatkozások</h3>
             <div>
+                {{#ifb (compare 'ADMIN' '==' user.role)}}
+                    <a class="link" href="createsection">Szekció létrehozása</a>
+                    <a class="link" href="registerrepresentative">Szekciófelelős regisztrálása</a>
+                {{/ifb}}
                 <a class="link" href="changepassword">Jelszó megváltoztatása</a>
                 <a class="link" href="logout">Kijelentkezés</a>
             </div>

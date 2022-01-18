@@ -5,103 +5,103 @@
 *,
 *::after,
 *::before {
-	vertical-align: baseline;
-	font-weight: inherit;
-	font-family: inherit;
-	font-style: inherit;
-	font-size: 100%;
-	box-sizing: inherit;
-	border: 0;
-	outline: 0;
-	padding: 0;
-	margin: 0;
+  vertical-align: baseline;
+  font-weight: inherit;
+  font-family: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  box-sizing: inherit;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  margin: 0;
 }
 
 html {
-	font-size: 12px; // 10px = 1rem;
-	scroll-behavior: smooth;
-	@include respond(3000px) {
-		font-size: 11px;
-	}
-	@include respond(2560px) {
-		font-size: 10px;
-	}
-	@include respond(1920px) {
-		font-size: 9px;
-	}
-	@include respond(1100px) {
-		font-size: 8px;
-	}
-	@include respond(350px) {
-		font-size: 7px;
-	}
+  font-size: 12px; // 10px = 1rem;
+  scroll-behavior: smooth;
+  @include respond(3000px) {
+    font-size: 11px;
+  }
+  @include respond(2560px) {
+    font-size: 10px;
+  }
+  @include respond(1920px) {
+    font-size: 9px;
+  }
+  @include respond(1100px) {
+    font-size: 8px;
+  }
+  @include respond(350px) {
+    font-size: 7px;
+  }
 }
 
 body {
-	font-family: 'Inter', sans-serif;
-	box-sizing: border-box;
-	-webkit-font-smoothing: subpixel-antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-rendering: geometricPrecision;
-	color: $color-text;
-	background-color: $color-bg;
-	position: relative;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  color: $color-text;
+  background-color: $color-bg;
+  position: relative;
 }
 
 ::-moz-selection {
-	background: rgba($color-selection--bg, .7);
-	color: $color-selection--text;
+  background: rgba($color-selection--bg, .7);
+  color: $color-selection--text;
 }
 
 ::selection {
-	background: rgba($color-selection--bg, .7);
-	color: $color-selection--text;
+  background: rgba($color-selection--bg, .7);
+  color: $color-selection--text;
 }
 
 /* RESETS */
 ul {
-	list-style-type: none;
+  list-style-type: none;
 }
 
 button {
-	border: none;
-	font-family: inherit;
-	cursor: pointer;
-	background: transparent;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  background: transparent;
 
-	&:focus {
-		outline: none;
-	}
+  &:focus {
+    outline: none;
+  }
 }
 
 input,
 option,
 select {
-	font-family: inherit;
+  font-family: inherit;
 
-	&:focus {
-		outline: none;
-	}
+  &:focus {
+    outline: none;
+  }
 }
 
 a {
-	text-decoration: none;
-	color: currentColor;
-	@include transitionAnimate(all, $animation-speed);
+  text-decoration: none;
+  color: currentColor;
+  @include transitionAnimate(all, $animation-speed);
 
-	&:focus,
-	&:hover {
-		text-decoration: none;
-		color: $color-main--darker;
-	}
+  &:focus,
+  &:hover {
+    text-decoration: none;
+    color: $color-main--darker;
+  }
 }
 
 ul {
-	padding-left: 0;
+  padding-left: 0;
 }
 
 li::before {
-	display: none;
+  display: none;
 }
 
 a,
@@ -115,87 +115,85 @@ h6,
 li,
 p,
 span {
-	color: $color-text;
-	letter-spacing: .02em;
+  color: $color-text;
+  letter-spacing: .02em;
 }
 
 p {
-	margin: 0;
+  margin: 0;
 }
 
 fieldset {
-	border: none;
+  border: none;
 }
 
 form input,
 form textarea {
-	@include transitionAnimate(all, $animation-speed);
+  @include transitionAnimate(all, $animation-speed);
 }
 
 /* Animations */
 @-webkit-keyframes growDown {
-	0% {
-		transform: scaleY(0);
-	}
+  0% {
+    transform: scaleY(0);
+  }
 
-	80% {
-		transform: scaleY(1.1);
-	}
+  80% {
+    transform: scaleY(1.1);
+  }
 
-	100% {
-		transform: scaleY(1);
-	}
+  100% {
+    transform: scaleY(1);
+  }
 }
 
 @keyframes growDown {
-	0% {
-		transform: scaleY(0);
-	}
+  0% {
+    transform: scaleY(0);
+  }
 
-	80% {
-		transform: scaleY(1.1);
-	}
+  80% {
+    transform: scaleY(1.1);
+  }
 
-	100% {
-		transform: scaleY(1);
-	}
+  100% {
+    transform: scaleY(1);
+  }
 }
 
-@import "./aboutus-page/aboutus.scss";
-@import "./conditions-page/conditions.scss";
-@import "./contact-page/contact.scss";
-@import "./deadline-page/deadline.scss";
-@import "./faq-page/faq.scss";
-@import "./landing-page/conditions.scss";
-@import "./landing-page/maincountdown.scss";
-@import "./landing-page/sponsors-organizers.scss";
-@import "./landing-page/steps.scss";
-@import "./landing-page/welcome-msg.scss";
-@import "./landing-page/why-join.scss";
-@import "./reg-page/regpage.scss";
-@import "./rules-page/rules.scss";
-@import "./steps-page/steps.scss";
-@import "./profile-page/profilepage.scss";
+@import "./aboutus-page/aboutus";
+@import "./conditions-page/conditions";
+@import "./contact-page/contact";
+@import "./deadline-page/deadline";
+@import "./faq-page/faq";
+@import "./landing-page/conditions";
+@import "./landing-page/maincountdown";
+@import "./landing-page/sponsors-organizers";
+@import "./landing-page/steps";
+@import "./landing-page/welcome-msg";
+@import "./landing-page/why-join";
+@import "./reg-page/regpage";
+@import "./rules-page/rules";
+@import "./steps-page/steps";
+@import "./profile-page/profilepage";
 
-@import "./general/accordion.scss";
-@import "./general/buttons.scss";
-@import "./general/content.scss";
-@import "./general/footer.scss";
-@import "./general/header.scss";
-@import "./general/headings.scss";
-@import "./general/info.scss";
-@import "./general/input-error.scss";
-@import "./general/input.scss";
-@import "./general/link.scss";
-@import "./general/loader.scss";
-@import "./general/mixins.scss";
-@import "./general/notfound.scss";
-@import "./general/login.scss";
-@import "./general/scrollback.scss";
-@import "./general/subpageheading.scss";
-@import "./general/subsection-divider.scss";
-@import "./general/forgotten.scss";
-@import "./general/message.scss";
-@import "./general/changepwd.scss";
-@import "./general/admin.scss";
-@import "./general/popup.scss";
+@import "./general/accordion";
+@import "./general/buttons";
+@import "./general/content";
+@import "./general/footer";
+@import "./general/header";
+@import "./general/headings";
+@import "./general/info";
+@import "./general/input";
+@import "./general/link";
+@import "./general/loader";
+@import "./general/mixins";
+@import "./general/notfound";
+@import "./general/login";
+@import "./general/scrollback";
+@import "./general/subpageheading";
+@import "./general/subsection-divider";
+@import "./general/forgotten";
+@import "./general/changepwd";
+@import "./general/admin";
+@import "./general/popup";

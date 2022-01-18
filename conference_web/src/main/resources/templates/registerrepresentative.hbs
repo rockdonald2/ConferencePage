@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+{{> head }}
+
+<body>
+<div class="content" id="content">
+
+    {{> header }}
+
+    <div class="sub-page-heading">
+        <h2 class="sub-page-heading--header">Szekciófelelős regisztrálása</h2>
+    </div>
+    <div class="regrep--wrapper">
+        <p class="regrep--message">Kérlek add meg a szükséges adatok az új szekciófelelős regisztrálásához</p>
+        <form action="registerrepresentative" method="post">
+            <div class="input-text"><input type="text"
+                                           id="regrep-name"
+                                           name="regrep-name"
+                                           value=""
+                                           required><label for="regrep-name">Keresztneve*</label></div>
+            <small class="input-error">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                Keresztnév csak karakterekből állhat</small>
+            <div>
+                <div class="input-text"><input type="text"
+                                               id="regrep-surname"
+                                               name="regrep-surname"
+                                               value=""
+                                               required><label for="regrep-surname">Vezetékneve*</label></div>
+                <small class="input-error">
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         stroke="currentColor">
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                    Vezetéknév csak karakterekből állhat</small>
+            </div>
+            <div>
+                <div class="input-text"><input type="email"
+                                               id="regrep-email"
+                                               name="regrep-email"
+                                               value=""
+                                               required><label for="regrep-email">E-mail címe*</label></div>
+                <small class="input-error">
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         stroke="currentColor">
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                    Helytelen e-mail cím formátum</small>
+            </div>
+            <div>
+                <div class="input-text"><input type="text"
+                                               id="regrep-fac"
+                                               name="regrep-fac"
+                                               value=""
+                                               required><label for="regrep-fac">Intézete*</label></div>
+                <small class="input-error">
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         stroke="currentColor">
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                    Intézetnév csak karakterekből állhat</small>
+            </div>
+            <div>
+                <div class="input-text"><input type="text"
+                                               id="regrep-pos"
+                                               name="regrep-pos"
+                                               required><label for="regrep-pos">Pozíció*</label></div>
+                <small class="input-error">
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         stroke="currentColor">
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                    Pozíciónév csak karakterekből állhat</small>
+            </div>
+            <div>
+                <div class="input-dropdown"><label for="regrep-status">Akadémiai státusz*</label><select
+                        id="regrep-status"
+                        name="regrep-status"
+                        required>
+                    <option value="" selected disabled></option>
+                    <option value="">Nincs</option>
+                    <option value="BSc">BSc</option>
+                    <option value="BA">BA</option>
+                    <option value="MSc">MSc</option>
+                    <option value="MA">MA</option>
+                    <option value="Phd">Phd</option>
+                </select></div>
+            </div>
+            <button type="submit" class="btn btn--cta">Létrehoz</button>
+        </form>
+    </div>
+
+    {{> footer }}
+
+</div>
+</body>
+</html>
