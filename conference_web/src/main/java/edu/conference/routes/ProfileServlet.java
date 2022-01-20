@@ -24,7 +24,7 @@ import java.util.Map;
 public class ProfileServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProfileServlet.class);
-    private static final int PAGE_SIZE = 1;
+    private static final int PAGE_SIZE = 3;
 
     private UserService uService;
     private PaperService pService;

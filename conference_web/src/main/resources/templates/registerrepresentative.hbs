@@ -19,7 +19,7 @@
                                            name="regrep-name"
                                            value=""
                                            required><label for="regrep-name">Keresztneve*</label></div>
-            <small class="input-error">
+            <small class="input-error {{#if errors.name }} show {{/if}}">
                 <svg viewBox="0 0 24 24"
                      xmlns="http://www.w3.org/2000/svg"
                      fill="none"
@@ -36,7 +36,7 @@
                                                name="regrep-surname"
                                                value=""
                                                required><label for="regrep-surname">Vezetékneve*</label></div>
-                <small class="input-error">
+                <small class="input-error {{#if errors.surname }} show {{/if}}">
                     <svg viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg"
                          fill="none"
@@ -54,7 +54,7 @@
                                                name="regrep-email"
                                                value=""
                                                required><label for="regrep-email">E-mail címe*</label></div>
-                <small class="input-error">
+                <small class="input-error {{#if errors.email }} show {{/if}}">
                     <svg viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg"
                          fill="none"
@@ -72,7 +72,7 @@
                                                name="regrep-fac"
                                                value=""
                                                required><label for="regrep-fac">Intézete*</label></div>
-                <small class="input-error">
+                <small class="input-error {{#if errors.fac }} show {{/if}}">
                     <svg viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg"
                          fill="none"
@@ -89,7 +89,7 @@
                                                id="regrep-pos"
                                                name="regrep-pos"
                                                required><label for="regrep-pos">Pozíció*</label></div>
-                <small class="input-error">
+                <small class="input-error {{#if errors.pos }} show {{/if}}">
                     <svg viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg"
                          fill="none"
