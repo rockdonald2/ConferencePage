@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
 
-@WebFilter({"/profile", "/logout", "/changepassword", "/getpaper", "/getPaper", "/downloadPaper", "/downloadpaper", "/uploadpaper", "/uploadPaper", "/registerpaper", "/registerPaper", "/verifypaper", "/verifyPaper", "/revoke", "/createsection", "/createSection", "/registerrepresentative", "/registerRepresentative"})
+@WebFilter({"/profile", "/logout", "/changepassword", "/getpaper", "/getPaper", "/downloadPaper", "/downloadpaper", "/uploadpaper", "/uploadPaper", "/registerpaper", "/registerPaper", "/verifypaper", "/verifyPaper", "/revoke", "/createsection", "/createSection", "/registerrepresentative", "/registerRepresentative", "/modify"})
 public class RequireLoginFilter extends HttpFilter {
 
     @Override

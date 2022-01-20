@@ -89,6 +89,8 @@ public class RegisterPaperServlet extends HttpServlet {
                 LOG.error("Failed to register paper for user {}.", user.getEmail());
                 session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
             }
+
+            session.setAttribute("popups", new String[]{"Dolgozat sikeresen regisztrálva."});
         } else {
             session.setAttribute("errors", errors);
         }

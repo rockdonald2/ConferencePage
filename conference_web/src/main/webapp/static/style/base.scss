@@ -132,6 +132,10 @@ form textarea {
   @include transitionAnimate(all, $animation-speed);
 }
 
+.__content {
+  white-space: pre;
+}
+
 /* Animations */
 @-webkit-keyframes growDown {
   0% {
@@ -197,3 +201,4 @@ form textarea {
 @import "./general/changepwd";
 @import "./general/admin";
 @import "./general/popup";
+@import "./general/modify";

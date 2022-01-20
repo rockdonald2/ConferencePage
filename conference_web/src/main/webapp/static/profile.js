@@ -15,9 +15,9 @@
             .then(json => {
                 json = JSON.parse(json);
 
-                modal.querySelector('.modal--content__title').textContent = json['title'];
-                modal.querySelector('.modal--content__presenter').querySelector('.__content').textContent = `${json['presenter']['lastName']} ${json['presenter']['firstName']}`;
-                modal.querySelector('.modal--content__coauthors').querySelector('.__content').textContent =  json['coAuthors'] == null ? '' : json['coAuthors'].join(', ');
+                modal.querySelector('.modal--content__title').innerText = json['title'];
+                modal.querySelector('.modal--content__presenter').querySelector('.__content').innerText = `${json['presenter']['lastName']} ${json['presenter']['firstName']}`;
+                modal.querySelector('.modal--content__coauthors').querySelector('.__content').innerText = json['coAuthors'] == null ? '' : json['coAuthors'].join(', ');
 
                 let abstractHtml = "";
                 json['abstr'].split('\n').filter(l => l !== '').forEach(l => abstractHtml += `<p>${l}</p>`);

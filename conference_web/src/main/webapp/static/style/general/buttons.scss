@@ -15,6 +15,10 @@
 		background-color: transparent;
 		letter-spacing: .07em;
 		text-align: center;
+
+		@include respond(950px) {
+			padding: $size-sm $size-lg;
+		}
 	}
 
 	&--cta:disabled {

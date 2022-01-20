@@ -131,10 +131,9 @@
 			margin: $size-md 0;
 			padding-bottom: $size-sm;
 			border-bottom: 2px solid $color-main;
-			padding-right: $size-md * .75;
 
 			&--presenter {
-				grid-template-columns: 12.5% 27.5% 10% 12.5% 20% 1fr;
+				grid-template-columns: 12.5% 27.5% 10% 12.5% 20% 1fr 1fr;
 			}
 
 			&--rep {
@@ -148,7 +147,7 @@
 
 		&__item {
 			&--presenter {
-				grid-template-columns: 12.5% 27.5% 10% 12.5% 20% 1fr;
+				grid-template-columns: 12.5% 27.5% 10% 12.5% 20% 1fr 1fr;
 			}
 
 			&--rep {
@@ -215,7 +214,6 @@
 				svg {
 					width: $size-md;
 					height: $size-md;
-					stroke: $color-red;
 				}
 
 				span {
@@ -224,6 +222,18 @@
 					@include respond(950px) {
 						display: inline-block;
 						margin-left: $size-sm;
+					}
+				}
+
+				&:first-of-type {
+					svg {
+						stroke: rgba($color-text, .6);
+					}
+				}
+
+				&:nth-of-type(2) {
+					svg {
+						stroke: $color-red;
 					}
 				}
 			}

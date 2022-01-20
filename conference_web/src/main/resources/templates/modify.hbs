@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+{{> head }}
+
+<body>
+<div class="content" id="content">
+
+    {{> header }}
+
+    <div class="sub-page-heading">
+        <h2 class="sub-page-heading--header">Leadott dolgozat módosítása</h2>
+    </div>
+    <div class="modify-paper--wrapper">
+        <form action="" method="post" class="modify-paper--form">
+            <input type="hidden" name="modify-paperId" value="{{ paper.id }}">
+            <div>
+                <div class="input-dropdown">
+                    <label for="modify-section">Szekció*</label><select id="modify-section"
+                                                                     name="modify-section"
+                                                                     required>
+                    <option value=""
+                            disabled
+                            selected></option>
+                    {{#each sections }}
+                        <option value="{{ name }}" {{#ifb (compare paper.section.name '==' name)}} selected {{/ifb}}>{{ name }}</option>
+                    {{/each}}
+                </select></div>
+            </div>
+            <div>
+                <div class="input-text"><input type="text"
+                                               id="modify-title"
+                                               name="modify-title"
+                                               value="{{ paper.title }}"
+                                               required><label for="modify-title">Dolgozat címe*</label>
+                </div>
+                <small class="input-error {{#if errors.title }} show {{/if}}">
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         stroke="currentColor">
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                    A cím csupán karakterekből állhat</small>
+            </div>
+            <div>
+                <div class="input-text"><input type="text"
+                                               id="modify-coauthors"
+                                               name="modify-coauthors"
+                                               value="{{ coAuthors }}"><label
+                        for="modify-coauthors">Dolgozat társszerzői</label></div>
+                <small class="input-error {{#if errors.coAuthors }} show {{/if}}">
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         stroke="currentColor">
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                    A társszerzők méző csupán karakterekből állhat</small>
+            </div>
+            <div>
+                <div class="input-text">
+                    <label for="modify-abstract">Absztrakt*</label>
+                    <textarea
+                            name="modify-abstract"
+                            id="modify-abstract"
+                            required
+                            minlength="500"
+                            maxlength="7500">{{ paper.abstr }}</textarea>
+                    <p class="input-file--info">Angolul vagy magyarul megírt kivonat a bemutatandó
+                        dolgozathoz. A
+                        kivonat
+                        terjedelme
+                        2
+                        000 - 3 000 karakter hosszúságú, amelyben a dolgozat kidolgozói ismertetik a
+                        kutatott tematikát, a
+                        probléma
+                        relevanciáját, illetve az alkalmazott módszertanukat.</p>
+                </div>
+            </div>
+            <small class="info">
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     stroke="currentColor">
+                    <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                </svg>
+                * – kötelezően kitöltendő mezők</small>
+            <button class="input-button"
+                    type="submit"
+                    name="submit" value="Módosítás">Módosítás
+            </button>
+        </form>
+    </div>
+
+    {{> footer }}
+
+</div>
+</body>
+</html>
