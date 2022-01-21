@@ -53,6 +53,7 @@ public class JudgePaperServlet extends HttpServlet {
             Paper paper = pService.getById(paperId);
             paper.setStatus(Status.get(newStatus));
             pService.update(paper);
+            LOG.info("User {} successfully set new status {} for paper {}.", user.getEmail(), paper.getStatus(), paper.getId());
         } catch (ServiceException e) {
             LOG.error("Failed to judge paper {}.", paperId);
             session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});

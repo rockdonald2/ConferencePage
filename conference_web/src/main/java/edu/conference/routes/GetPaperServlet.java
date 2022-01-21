@@ -62,6 +62,7 @@ public class GetPaperServlet extends HttpServlet {
 
         String jsonResp = JsonWriter.objectToJson(paper);
         JsonWriter.writeJsonUtf8String(jsonResp, resp.getWriter());
+        LOG.info("User {} successfully accessed paper {}.", curr.getEmail(), paper.getId());
     }
 
 }

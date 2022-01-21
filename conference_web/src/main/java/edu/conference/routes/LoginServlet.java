@@ -61,10 +61,12 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", requestedLogin);
             session.setAttribute("popups", new String[] {"Sikeres bejelentkezés."});
             resp.sendRedirect(req.getContextPath() + "/index");
+            LOG.info("User {} successfully logged in.", requestedLogin.getEmail());
         } else {
             Map<String, Object> model = new ConcurrentHashMap<>();
             model.put("loginError", true);
             TemplateFactory.getTemplate("login").apply(model, resp.getWriter());
+            LOG.info("Unsuccessful login for user {}.", requestedLogin.getEmail());
         }
     }
 

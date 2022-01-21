@@ -119,13 +119,14 @@ public class RegistrationServlet extends HttpServlet {
 
             try {
                 if (!uService.register(user)) {
+                    LOG.info("Already existing user tried to register again {}.", user.getEmail());
                     session.setAttribute("popups", new String[]{"Már létező felhasználó."});
                     resp.sendRedirect(req.getContextPath() + "/registration");
                     return;
                 }
             } catch (ServiceException e) {
                 LOG.error("Failed to register user {}.", user.getEmail());
-                session.setAttribute("popups", new String[] {"Hiba történt, kérlek próbáld újra."});
+                session.setAttribute("popups", new String[]{"Hiba történt, kérlek próbáld újra."});
                 resp.sendRedirect(req.getContextPath() + "/registration");
                 return;
             }
@@ -168,7 +169,7 @@ public class RegistrationServlet extends HttpServlet {
                         paper = pService.register(paper);
                     } catch (ServiceException e) {
                         LOG.error("Failed to register paper {}.", paper.getTitle());
-                        session.setAttribute("popups", new String[] {"Hiba történt, kérlek próbáld újra."});
+                        session.setAttribute("popups", new String[]{"Hiba történt, kérlek próbáld újra."});
 
                         // azonban ekkor a User már beszúrásra került, kikell törölni
                         try {
@@ -187,15 +188,15 @@ public class RegistrationServlet extends HttpServlet {
                                 new UploadFileCommand(filePart, getServletContext(), paper).execute();
                                 pService.update(paper);
                             } else {
-                               LOG.error("User {} tried to upload a different file type {}.", user.getEmail(), filePart.getContentType());
-                               session.setAttribute("popups", new String[]{"Dolgozat sikeresen regisztrálva, azonban hibás fájlttípus, próbáld újra a Profil-ból."});
-                               resp.setStatus(406);
-                               resp.sendRedirect(req.getContextPath() + "/index");
-                               return;
+                                LOG.error("User {} tried to upload a different file type {}.", user.getEmail(), filePart.getContentType());
+                                session.setAttribute("popups", new String[]{"Dolgozat sikeresen regisztrálva, azonban hibás fájlttípus, próbáld újra a Profil-ból."});
+                                resp.setStatus(406);
+                                resp.sendRedirect(req.getContextPath() + "/index");
+                                return;
                             }
                         } catch (CommandException e) {
                             LOG.error("Failed to upload document for paper {}.", paper.getId());
-                            session.setAttribute("popups", new String[] {"Hiba történt a dokumentum feltöltésekor, jelentkezz be és próbáld újra."});
+                            session.setAttribute("popups", new String[]{"Hiba történt a dokumentum feltöltésekor, jelentkezz be és próbáld újra."});
                             resp.sendRedirect(req.getContextPath() + "/index");
                             return;
                         }
@@ -207,6 +208,7 @@ public class RegistrationServlet extends HttpServlet {
                 }
             }
 
+            LOG.info("New user {} successfully registered.", user.getEmail());
             session.setAttribute("popups", new String[]{"Regisztráció sikeres!"});
             resp.sendRedirect(req.getContextPath() + "/index");
         } else {

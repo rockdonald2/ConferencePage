@@ -104,8 +104,11 @@ public class ChangePasswordServlet extends HttpServlet {
             session = req.getSession();
             session.setAttribute("popups", new String[]{"Jelszó sikeresen megváltoztatva."});
             resp.sendRedirect(req.getContextPath() + "/index");
+            LOG.info("User {} successfully changed password.", user.getEmail());
         } catch (NoSuchAlgorithmException e) {
-            throw new ServletException();
+            resp.setStatus(500);
+            resp.sendRedirect(req.getContextPath() + "/500");
+            LOG.error("Invalid algorithm for encryption.");
         }
     }
 

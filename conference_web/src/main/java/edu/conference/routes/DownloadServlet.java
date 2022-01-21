@@ -58,7 +58,7 @@ public class DownloadServlet extends HttpServlet {
 
         if (!paper.getPresenter().getEmail().equals(curr.getEmail())
                 && !paper.getSection().getRepresentative().getEmail().equals(curr.getEmail())
-                && curr.getRole().equals(Role.ADMIN)) {
+                && !Role.ADMIN.equals(curr.getRole())) {
             LOG.error("Someone tried to access without authorization paper {}.", paper.getId());
             resp.setStatus(403);
             resp.sendRedirect(req.getContextPath() + "/index");
@@ -67,6 +67,7 @@ public class DownloadServlet extends HttpServlet {
 
         try {
             new DownloadFileCommand(resp, req, path).execute();
+            LOG.info("Successfully deleted paper {} by user {}.", paper.getId(), curr.getEmail());
         } catch (CommandException e) {
             session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
             resp.sendRedirect(req.getContextPath() + "/profile");

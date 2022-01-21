@@ -43,7 +43,8 @@ public class RegisterRepresentativeServlet extends HttpServlet {
         Map<String, Object> model = ModelFactory.createModel(req);
         User curr = (User) model.get("user");
 
-        if (!curr.getRole().equals(Role.ADMIN)) {
+        if (!Role.ADMIN.equals(curr.getRole())) {
+            LOG.warn("User {} without permissions tried to access register representative.", curr.getEmail());
             HttpSession session = req.getSession();
             session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
             resp.setStatus(403);
@@ -60,7 +61,8 @@ public class RegisterRepresentativeServlet extends HttpServlet {
         User curr = (User) model.get("user");
 
         HttpSession session = req.getSession();
-        if (!curr.getRole().equals(Role.ADMIN)) {
+        if (!Role.ADMIN.equals(curr.getRole())) {
+            LOG.warn("User {} without permissions tried to access register representative.", curr.getEmail());
             session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
             resp.setStatus(403);
             resp.sendRedirect(req.getContextPath() + "/index");

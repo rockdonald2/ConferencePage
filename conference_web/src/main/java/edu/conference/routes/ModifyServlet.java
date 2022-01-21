@@ -111,6 +111,7 @@ public class ModifyServlet extends HttpServlet {
         try {
             paperId = Long.parseLong(req.getParameter("modify-paperId"));
         } catch (NumberFormatException e) {
+            LOG.error("Invalid paper id {}.", req.getParameter("modify-paperId"));
             session.setAttribute("popups", new String[]{"Helytelen kérés."});
             resp.setStatus(400);
             resp.sendRedirect(req.getContextPath() + "/profile");
@@ -121,6 +122,7 @@ public class ModifyServlet extends HttpServlet {
         try {
             paper = pService.getById(paperId);
         } catch (ServiceException e) {
+            LOG.error("Non-existing paper with id {}.", paperId);
             session.setAttribute("popups", new String[]{"Nem létező dolgozat."});
             resp.setStatus(404);
             resp.sendRedirect(req.getContextPath() + "/profile");
@@ -129,6 +131,7 @@ public class ModifyServlet extends HttpServlet {
 
         User user = (User) model.get("user");
         if (!paper.getPresenter().equals(user)) {
+            LOG.error("Someone {} tried to modify paper {} without permissions.", user.getEmail(), paper.getId());
             session.setAttribute("popups", new String[]{"Nincs megfelelő jogosultsága."});
             resp.setStatus(403);
             resp.sendRedirect(req.getContextPath() + "/profile");
@@ -144,6 +147,7 @@ public class ModifyServlet extends HttpServlet {
         try {
             section = sService.getByName(req.getParameter("modify-section").trim());
         } catch (ServiceException e) {
+            LOG.error("Invalid section {}.", req.getParameter("modify-section"));
             session.setAttribute("popups", new String[]{"Hibás szekció."});
             resp.setStatus(400);
             resp.sendRedirect(req.getContextPath() + "/profile");
@@ -172,11 +176,16 @@ public class ModifyServlet extends HttpServlet {
             try {
                 pService.update(paper);
             } catch (ServiceException e) {
+                LOG.error("Failed to update paper {} by user {}.", paper.getId(), user.getEmail());
                 session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
+                resp.setStatus(400);
+                resp.sendRedirect(req.getContextPath() + "/profile");
+                return;
             }
 
             session.setAttribute("popups", new String[]{"Dolgozat sikeresen frissítve."});
             resp.sendRedirect(req.getContextPath() + "/profile");
+            LOG.info("User {} successfully modified paper {}.", user.getEmail(), paper.getId());
         } else {
             session.setAttribute("errors", errors);
             resp.sendRedirect(req.getContextPath() + "/modify?paperId=" + paperId);

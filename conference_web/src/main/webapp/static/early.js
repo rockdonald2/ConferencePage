@@ -29,5 +29,5 @@ const showPopup = (msg) => {
         setTimeout(() => {
             newMsg.remove();
         }, 250);
-    }, 3000);
+    }, 4000);
 }

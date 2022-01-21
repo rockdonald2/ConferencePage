@@ -41,10 +41,13 @@ public class RevokeServlet extends HttpServlet {
         Paper paper = pService.getByPath(path);
         User curr = (User) model.get("user");
 
+        HttpSession session = req.getSession();
+
         if (!paper.getPresenter().getEmail().equals(curr.getEmail())
                 && !paper.getSection().getRepresentative().getEmail().equals(curr.getEmail())
-                && curr.getRole().equals(Role.ADMIN)) {
+                && !Role.ADMIN.equals(curr.getRole())) {
             LOG.error("Someone tried to access without authorization paper {}.", paper.getId());
+            session.setAttribute("popups", new String[] {"Nem megfelelő jogosultságok."});
             resp.setStatus(403);
             resp.sendRedirect(req.getContextPath() + "/index");
             return;
@@ -52,8 +55,6 @@ public class RevokeServlet extends HttpServlet {
 
         paper.setStatus(Status.NEW);
         paper.setDoc(null);
-
-        HttpSession session = req.getSession();
 
         try {
             pService.update(paper);
@@ -66,6 +67,7 @@ public class RevokeServlet extends HttpServlet {
 
         session.setAttribute("popups", new String[]{"Dolgozat sikeresen visszavonva."});
         resp.sendRedirect(req.getContextPath() + "/profile");
+        LOG.info("User {} successfully revoked paper {}.", curr.getEmail(), paper.getId());
     }
 
 }

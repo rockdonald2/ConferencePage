@@ -47,16 +47,27 @@ public class CreateSectionServlet extends HttpServlet {
 
         User curr = (User) model.get("user");
 
-        if (!curr.getRole().equals(Role.ADMIN)) {
-            HttpSession session = req.getSession();
+        HttpSession session = req.getSession();
+        if (!Role.ADMIN.equals(curr.getRole())) {
+            LOG.warn("Someone tried to access resources without permissions {}.", curr.getEmail());
             session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
             resp.setStatus(403);
             resp.sendRedirect(req.getContextPath() + "/index");
             return;
         }
 
-        List<Section> sections = sService.getAll();
-        Set<User> representatives = sections.stream().map(Section::getRepresentative).collect(Collectors.toSet());
+        List<User> users;
+        try {
+            users = uService.getAll();
+        } catch (ServiceException e) {
+            LOG.error("Failed to access users.");
+            session.setAttribute("popups", new String[]{"Hiba történt."});
+            resp.setStatus(500);
+            resp.sendRedirect(req.getContextPath() + "/profile");
+            return;
+        }
+
+        Set<User> representatives = users.stream().filter(user -> Role.REPRESENTATIVE.equals(user.getRole())).collect(Collectors.toSet());
         model.put("representatives", representatives);
 
         TemplateFactory.getTemplate("createsection").apply(model, resp.getWriter());
@@ -70,7 +81,8 @@ public class CreateSectionServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-        if (!curr.getRole().equals(Role.ADMIN)) {
+        if (!Role.ADMIN.equals(curr.getRole())) {
+            LOG.warn("User {} without permissions tried to access create section.", curr.getEmail());
             session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
             resp.setStatus(403);
             resp.sendRedirect(req.getContextPath() + "/index");
@@ -101,6 +113,7 @@ public class CreateSectionServlet extends HttpServlet {
 
         session.setAttribute("popups", new String[]{"Sikeresen létrehozva a " + section.getName() + " szekció."});
         resp.sendRedirect(req.getContextPath() + "/profile");
+        LOG.info("Successfully created new section {} by user {}.", section.getName(), user.getEmail());
     }
 
 }

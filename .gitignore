@@ -15,6 +15,7 @@ gradle-app.setting
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
+# others
 *.log
 .idea/
 gradlew*
@@ -25,3 +26,5 @@ node_modules
 yarn.lock
 bin
 tmp
+EDU.CONFERENCE.log
+EDU.CONFERENCE.*.gz

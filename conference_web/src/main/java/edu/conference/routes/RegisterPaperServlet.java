@@ -52,6 +52,8 @@ public class RegisterPaperServlet extends HttpServlet {
         } catch (ServiceException e) {
             LOG.error("Failed to access service.");
             session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
+            resp.setStatus(500);
+            resp.sendRedirect(req.getContextPath() + "/profile");
             return;
         }
 
@@ -88,6 +90,9 @@ public class RegisterPaperServlet extends HttpServlet {
             } catch (ServiceException e) {
                 LOG.error("Failed to register paper for user {}.", user.getEmail());
                 session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
+                resp.setStatus(500);
+                resp.sendRedirect(req.getContextPath() + "/profile");
+                return;
             }
 
             session.setAttribute("popups", new String[]{"Dolgozat sikeresen regisztrálva."});

@@ -8,6 +8,8 @@
 
     {{> header }}
 
+    {{> popup }}
+
     <div class="sub-page-heading">
         <h2 class="sub-page-heading--header">Leadott dolgozat módosítása</h2>
     </div>
@@ -17,13 +19,14 @@
             <div>
                 <div class="input-dropdown">
                     <label for="modify-section">Szekció*</label><select id="modify-section"
-                                                                     name="modify-section"
-                                                                     required>
+                                                                        name="modify-section"
+                                                                        required>
                     <option value=""
                             disabled
                             selected></option>
                     {{#each sections }}
-                        <option value="{{ name }}" {{#ifb (compare paper.section.name '==' name)}} selected {{/ifb}}>{{ name }}</option>
+                        <option value="{{ name }}" {{#ifb (compare paper.section.name '==' name)}}
+                                selected {{/ifb}}>{{ name }}</option>
                     {{/each}}
                 </select></div>
             </div>

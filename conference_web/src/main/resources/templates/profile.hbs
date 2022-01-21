@@ -393,7 +393,7 @@
                                 </button>
                             </p>
                             <p><span class="profile--uploaded__mod">Státusz</span>{{ status }}</p>
-                                <a href="delete?paperId={{ id }}">
+                                <a href="deletePaper?paperId={{ id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="__color-red" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -417,6 +417,7 @@
             <h3>Hasznos hivatkozások</h3>
             <div>
                 {{#ifb (compare 'ADMIN' '==' user.role)}}
+                    <a class="link" href="users">Felhasználók</a>
                     <a class="link" href="createsection">Szekció létrehozása</a>
                     <a class="link" href="registerrepresentative">Szekciófelelős regisztrálása</a>
                 {{/ifb}}
