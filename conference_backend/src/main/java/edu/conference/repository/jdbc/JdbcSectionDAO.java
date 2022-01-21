@@ -106,6 +106,11 @@ public class JdbcSectionDAO implements SectionDAO {
 
             stmt.executeUpdate();
 
+            if (stmt.getUpdateCount() == 0) {
+                LOG.error("Non-existing section with id {}.", section.getId());
+                throw new RepositoryException("Non-existing section.");
+            }
+
             LOG.info("Successfully updated section {}.", section.getId());
         } catch (SQLException e) {
             LOG.error("Failed to update section {}.", section.getId(), e);
@@ -129,6 +134,11 @@ public class JdbcSectionDAO implements SectionDAO {
             stmt.setLong(1, id);
 
             stmt.execute();
+
+            if (stmt.getUpdateCount() == 0) {
+                LOG.error("Non-existing section with id {}.", id);
+                throw new RepositoryException("Non-existing section.");
+            }
 
             LOG.info("Successfully deleted section {}.", id);
         } catch (SQLException e) {

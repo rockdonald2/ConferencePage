@@ -140,6 +140,10 @@
 				grid-template-columns: 10% 30% 12.5% 12.5% 1fr;
 			}
 
+			&--admin {
+				grid-template-columns: 15% 32.5% 15% 15% 1fr;
+			}
+
 			@include respond(950px) {
 				display: none;
 			}
@@ -158,6 +162,10 @@
 						margin-bottom: 0;
 					}
 				}
+			}
+
+			&--admin {
+				grid-template-columns: 15% 32.5% 15% 15% 1fr;
 			}
 
 			&--file {
@@ -222,18 +230,6 @@
 					@include respond(950px) {
 						display: inline-block;
 						margin-left: $size-sm;
-					}
-				}
-
-				&:first-of-type {
-					svg {
-						stroke: rgba($color-text, .6);
-					}
-				}
-
-				&:nth-of-type(2) {
-					svg {
-						stroke: $color-red;
 					}
 				}
 			}

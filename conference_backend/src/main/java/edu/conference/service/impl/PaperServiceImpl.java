@@ -35,6 +35,17 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
+    public void delete(Long id) throws ServiceException {
+        try {
+            pDao.delete(id);
+            LOG.info("Successfully delete paper {}.", id);
+        } catch (RepositoryException e) {
+            LOG.error("Failed to delete paper {}.", id);
+            throw new ServiceException("Failed to delete paper " + id + ".");
+        }
+    }
+
+    @Override
     public void update(Paper paper) {
         try {
             pDao.update(paper);

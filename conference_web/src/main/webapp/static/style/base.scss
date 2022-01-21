@@ -136,6 +136,14 @@ form textarea {
   white-space: pre;
 }
 
+.__color-grey {
+  stroke: rgba($color-text, .6);
+}
+
+.__color-red {
+  stroke: $color-red;
+}
+
 /* Animations */
 @-webkit-keyframes growDown {
   0% {

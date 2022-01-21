@@ -36,14 +36,14 @@ public class UploadPaperServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Part filePart = req.getPart("paper-file");
+        HttpSession session = req.getSession();
 
         if (!filePart.getContentType().equals(PDF_CONTENT_TYPE)) {
             resp.setStatus(406);
+            session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
         } else {
             long paperId = Long.parseLong(req.getParameter("paper-id"));
             Paper paper = pService.getById(paperId);
-
-            HttpSession session = req.getSession();
 
             try {
                 new UploadFileCommand(filePart, getServletContext(), paper).execute();

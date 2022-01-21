@@ -117,6 +117,11 @@ public class JdbcPaperDAO implements PaperDAO {
 
             stmt.executeUpdate();
 
+            if (stmt.getUpdateCount() == 0) {
+                LOG.error("Non-existing paper with id {}.", paper.getId());
+                throw new RepositoryException("Non-existing paper.");
+            }
+
             LOG.info("Successfully updated paper {}.", paper.getId());
         } catch (SQLException e) {
             LOG.error("Failed to update paper {}.", paper.getId(), e);
@@ -140,6 +145,11 @@ public class JdbcPaperDAO implements PaperDAO {
             stmt.setLong(1, id);
 
             stmt.execute();
+
+            if (stmt.getUpdateCount() == 0) {
+                LOG.error("Non-existing paper with id {}.", id);
+                throw new RepositoryException("Non-existing paper.");
+            }
 
             LOG.info("Successfully deleted paper {}.", id);
         } catch (SQLException e) {

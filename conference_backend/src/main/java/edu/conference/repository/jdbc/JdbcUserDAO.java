@@ -107,6 +107,11 @@ public class JdbcUserDAO implements UserDAO {
 
             stmt.executeUpdate();
 
+            if (stmt.getUpdateCount() == 0) {
+                LOG.error("Non-existing user with id {}.", user.getId());
+                throw new RepositoryException("Non-existing user.");
+            }
+
             LOG.info("Successfully updated user {}.", user.getId());
         } catch (SQLException | RepositoryException e) {
             LOG.error("Failed to update user {}.", user.getEmail(), e);
@@ -130,6 +135,11 @@ public class JdbcUserDAO implements UserDAO {
             stmt.setLong(1, id);
 
             stmt.execute();
+
+            if (stmt.getUpdateCount() == 0) {
+                LOG.error("Non-existing user with id {}.", id);
+                throw new RepositoryException("Non-existing user.");
+            }
 
             LOG.info("Successfully deleted user {}.", id);
         } catch (SQLException | RepositoryException e) {

@@ -150,25 +150,13 @@
                                            accept=".pdf"
                                            size="51200">
                                 </div>
-                                <small
-                                        class="input-error">
-                                    <svg viewBox="0 0 24 24"
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         stroke="currentColor">
-                                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                              stroke-width="2"
-                                              stroke-linecap="round"
-                                              stroke-linejoin="round"></path>
-                                    </svg>
-                                </small>
                                 <input name="paper-id" type="hidden" value="{{ id }}">
                                 <button id="paper-submit-paper{{@index}}" type="submit" class="btn btn--cta" disabled>
                                     Feltölt
                                 </button>
                             </form>
                             <a href="modify?paperId={{ id }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="__color-grey" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
@@ -180,7 +168,7 @@
                             {{else}}
                                 style="opacity: 0.5; cursor: not-allowed;"
                             {{/if}}>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="__color-red" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -348,7 +336,7 @@
                 {{/unless}}
             </div>
         {{/ifb}}
-        {{#ifb (or (compare 'GUEST' '==' user.role) (compare 'ADMIN' '==' user.role)) }}
+        {{#ifb (compare 'GUEST' '==' user.role) }}
             <div class="profile--uploaded">
                 <h3>Jelenleg bejegyzett dolgozatok</h3>
                 <div class="profile--uploaded__head profile--uploaded__head--rep">
@@ -370,6 +358,48 @@
                                 </button>
                             </p>
                             <p><span class="profile--uploaded__mod">Státusz</span>{{ status }}</p>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile--pagination">
+                {{#unless onFirstPage }}
+                    <a href="profile?page={{ math currPage "-" 1 }}">Előző</a>
+                {{/unless}}
+                {{#unless onLastPage }}
+                    <a href="profile?page={{ math currPage "+" 1 }}">Következő</a>
+                {{/unless}}
+            </div>
+        {{/ifb}}
+        {{#ifb (compare 'ADMIN' '==' user.role)}}
+            <div class="profile--uploaded">
+                <h3>Jelenleg bejegyzett dolgozatok</h3>
+                <div class="profile--uploaded__head profile--uploaded__head--admin">
+                    <p>Szekció</p>
+                    <p>Cím</p>
+                    <p>Dolgozat információk</p>
+                    <p>Dolgozat státusza</p>
+                    <p>Dolgozat törlése</p>
+                </div>
+                <ul class="profile--uploaded__list">
+                    {{#each papers}}
+                        <li class="profile--uploaded__item profile--uploaded__item--admin">
+                            <p><span class="profile--uploaded__mod">Szekció</span>{{ section.name }}</p>
+                            <p><span class="profile--uploaded__mod">Cím</span>{{ title }}</p>
+                            <p><span class="profile--uploaded__mod">Dolgozat információk</span>
+                                <button
+                                        class="profile--uploaded__btn __view-btn"
+                                        data-paper="{{ id }}">Megtekintés
+                                </button>
+                            </p>
+                            <p><span class="profile--uploaded__mod">Státusz</span>{{ status }}</p>
+                                <a href="delete?paperId={{ id }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="__color-red" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>Dolgozat törlése</span></a>
                         </li>
                     {{/each}}
                 </ul>

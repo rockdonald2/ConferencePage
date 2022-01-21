@@ -183,8 +183,16 @@ public class RegistrationServlet extends HttpServlet {
 
                     if (filePart != null) {
                         try {
-                            new UploadFileCommand(filePart, getServletContext(), paper).execute();
-                            pService.update(paper);
+                            if (filePart.getContentType().equals(PDF_CONTENT_TYPE)) {
+                                new UploadFileCommand(filePart, getServletContext(), paper).execute();
+                                pService.update(paper);
+                            } else {
+                               LOG.error("User {} tried to upload a different file type {}.", user.getEmail(), filePart.getContentType());
+                               session.setAttribute("popups", new String[]{"Dolgozat sikeresen regisztrálva, azonban hibás fájlttípus, próbáld újra a Profil-ból."});
+                               resp.setStatus(406);
+                               resp.sendRedirect(req.getContextPath() + "/index");
+                               return;
+                            }
                         } catch (CommandException e) {
                             LOG.error("Failed to upload document for paper {}.", paper.getId());
                             session.setAttribute("popups", new String[] {"Hiba történt a dokumentum feltöltésekor, jelentkezz be és próbáld újra."});
