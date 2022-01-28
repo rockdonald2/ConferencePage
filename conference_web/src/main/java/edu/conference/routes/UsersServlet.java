@@ -1,9 +1,7 @@
 package edu.conference.routes;
 
-import edu.conference.model.Paper;
 import edu.conference.model.Role;
 import edu.conference.model.User;
-import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.UserService;
 import edu.conference.service.exception.ServiceException;
@@ -30,14 +28,12 @@ public class UsersServlet extends HttpServlet {
     private static final int PAGE_SIZE = 4;
 
     private UserService uService;
-    private PaperService pService;
 
     @Override
     public void init() throws ServletException {
         super.init();
         ServiceFactory factory = ServiceFactory.getInstance();
         uService = factory.getUserService();
-        pService = factory.getPaperService();
     }
 
     @Override
