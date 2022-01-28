@@ -74,11 +74,11 @@
                   d="M 108.007812 3.390625 L 167.136719 3.390625 L 167.136719 196.484375 L 108.007812 196.484375 Z M 108.007812 3.390625 "/>
         </g>
         <g clip-path="url(#clip4)" clip-rule="nonzero">
-            <path style=" stroke:none;fill-rule:nonzero;fill:rgb(83.918762%,68.629456%,48.629761%);fill-opacity:1;"
+            <path style=" stroke:none;fill-rule:nonzero;fill:#007962;fill-opacity:1;"
                   d="M 33.527344 83.152344 L 85.167969 83.152344 L 85.167969 196.164062 L 33.527344 196.164062 Z M 33.527344 83.152344 "/>
         </g>
         <g clip-path="url(#clip5)" clip-rule="nonzero">
-            <path style=" stroke:none;fill-rule:nonzero;fill:rgb(83.918762%,68.629456%,48.629761%);fill-opacity:1;"
+            <path style=" stroke:none;fill-rule:nonzero;fill:#007962;fill-opacity:1;"
                   d="M 268.0625 97.976562 L 318.957031 97.976562 L 318.957031 198.265625 L 268.0625 198.265625 Z M 268.0625 97.976562 "/>
         </g>
     </g>
