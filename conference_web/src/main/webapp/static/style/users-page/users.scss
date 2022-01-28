@@ -2,6 +2,19 @@
 @import "../general/mixins";
 
 .users {
+  &--search {
+    max-width: 60%;
+    margin: 0 auto $size-lg auto;
+
+    @include respond(950px) {
+      max-width: 80%;
+    }
+
+    @include respond(500px) {
+      max-width: 95%;
+    }
+  }
+
   &--wrapper {
     margin: 0 auto;
     display: grid;
@@ -63,6 +76,61 @@
       &:active {
         border-color: $color-red;
         color: $color-red;
+      }
+    }
+  }
+
+  &--pagination {
+    margin-top: $size-lg;
+    width: 100%;
+    @include flexCenterize;
+    flex-wrap: wrap;
+    padding-top: $size-md;
+
+    a {
+      font-size: $font-profile--pagination;
+      border: 1px solid rgba($color-grey--mid, .5);
+      padding: $size-sm * .75 $size-sm;
+      border-radius: 5px;
+
+      @include respond(450px) {
+        padding: $size-sm * .6 $size-sm * .9;
+      }
+
+      &:hover,
+      &:active {
+        border-color: $color-main;
+      }
+
+      &.active {
+        border: 1px solid $color-main;
+      }
+    }
+
+    a:not(:last-of-type) {
+      margin-right: $size-sm * .75;
+    }
+  }
+
+  &--msg {
+    font-size: $font-notfound;
+    @include flexAlignCenterize;
+    justify-content: center;
+
+    @include respond(750px) {
+      @include flexColumn;
+      text-align: center;
+    }
+
+    svg {
+      width: 4rem;
+      height: 4rem;
+      margin-right: 2rem;
+      stroke: $color-main;
+
+      @include respond(750px) {
+        margin-right: 0;
+        margin-bottom: 2rem;
       }
     }
   }

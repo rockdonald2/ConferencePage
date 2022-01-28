@@ -8,5 +8,5 @@ public final class Constants {
     public static final String UPLOAD_DIRECTORY = "uploads";
     public static final String PDF_SUFFIX = ".pdf";
     public static final String PDF_CONTENT_TYPE = "application/pdf";
-
+    
 }

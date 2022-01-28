@@ -5,6 +5,7 @@ import edu.conference.service.PaperService;
 import edu.conference.service.SectionService;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.UserService;
+import edu.conference.service.exception.ServiceException;
 import edu.conference.utils.ModelFactory;
 import edu.conference.utils.TemplateFactory;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +26,7 @@ import java.util.Map;
 public class ProfileServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProfileServlet.class);
-    private static final int PAGE_SIZE = 3;
+    private static final int PAGE_SIZE = 5;
 
     private UserService uService;
     private PaperService pService;
@@ -45,7 +47,20 @@ public class ProfileServlet extends HttpServlet {
 
         User curr = (User) model.get("user");
         boolean todoStatusVal = true;
-        List<Paper> papers = pService.getAll();
+
+        HttpSession session = req.getSession();
+
+        List<Paper> papers;
+        try {
+            papers = pService.getAll();
+        } catch (ServiceException e) {
+            LOG.error("Failed to load papers for profile page.");
+            session.setAttribute("popups", new String[]{"Hiba történt."});
+            resp.setStatus(500);
+            resp.sendRedirect(req.getContextPath() + "/index");
+            return;
+        }
+
         if (curr.getRole().equals(Role.PRESENTER)) {
             todoStatusVal = uService.arePapersUploaded(curr);
             papers = pService.getAllForPresenter(curr.getEmail());
@@ -72,6 +87,7 @@ public class ProfileServlet extends HttpServlet {
             boolean onLastPage = page == maxPages;
 
             if (page > maxPages) {
+                session.setAttribute("popups", new String[]{"Nem létező oldalszám."});
                 resp.setStatus(400);
                 resp.sendRedirect(req.getContextPath() + "/profile");
                 return;
