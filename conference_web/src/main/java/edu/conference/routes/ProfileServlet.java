@@ -79,6 +79,17 @@ public class ProfileServlet extends HttpServlet {
 
         if (!curr.getRole().equals(Role.PRESENTER)) {
             String currPage = req.getParameter("page");
+            String currQuery = req.getParameter("query");
+
+            String query = currQuery == null ? "" : currQuery;
+
+            if (!query.equals("")) {
+                papers = papers.stream().filter(paper -> {
+                    User presenter = paper.getPresenter();
+
+                    return (presenter.getLastName() + presenter.getFirstName()).contains(query) || paper.getTitle().contains(query);
+                }).toList();
+            }
 
             int page = currPage == null ? 1 : Integer.parseInt(currPage);
             int maxPages = (int) Math.ceil((double) papers.size() / PAGE_SIZE);
@@ -96,6 +107,7 @@ public class ProfileServlet extends HttpServlet {
             papers = papers.stream().skip((long) (page - 1) * PAGE_SIZE)
                     .limit(PAGE_SIZE).toList();
 
+            model.put("lastQuery", query);
             model.put("currPage", page);
             model.put("onFirstPage", onFirstPage);
             model.put("onLastPage", onLastPage);

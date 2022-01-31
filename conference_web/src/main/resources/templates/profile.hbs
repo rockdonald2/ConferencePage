@@ -101,6 +101,19 @@
                 </li>
             </ul>
         </div>
+        {{#ifb (compare 'PRESENTER' '!=' user.role)}}
+            <div class="profile--search">
+                <h3>Keresés</h3>
+                <form action="profile">
+                    <div class="input-text"><input type="text"
+                                                   id="query"
+                                                   name="query"
+                                                   value="{{ lastQuery }}"><label for="query">Keresés név vagy
+                        dolgozatok szerint...</label>
+                    </div>
+                </form>
+            </div>
+        {{/ifb}}
         {{#ifb (compare 'PRESENTER' '==' user.role) }}
             <div class="profile--uploaded">
                 <h3>Jelenleg feltöltött dolgozatok</h3>
@@ -393,7 +406,7 @@
                                 </button>
                             </p>
                             <p><span class="profile--uploaded__mod">Státusz</span>{{ status }}</p>
-                                <a href="deletePaper?paperId={{ id }}">
+                            <a href="deletePaper?paperId={{ id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="__color-red" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -406,10 +419,12 @@
             </div>
             <div class="profile--pagination">
                 {{#unless onFirstPage }}
-                    <a href="profile?page={{ math currPage "-" 1 }}">Előző</a>
+                    <a href="profile?page={{ math currPage "-" 1 }}{{#if lastQuery }}
+                    &query={{ lastQuery }}{{/if}}">Előző</a>
                 {{/unless}}
                 {{#unless onLastPage }}
-                    <a href="profile?page={{ math currPage "+" 1 }}">Következő</a>
+                    <a href="profile?page={{ math currPage "+" 1 }}{{#if lastQuery }}
+                    &query={{ lastQuery }}{{/if}}">Következő</a>
                 {{/unless}}
             </div>
         {{/ifb}}

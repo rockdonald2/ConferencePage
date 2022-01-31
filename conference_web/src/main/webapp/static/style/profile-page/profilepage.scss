@@ -337,6 +337,15 @@
 			margin-right: $size-sm * .75;
 		}
 	}
+
+	&--search {
+		h3 {
+			font-size: $font-profile--header;
+			margin-bottom: $size-sm;
+		}
+
+		margin: 0 auto $size-lg auto;
+	}
 }
 
 .modal {
