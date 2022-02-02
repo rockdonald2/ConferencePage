@@ -1,5 +1,6 @@
 package edu.conference.model.builders;
 
+import edu.conference.model.ModelException;
 import edu.conference.model.Section;
 import edu.conference.model.User;
 import org.slf4j.Logger;
@@ -33,7 +34,11 @@ public class SectionBuilder {
         return this;
     }
 
-    public Section build() {
+    public Section build() throws ModelException {
+        if (this.name == null || this.name.isEmpty()) {
+            throw new ModelException("Invalid section builder, missing section name.");
+        }
+
         Section s = new Section(this.name, this.description, this.representative);
 
         LOG.info("Successfully builded section {}.", this.name);

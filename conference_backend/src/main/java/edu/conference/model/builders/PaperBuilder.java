@@ -65,7 +65,11 @@ public class PaperBuilder {
         return this;
     }
 
-    public Paper build() {
+    public Paper build() throws ModelException {
+        if (this.title == null || this.title.isEmpty() || this.presenter == null) {
+            throw new ModelException("Invalid paper builder, missing title or presenter");
+        }
+
         Paper p = new Paper(this.title, this.presenter, this.section, this.coAuthors, this.abstr, this.doc, this.status);
 
         LOG.info("Successfully builded paper {}.", this.title);
