@@ -19,6 +19,7 @@
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
+            <charset>UTF-8</charset>
             <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
