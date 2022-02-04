@@ -17,7 +17,7 @@ dependencies {
 def tomcatHome = System.getenv('CATALINA_HOME')
 
 // lefuttatja a Sass fordítót
-task compileSass(type: Exec) {
+task compileSass(type: Exec, group: 'Build', description: 'Compiles .scss source files from webapp/static') {
     String sass = 'node-sass'
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
         sass = "${sass}.cmd"
@@ -32,7 +32,7 @@ compileSass.shouldRunAfter compileJava
 processResources.dependsOn compileSass
 
 // ezzel a taszkkal telepítjük ki a wart a Tomcatre
-task deploy(type: Copy, dependsOn: 'war') {
+task deploy(type: Copy, group: 'Build', dependsOn: 'war', description: 'Deploys .war file to Tomcat home') {
     // futás előtt megnézzük, hogy a Tomcat home-ja helyesen be van-e állítva
     doFirst {
         if (!tomcatHome) {
@@ -47,7 +47,7 @@ task deploy(type: Copy, dependsOn: 'war') {
 }
 
 // Tomcat kitelepítés törlése
-task undeploy(type: Delete) {
+task undeploy(type: Delete, group: 'Build', description: 'Deletes .war file from Tomcat home') {
 
     // futás előtt megnézzük, hogy a Tomcat home-ja helyesen be van-e állítva
     doFirst {
