@@ -30,7 +30,5 @@ const startCountdown = () => {
         }, 1000);
     };
 
-    if (countdown && digits) {
-        setClock();
-    }
+    countdown && digits && setClock();
 };
