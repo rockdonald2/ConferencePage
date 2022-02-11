@@ -1,8 +1,7 @@
 package edu.conference.routes;
 
-import com.cedarsoftware.util.io.JsonWriter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.conference.model.Paper;
-import edu.conference.model.Role;
 import edu.conference.model.User;
 import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
@@ -61,8 +60,7 @@ public class GetPaperServlet extends HttpServlet {
         }
 
         resp.setHeader("Content-Type", "application/json");
-        String jsonResp = JsonWriter.objectToJson(paper);
-        JsonWriter.writeJsonUtf8String(jsonResp, resp.getWriter());
+        new ObjectMapper().writeValue(resp.getWriter(), paper);
         LOG.info("User {} successfully accessed paper {}.", curr.getEmail(), paper.getId());
     }
 

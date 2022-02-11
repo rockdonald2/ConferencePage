@@ -13,8 +13,6 @@
         fetch(`getPaper?paperId=${index}`)
             .then(response => response.json())
             .then(json => {
-                json = JSON.parse(json);
-
                 modal.querySelector('.modal--content__title').innerText = json['title'];
                 modal.querySelector('.modal--content__presenter').querySelector('.__content').innerText = `${json['presenter']['lastName']} ${json['presenter']['firstName']}`;
                 modal.querySelector('.modal--content__coauthors').querySelector('.__content').innerText = json['coAuthors'] == null ? '' : json['coAuthors'].join(', ');
@@ -23,7 +21,7 @@
                 json['abstr'].split('\n').filter(l => l !== '').forEach(l => abstractHtml += `<p>${l}</p>`);
                 modal.querySelector('.modal--content__abstract').innerHTML = abstractHtml;
             })
-            .catch(error => console.warn("Trying to access missing resource or error in parsing."));
+            .catch(error => console.warn('Trying to access missing resource or error in parsing.'));
     };
 
     if (modalBg) {

@@ -9,13 +9,16 @@ dependencies {
     compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '5.0.0'
     implementation group: 'com.github.jknack', name: 'handlebars', version: '4.3.0'
     implementation 'org.beryx:handlebars-java-helpers:0.4.1'
-    implementation 'com.cedarsoftware:json-io:4.13.0'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
 }
 
 // beolvassuk környezeti változóból, hogy hova van telepítve a Tomcat
 def tomcatHome = System.getenv('CATALINA_HOME')
 
+// Más megoldás: https://github.com/EtienneMiret/sass-gradle-plugin
+// ! Azonban nem teszi lehetővé, hogy csak egyetlen .scss fájlt fordítsunk le, a teljes mappát is lefordítaná, ami fájdalom
+// ezért inkább megírtam ezt
 // lefuttatja a Sass fordítót
 task compileSass(type: Exec, group: 'Build', description: 'Compiles .scss source files from webapp/static') {
     String sass = 'node-sass'

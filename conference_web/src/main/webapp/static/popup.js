@@ -1,4 +1,6 @@
 const showPopup = (msg) => {
+    const TIMEOUT = 3000;
+
     const newMsg = document.createElement('div');
 
     newMsg.classList.add('popup--instance');
@@ -29,5 +31,5 @@ const showPopup = (msg) => {
         setTimeout(() => {
             newMsg.remove();
         }, 250);
-    }, 4000);
+    }, TIMEOUT);
 }
