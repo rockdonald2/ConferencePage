@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static edu.conference.utils.Constants.PWD_REGEXP;
+import static edu.conference.utils.Utility.*;
 
 @WebServlet("/changepassword")
 public class ChangePasswordServlet extends HttpServlet {
@@ -52,8 +53,7 @@ public class ChangePasswordServlet extends HttpServlet {
             user = uService.getById(user.getId());
         } catch (ServiceException e) {
             LOG.error("Failed to get user {}.", user.getEmail());
-            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-            resp.sendRedirect(req.getContextPath() + "/changepassword");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/changepassword");
             return;
         }
 
@@ -85,7 +85,7 @@ public class ChangePasswordServlet extends HttpServlet {
             if (!successful) {
                 resp.setStatus(400);
                 resp.sendRedirect(req.getContextPath() + "/changepassword");
-                session.setAttribute("errors", errors);
+                session.setAttribute(ERROR, errors);
                 return;
             }
 
@@ -95,20 +95,18 @@ public class ChangePasswordServlet extends HttpServlet {
                 uService.changePwd(user);
             } catch (ServiceException e) {
                 LOG.error("Failed to change password for user {}.", user.getEmail());
-                session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-                resp.sendRedirect(req.getContextPath() + "/changepassword");
+                alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/changepassword");
                 return;
             }
 
             session.invalidate();
             session = req.getSession();
-            session.setAttribute("popups", new String[]{"Jelszó sikeresen megváltoztatva."});
+            session.setAttribute(POPUP, new String[]{"Jelszó sikeresen megváltoztatva."});
             resp.sendRedirect(req.getContextPath() + "/index");
             LOG.info("User {} successfully changed password.", user.getEmail());
         } catch (NoSuchAlgorithmException e) {
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/500");
             LOG.error("Invalid algorithm for encryption.");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/500");
         }
     }
 

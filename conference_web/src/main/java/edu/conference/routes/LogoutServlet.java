@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+import static edu.conference.utils.Utility.POPUP;
+
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
@@ -17,7 +19,7 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = req.getSession();
         session.invalidate();
         session = req.getSession();
-        session.setAttribute("popups", new String[] {"Sikeres kijelentkezés."});
+        session.setAttribute(POPUP, new String[] {"Sikeres kijelentkezés."});
         resp.sendRedirect(req.getContextPath() + "/index");
     }
 

@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
 
+import static edu.conference.utils.Utility.LOGGED;
+import static edu.conference.utils.Utility.POPUP;
+
 @WebFilter({"/login", "/registration", "/forgottenPassword"})
 public class LoggedInFilter extends HttpFilter {
 
@@ -22,9 +25,10 @@ public class LoggedInFilter extends HttpFilter {
         HttpServletResponse httpResp = (HttpServletResponse) res;
 
         HttpSession session = httpReq.getSession();
-        boolean isLogged = !Objects.isNull(session.getAttribute("logged"));
+        boolean isLogged = !Objects.isNull(session.getAttribute(LOGGED));
 
         if (isLogged) {
+            session.setAttribute(POPUP, new String[] { "Már be van jelentkezve." });
             httpResp.sendRedirect(httpReq.getContextPath() + "/index");
         } else {
             chain.doFilter(req, res);

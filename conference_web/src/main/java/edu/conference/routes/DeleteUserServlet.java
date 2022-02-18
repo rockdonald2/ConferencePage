@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.POPUP;
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 @WebServlet({"/deleteuser", "/deleteUser"})
 public class DeleteUserServlet extends HttpServlet {
 
@@ -45,9 +48,7 @@ public class DeleteUserServlet extends HttpServlet {
         HttpSession session = req.getSession();
         if (!Role.ADMIN.equals(curr.getRole())) {
             LOG.warn("Someone tried to access admin resource {}.", curr.getEmail());
-            session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nem megfelelő jogosultságok.", 403, "/index");
             return;
         }
 
@@ -58,9 +59,7 @@ public class DeleteUserServlet extends HttpServlet {
             userId = Long.parseLong(tmpId);
         } catch (NumberFormatException e) {
             LOG.error("Invalid userId {}.", tmpId);
-            session.setAttribute("popups", new String[]{"Hibás felhasználói azonosító."});
-            resp.setStatus(400);
-            resp.sendRedirect(req.getContextPath() + "/users");
+            alertRedirectUser(req, resp, "Hibás felhasználói azonosító.", 400, "/users");
             return;
         }
 
@@ -69,9 +68,7 @@ public class DeleteUserServlet extends HttpServlet {
             user = uService.getById(userId);
         } catch (ServiceException e) {
             LOG.error("Failed to access user {}.", userId);
-            session.setAttribute("popups", new String[]{"Nem létező felhasználó vagy hiba történt."});
-            resp.setStatus(404);
-            resp.sendRedirect(req.getContextPath() + "/users");
+            alertRedirectUser(req, resp, "Nem létező felhasználó vagy hiba történt.", 400, "/users");
             return;
         }
 
@@ -80,9 +77,7 @@ public class DeleteUserServlet extends HttpServlet {
             papers = pService.getAllForPresenter(user.getEmail());
         } catch (ServiceException e) {
             LOG.error("Failed to access papers for user {}.", user.getEmail());
-            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/users");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/users");
             return;
         }
 
@@ -90,9 +85,7 @@ public class DeleteUserServlet extends HttpServlet {
             papers.forEach(paper -> pService.delete(paper.getId()));
         } catch (ServiceException e) {
             LOG.error("Failed to delete papers for user {}.", user.getEmail());
-            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/users");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/users");
             return;
         }
 
@@ -100,13 +93,11 @@ public class DeleteUserServlet extends HttpServlet {
             uService.delete(userId);
         } catch (ServiceException e) {
             LOG.error("Failed to delete user {}.", userId);
-            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/users");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/users");
             return;
         }
 
-        session.setAttribute("popups", new String[]{"Felhasználó sikeresen törölve."});
+        session.setAttribute(POPUP, new String[]{"Felhasználó sikeresen törölve."});
         resp.sendRedirect(req.getContextPath() + "/users");
         LOG.info("Successfully deleted user {} by user {}.", user.getEmail(), curr.getEmail());
     }

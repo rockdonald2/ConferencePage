@@ -5,6 +5,7 @@ import edu.conference.model.builders.UserBuilder;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.UserService;
 import edu.conference.service.exception.ServiceException;
+import edu.conference.utils.ModelFactory;
 import edu.conference.utils.TemplateFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static edu.conference.utils.Utility.*;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -34,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        TemplateFactory.getTemplate("login").apply(null, resp.getWriter());
+        TemplateFactory.getTemplate("login").apply(ModelFactory.createModel(req), resp.getWriter());
     }
 
     @Override
@@ -49,17 +52,16 @@ public class LoginServlet extends HttpServlet {
             requestedLogin = uService.getByEmail(requestedLogin.getEmail());
         } catch (ServiceException e) {
             LOG.error("Failed to login user {}.", requestedLogin.getEmail());
-            session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
             return;
         }
 
         requestedLogin.setPwd(null);
 
         if (successful) {
-            session.setAttribute("logged", true);
-            session.setAttribute("user", requestedLogin);
-            session.setAttribute("popups", new String[] {"Sikeres bejelentkezés."});
+            session.setAttribute(LOGGED, true);
+            session.setAttribute(USER, requestedLogin);
+            session.setAttribute(POPUP, new String[] {"Sikeres bejelentkezés."});
             resp.sendRedirect(req.getContextPath() + "/index");
             LOG.info("User {} successfully logged in.", requestedLogin.getEmail());
         } else {

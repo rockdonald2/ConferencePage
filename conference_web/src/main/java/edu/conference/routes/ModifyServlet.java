@@ -3,7 +3,6 @@ package edu.conference.routes;
 import edu.conference.model.Paper;
 import edu.conference.model.Section;
 import edu.conference.model.User;
-import edu.conference.model.builders.PaperBuilder;
 import edu.conference.service.PaperService;
 import edu.conference.service.SectionService;
 import edu.conference.service.ServiceFactory;
@@ -27,12 +26,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.*;
+
 @WebServlet("/modify")
 public class ModifyServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(ModifyServlet.class);
 
-    private UserService uService;
     private PaperService pService;
     private SectionService sService;
 
@@ -40,7 +40,6 @@ public class ModifyServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         ServiceFactory factory = ServiceFactory.getInstance();
-        uService = factory.getUserService();
         pService = factory.getPaperService();
         sService = factory.getSectionService();
     }
@@ -48,13 +47,12 @@ public class ModifyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, Object> model = ModelFactory.createModel(req);
-        HttpSession session = req.getSession();
+        User user = (User) model.get("user");
 
         String tmpId = req.getParameter("paperId");
         if (tmpId == null) {
-            session.setAttribute("popups", new String[]{"Helytelen kérés."});
-            resp.setStatus(400);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            LOG.error("Access for paperId came without paperId specified.");
+            alertRedirectUser(req, resp, "Helytelen kérés.", 400, "/profile");
             return;
         }
 
@@ -62,9 +60,8 @@ public class ModifyServlet extends HttpServlet {
         try {
             paperId = Long.parseLong(tmpId);
         } catch (NumberFormatException e) {
-            session.setAttribute("popups", new String[]{"Helytelen kérés."});
-            resp.setStatus(400);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            LOG.error("Access for paperId came with unparseable paperId specified.");
+            alertRedirectUser(req, resp, "Helytelen kérés.", 400, "/profile");
             return;
         }
 
@@ -72,17 +69,14 @@ public class ModifyServlet extends HttpServlet {
         try {
             paper = pService.getById(paperId);
         } catch (ServiceException e) {
-            session.setAttribute("popups", new String[]{"Nem létező dolgozat."});
-            resp.setStatus(404);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            LOG.info("User {} tried to query invalid paper with id {}.", user.getEmail(), paperId);
+            alertRedirectUser(req, resp, "Nem létező dolgozat.", 404, "/profile");
             return;
         }
 
-        User user = (User) model.get("user");
         if (!paper.getPresenter().equals(user)) {
-            session.setAttribute("popups", new String[]{"Nincs megfelelő jogosultsága."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            LOG.warn("Someone without permissions tried to modify users {}.", user.getEmail());
+            alertRedirectUser(req, resp, "Nincs megfelelő jogosultsága.", 403, "/profile");
             return;
         }
 
@@ -90,9 +84,8 @@ public class ModifyServlet extends HttpServlet {
         try {
             sections = sService.getAll();
         } catch (ServiceException e) {
-            session.setAttribute("popups", new String[]{"Hiba történt."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            LOG.error("Failed to query all sections.");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
             return;
         }
 
@@ -112,9 +105,7 @@ public class ModifyServlet extends HttpServlet {
             paperId = Long.parseLong(req.getParameter("modify-paperId"));
         } catch (NumberFormatException e) {
             LOG.error("Invalid paper id {}.", req.getParameter("modify-paperId"));
-            session.setAttribute("popups", new String[]{"Helytelen kérés."});
-            resp.setStatus(400);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Helytelen kérés.", 400, "/profile");
             return;
         }
 
@@ -123,18 +114,14 @@ public class ModifyServlet extends HttpServlet {
             paper = pService.getById(paperId);
         } catch (ServiceException e) {
             LOG.error("Non-existing paper with id {}.", paperId);
-            session.setAttribute("popups", new String[]{"Nem létező dolgozat."});
-            resp.setStatus(404);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Nem létező dolgozat.", 404, "/profile");
             return;
         }
 
         User user = (User) model.get("user");
         if (!paper.getPresenter().equals(user)) {
             LOG.error("Someone {} tried to modify paper {} without permissions.", user.getEmail(), paper.getId());
-            session.setAttribute("popups", new String[]{"Nincs megfelelő jogosultsága."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Nincs megfelelő jogosultsága.", 403, "/profile");
             return;
         }
 
@@ -148,9 +135,7 @@ public class ModifyServlet extends HttpServlet {
             section = sService.getByName(req.getParameter("modify-section").trim());
         } catch (ServiceException e) {
             LOG.error("Invalid section {}.", req.getParameter("modify-section"));
-            session.setAttribute("popups", new String[]{"Hibás szekció."});
-            resp.setStatus(400);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Helytelen kérés.", 400, "/profile");
             return;
         }
 
@@ -177,17 +162,15 @@ public class ModifyServlet extends HttpServlet {
                 pService.update(paper);
             } catch (ServiceException e) {
                 LOG.error("Failed to update paper {} by user {}.", paper.getId(), user.getEmail());
-                session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-                resp.setStatus(400);
-                resp.sendRedirect(req.getContextPath() + "/profile");
+                alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
                 return;
             }
 
-            session.setAttribute("popups", new String[]{"Dolgozat sikeresen frissítve."});
+            session.setAttribute(POPUP, new String[]{"Dolgozat sikeresen frissítve."});
             resp.sendRedirect(req.getContextPath() + "/profile");
             LOG.info("User {} successfully modified paper {}.", user.getEmail(), paper.getId());
         } else {
-            session.setAttribute("errors", errors);
+            session.setAttribute(ERROR, errors);
             resp.sendRedirect(req.getContextPath() + "/modify?paperId=" + paperId);
         }
     }

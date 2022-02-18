@@ -19,6 +19,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.POPUP;
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 @WebServlet({"/deletePaper", "/deletepaper"})
 public class DeletePaperServlet extends HttpServlet {
 
@@ -41,9 +44,7 @@ public class DeletePaperServlet extends HttpServlet {
         HttpSession session = req.getSession();
         if (!Role.ADMIN.equals(curr.getRole())) {
             LOG.warn("User {} without permissions tried to delete paper {}.", curr.getEmail(), tmpId);
-            session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nem megfelelő jogosultságok.", 403, "/index");
             return;
         }
 
@@ -52,9 +53,7 @@ public class DeletePaperServlet extends HttpServlet {
             paperId = Long.parseLong(tmpId);
         } catch (NumberFormatException e) {
             LOG.error("Invalid paperId {}.", tmpId);
-            session.setAttribute("popups", new String[]{"Hibás dolgozat azonosító."});
-            resp.setStatus(400);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Hibás dolgozat azonosító.", 400, "/profile");
             return;
         }
 
@@ -62,13 +61,11 @@ public class DeletePaperServlet extends HttpServlet {
             pService.delete(paperId);
         } catch (ServiceException e) {
             LOG.error("Failed to access paper {}.", paperId);
-            session.setAttribute("popups", new String[]{"Hiba történt."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
             return;
         }
 
-        session.setAttribute("popups", new String[]{"Dolgozat sikeresen törölve."});
+        session.setAttribute(POPUP, new String[]{"Dolgozat sikeresen törölve."});
         resp.sendRedirect(req.getContextPath() + "/profile");
         LOG.info("Successfully deleted paper {} by user {}.", paperId, curr.getEmail());
     }

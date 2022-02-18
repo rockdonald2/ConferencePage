@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 @WebServlet({"/getPaper", "/getpaper"})
 public class GetPaperServlet extends HttpServlet {
 
@@ -40,8 +42,7 @@ public class GetPaperServlet extends HttpServlet {
         User curr = (User) model.get("user");
 
         if (!isLogged) {
-            resp.setStatus(401);
-            resp.sendRedirect(req.getContextPath() + "/login");
+            alertRedirectUser(req, resp, "Bejelentkezés szükséges.", 401, "/login");
             return;
         }
 
@@ -54,8 +55,7 @@ public class GetPaperServlet extends HttpServlet {
             paper = pService.getById(paperId);
         } catch (ServiceException e) {
             LOG.error("Failed to get paper {}.", paperId);
-            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
             return;
         }
 

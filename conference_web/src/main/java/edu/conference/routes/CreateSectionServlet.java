@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static edu.conference.utils.Utility.POPUP;
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 @WebServlet({"/createsection", "/createSection"})
 public class CreateSectionServlet extends HttpServlet {
 
@@ -50,9 +53,7 @@ public class CreateSectionServlet extends HttpServlet {
         HttpSession session = req.getSession();
         if (!Role.ADMIN.equals(curr.getRole())) {
             LOG.warn("Someone tried to access resources without permissions {}.", curr.getEmail());
-            session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nem megfelelő jogosultságok.", 403, "/index");
             return;
         }
 
@@ -61,9 +62,7 @@ public class CreateSectionServlet extends HttpServlet {
             users = uService.getAll();
         } catch (ServiceException e) {
             LOG.error("Failed to access users.");
-            session.setAttribute("popups", new String[]{"Hiba történt."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
             return;
         }
 
@@ -83,9 +82,7 @@ public class CreateSectionServlet extends HttpServlet {
 
         if (!Role.ADMIN.equals(curr.getRole())) {
             LOG.warn("User {} without permissions tried to access create section.", curr.getEmail());
-            session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nem megfelelő jogosultságok.", 403, "/index");
             return;
         }
 
@@ -94,8 +91,7 @@ public class CreateSectionServlet extends HttpServlet {
             user = uService.getByEmail(req.getParameter("cr-rep"));
         } catch (ServiceException e) {
             LOG.error("Failed to find representative by email {}.", req.getParameter("cr-rep"));
-            session.setAttribute("popups", new String[]{"Hiba történt."});
-            resp.sendRedirect(req.getContextPath() + "/createsection");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/createsection");
             return;
         }
 
@@ -106,12 +102,11 @@ public class CreateSectionServlet extends HttpServlet {
             sService.create(section);
         } catch (ServiceException e) {
             LOG.error("Failed to create section {}.", section.getName());
-            session.setAttribute("popups", new String[]{"Hiba történt."});
-            resp.sendRedirect(req.getContextPath() + "/createsection");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/createsection");
             return;
         }
 
-        session.setAttribute("popups", new String[]{"Sikeresen létrehozva a " + section.getName() + " szekció."});
+        session.setAttribute(POPUP, new String[]{"Sikeresen létrehozva a " + section.getName() + " szekció."});
         resp.sendRedirect(req.getContextPath() + "/profile");
         LOG.info("Successfully created new section {} by user {}.", section.getName(), user.getEmail());
     }

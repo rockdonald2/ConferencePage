@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
 
@@ -48,16 +50,12 @@ public class ProfileServlet extends HttpServlet {
         User curr = (User) model.get("user");
         boolean todoStatusVal = true;
 
-        HttpSession session = req.getSession();
-
         List<Paper> papers;
         try {
             papers = pService.getAll();
         } catch (ServiceException e) {
             LOG.error("Failed to load papers for profile page.");
-            session.setAttribute("popups", new String[]{"Hiba történt."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
             return;
         }
 
@@ -98,9 +96,8 @@ public class ProfileServlet extends HttpServlet {
             boolean onLastPage = page == maxPages;
 
             if (page > maxPages) {
-                session.setAttribute("popups", new String[]{"Nem létező oldalszám."});
-                resp.setStatus(400);
-                resp.sendRedirect(req.getContextPath() + "/profile");
+                LOG.error("Non-existing page tried to be queried by user {}.", curr.getEmail());
+                alertRedirectUser(req, resp, "Nem létező oldalszám.", 404, "/profile");
                 return;
             }
 

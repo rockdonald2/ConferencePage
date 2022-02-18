@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 @WebServlet({"/verifypaper", "/verifyPaper"})
 public class JudgePaperServlet extends HttpServlet {
 
@@ -42,12 +44,9 @@ public class JudgePaperServlet extends HttpServlet {
 
         if (!user.getRole().equals(Role.REPRESENTATIVE)) {
             LOG.error("Someone tried to access without authorization paper {}.", paperId);
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Nem megfelelő jogosultságok.", 403, "/index");
             return;
         }
-
-        HttpSession session = req.getSession();
 
         try {
             Paper paper = pService.getById(paperId);
@@ -56,8 +55,7 @@ public class JudgePaperServlet extends HttpServlet {
             LOG.info("User {} successfully set new status {} for paper {}.", user.getEmail(), paper.getStatus(), paper.getId());
         } catch (ServiceException e) {
             LOG.error("Failed to judge paper {}.", paperId);
-            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
         }
     }
 

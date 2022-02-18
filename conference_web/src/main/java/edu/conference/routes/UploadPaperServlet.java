@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import static edu.conference.utils.Constants.*;
+import static edu.conference.utils.Utility.POPUP;
+import static edu.conference.utils.Utility.alertRedirectUser;
 
 @WebServlet({"/uploadpaper", "/uploadPaper"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
@@ -40,8 +42,7 @@ public class UploadPaperServlet extends HttpServlet {
 
         if (!filePart.getContentType().equals(PDF_CONTENT_TYPE)) {
             LOG.warn("Invalid file type {} tried to be uploaded.", filePart.getContentType());
-            resp.setStatus(406);
-            session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
+            alertRedirectUser(req, resp, "Hiba történt, nem megfelelő fájltípus, próbáld újra.", 406, "/profile");
         } else {
             long paperId = Long.parseLong(req.getParameter("paper-id"));
             Paper paper = pService.getById(paperId);
@@ -50,9 +51,7 @@ public class UploadPaperServlet extends HttpServlet {
                 new UploadFileCommand(filePart, getServletContext(), paper).execute();
             } catch (CommandException e) {
                 LOG.error("Failed to upload document for paper {}.", paper.getId());
-                session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
-                resp.setStatus(500);
-                resp.sendRedirect(req.getContextPath() + "/profile");
+                alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
                 return;
             }
 
@@ -60,13 +59,11 @@ public class UploadPaperServlet extends HttpServlet {
                 pService.update(paper);
             } catch (ServiceException e) {
                 LOG.error("Failed to upload document for paper {}.", paper.getId());
-                session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
-                resp.setStatus(500);
-                resp.sendRedirect(req.getContextPath() + "/profile");
+                alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
                 return;
             }
 
-            session.setAttribute("popups", new String[]{"Dolgozat sikeresen feltöltve."});
+            session.setAttribute(POPUP, new String[]{"Dolgozat sikeresen feltöltve."});
             LOG.info("New paper successfully uploaded on path {}.", paper.getDoc());
         }
 

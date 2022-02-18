@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.*;
+
 @WebServlet({"/registerpaper", "/registerPaper"})
 public class RegisterPaperServlet extends HttpServlet {
 
@@ -51,9 +53,7 @@ public class RegisterPaperServlet extends HttpServlet {
             section = sService.getByName(req.getParameter("new-section"));
         } catch (ServiceException e) {
             LOG.error("Failed to access service.");
-            session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
             return;
         }
 
@@ -89,15 +89,13 @@ public class RegisterPaperServlet extends HttpServlet {
                 pService.register(paper);
             } catch (ServiceException e) {
                 LOG.error("Failed to register paper for user {}.", user.getEmail());
-                session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-                resp.setStatus(500);
-                resp.sendRedirect(req.getContextPath() + "/profile");
+                alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
                 return;
             }
 
-            session.setAttribute("popups", new String[]{"Dolgozat sikeresen regisztrálva."});
+            session.setAttribute(POPUP, new String[]{"Dolgozat sikeresen regisztrálva."});
         } else {
-            session.setAttribute("errors", errors);
+            session.setAttribute(ERROR, errors);
         }
 
         resp.sendRedirect(req.getContextPath() + "/profile");

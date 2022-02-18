@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import static edu.conference.utils.Constants.*;
+import static edu.conference.utils.Utility.*;
 
 @WebServlet("/registration")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
@@ -54,9 +55,17 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, Object> model = ModelFactory.createModel(req);
-        List<Section> sections = sService.getAll();
-        model.put("sections", sections);
 
+        List<Section> sections;
+        try {
+            sections = sService.getAll();
+        } catch (ServiceException e) {
+            LOG.error("Failed to get sections.");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
+            return;
+        }
+
+        model.put("sections", sections);
         TemplateFactory.getTemplate("registration").apply(model, resp.getWriter());
     }
 
@@ -120,14 +129,12 @@ public class RegistrationServlet extends HttpServlet {
             try {
                 if (!uService.register(user)) {
                     LOG.info("Already existing user tried to register again {}.", user.getEmail());
-                    session.setAttribute("popups", new String[]{"Már létező felhasználó."});
-                    resp.sendRedirect(req.getContextPath() + "/registration");
+                    alertRedirectUser(req, resp, "Már létező felhasználó.", 400, "/registration");
                     return;
                 }
             } catch (ServiceException e) {
                 LOG.error("Failed to register user {}.", user.getEmail());
-                session.setAttribute("popups", new String[]{"Hiba történt, kérlek próbáld újra."});
-                resp.sendRedirect(req.getContextPath() + "/registration");
+                alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/registration");
                 return;
             }
 
@@ -169,7 +176,6 @@ public class RegistrationServlet extends HttpServlet {
                         paper = pService.register(paper);
                     } catch (ServiceException e) {
                         LOG.error("Failed to register paper {}.", paper.getTitle());
-                        session.setAttribute("popups", new String[]{"Hiba történt, kérlek próbáld újra."});
 
                         // azonban ekkor a User már beszúrásra került, kikell törölni
                         try {
@@ -178,7 +184,7 @@ public class RegistrationServlet extends HttpServlet {
                             LOG.error("Failed to delete user {} after paper registration failure.", user.getEmail());
                         }
 
-                        resp.sendRedirect(req.getContextPath() + "/registration");
+                        alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/registration");
                         return;
                     }
 
@@ -189,30 +195,27 @@ public class RegistrationServlet extends HttpServlet {
                                 pService.update(paper);
                             } else {
                                 LOG.error("User {} tried to upload a different file type {}.", user.getEmail(), filePart.getContentType());
-                                session.setAttribute("popups", new String[]{"Dolgozat sikeresen regisztrálva, azonban hibás fájlttípus, próbáld újra a Profil-ból."});
-                                resp.setStatus(406);
-                                resp.sendRedirect(req.getContextPath() + "/index");
+                                alertRedirectUser(req, resp, "Dolgozat sikeresen regisztrálva, azonban hibás fájlttípus, próbáld újra a Profil-ból.", 406, "/index");
                                 return;
                             }
                         } catch (CommandException e) {
                             LOG.error("Failed to upload document for paper {}.", paper.getId());
-                            session.setAttribute("popups", new String[]{"Hiba történt a dokumentum feltöltésekor, jelentkezz be és próbáld újra."});
-                            resp.sendRedirect(req.getContextPath() + "/index");
+                            alertRedirectUser(req, resp, "Hiba történt a dokumentum feltöltésekor, jelentkezz be és próbáld újra.", 406, "/index");
                             return;
                         }
                     }
                 } else {
-                    session.setAttribute("errors", errors);
+                    session.setAttribute(ERROR, errors);
                     resp.sendRedirect(req.getContextPath() + "/registration");
                     return;
                 }
             }
 
             LOG.info("New user {} successfully registered.", user.getEmail());
-            session.setAttribute("popups", new String[]{"Regisztráció sikeres!"});
+            session.setAttribute(POPUP, new String[]{"Regisztráció sikeres!"});
             resp.sendRedirect(req.getContextPath() + "/index");
         } else {
-            session.setAttribute("errors", errors);
+            session.setAttribute(ERROR, errors);
             resp.sendRedirect(req.getContextPath() + "/registration");
         }
     }

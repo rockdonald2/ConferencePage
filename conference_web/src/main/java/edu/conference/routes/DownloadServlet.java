@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 @WebServlet("/download")
 public class DownloadServlet extends HttpServlet {
 
@@ -49,8 +51,7 @@ public class DownloadServlet extends HttpServlet {
             paper = pService.getByPath(path);
         } catch (ServiceException e) {
             LOG.error("Failed to get paper by path {}.", path);
-            session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
             return;
         }
 
@@ -60,8 +61,7 @@ public class DownloadServlet extends HttpServlet {
                 && !paper.getSection().getRepresentative().getEmail().equals(curr.getEmail())
                 && !Role.ADMIN.equals(curr.getRole())) {
             LOG.error("Someone tried to access without authorization paper {}.", paper.getId());
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nem megfelelő jogosultságok.", 403, "/index");
             return;
         }
 
@@ -69,8 +69,8 @@ public class DownloadServlet extends HttpServlet {
             new DownloadFileCommand(resp, req, path).execute();
             LOG.info("Successfully deleted paper {} by user {}.", paper.getId(), curr.getEmail());
         } catch (CommandException e) {
-            session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            LOG.error("Failed to execute download command.");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
         }
     }
 

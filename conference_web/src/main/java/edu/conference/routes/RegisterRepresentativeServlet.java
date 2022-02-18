@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static edu.conference.utils.Constants.EMAIL_REGEXP;
+import static edu.conference.utils.Utility.*;
 
 @WebServlet({"/registerrepresentative", "/registerRepresentative"})
 public class RegisterRepresentativeServlet extends HttpServlet {
@@ -45,10 +46,7 @@ public class RegisterRepresentativeServlet extends HttpServlet {
 
         if (!Role.ADMIN.equals(curr.getRole())) {
             LOG.warn("User {} without permissions tried to access register representative.", curr.getEmail());
-            HttpSession session = req.getSession();
-            session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nincs megfelelő jogosultsága.", 403, "/profile");
             return;
         }
 
@@ -63,9 +61,7 @@ public class RegisterRepresentativeServlet extends HttpServlet {
         HttpSession session = req.getSession();
         if (!Role.ADMIN.equals(curr.getRole())) {
             LOG.warn("User {} without permissions tried to access register representative.", curr.getEmail());
-            session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nincs megfelelő jogosultsága.", 403, "/profile");
             return;
         }
 
@@ -116,24 +112,22 @@ public class RegisterRepresentativeServlet extends HttpServlet {
                         .build();
             } catch (ModelException e) {
                 LOG.error("Could not register new representative with email {}.", email);
-                session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-                resp.sendRedirect(req.getContextPath() + "/registerrepresentative");
+                alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/registerrepresentative");
                 return;
             }
 
             try {
                 uService.register(user);
                 LOG.info("New representative successfully registered with email {}.", email);
-                session.setAttribute("popups", new String[]{"Szekciófelelős sikeresen regisztrálva."});
+                session.setAttribute(POPUP, new String[]{"Szekciófelelős sikeresen regisztrálva."});
                 resp.sendRedirect(req.getContextPath() + "/profile");
             } catch (ServiceException e) {
                 LOG.error("Could not register new representative with email {}.", email);
-                session.setAttribute("popups", new String[]{"Hiba történt, próbáld újra."});
-                resp.sendRedirect(req.getContextPath() + "/registerrepresentative");
+                alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/registerrepresentative");
             }
         } else {
             LOG.warn("Input errors while creating new representative.");
-            session.setAttribute("errors", errors);
+            session.setAttribute(ERROR, errors);
             resp.sendRedirect(req.getContextPath() + "/registerrepresentative");
         }
     }

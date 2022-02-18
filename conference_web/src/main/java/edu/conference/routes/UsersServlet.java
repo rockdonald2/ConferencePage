@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 
 @WebServlet("/users")
 public class UsersServlet extends HttpServlet {
@@ -44,9 +46,7 @@ public class UsersServlet extends HttpServlet {
         HttpSession session = req.getSession();
         if (!Role.ADMIN.equals(curr.getRole())) {
             LOG.warn("Someone tried to access admin resource {}.", curr.getEmail());
-            session.setAttribute("popups", new String[]{"Nem megfelelő jogosultságok."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nincs megfelelő jogosultsága.", 403, "/profile");
             return;
         }
 
@@ -55,9 +55,7 @@ public class UsersServlet extends HttpServlet {
             users = uService.getAll().stream().filter(user -> !user.getEmail().equals(curr.getEmail())).toList();
         } catch (ServiceException e) {
             LOG.error("Failed to access users.");
-            session.setAttribute("popups", new String[]{"Hiba történt."});
-            resp.setStatus(500);
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
             return;
         }
 
@@ -86,9 +84,7 @@ public class UsersServlet extends HttpServlet {
             onLastPage = page == maxPages;
 
             if (page > maxPages) {
-                session.setAttribute("popups", new String[]{"Nem létező oldalszám."});
-                resp.setStatus(400);
-                resp.sendRedirect(req.getContextPath() + "/users");
+                alertRedirectUser(req, resp, "Nem létező oldalszám.", 400, "/users");
                 return;
             }
 

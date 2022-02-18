@@ -20,6 +20,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 
+import static edu.conference.utils.Utility.POPUP;
+import static edu.conference.utils.Utility.alertRedirectUser;
+
 @WebServlet("/revoke")
 public class RevokeServlet extends HttpServlet {
 
@@ -47,9 +50,7 @@ public class RevokeServlet extends HttpServlet {
                 && !paper.getSection().getRepresentative().getEmail().equals(curr.getEmail())
                 && !Role.ADMIN.equals(curr.getRole())) {
             LOG.error("Someone tried to access without authorization paper {}.", paper.getId());
-            session.setAttribute("popups", new String[] {"Nem megfelelő jogosultságok."});
-            resp.setStatus(403);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            alertRedirectUser(req, resp, "Nincs megfelelő jogosultsága.", 403, "/profile");
             return;
         }
 
@@ -60,12 +61,11 @@ public class RevokeServlet extends HttpServlet {
             pService.update(paper);
         } catch (ServiceException e) {
             LOG.error("Failed to revoke paper {}.", paper.getId());
-            session.setAttribute("popups", new String[] {"Hiba történt, próbáld újra."});
-            resp.sendRedirect(req.getContextPath() + "/profile");
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
             return;
         }
 
-        session.setAttribute("popups", new String[]{"Dolgozat sikeresen visszavonva."});
+        session.setAttribute(POPUP, new String[]{"Dolgozat sikeresen visszavonva."});
         resp.sendRedirect(req.getContextPath() + "/profile");
         LOG.info("User {} successfully revoked paper {}.", curr.getEmail(), paper.getId());
     }
