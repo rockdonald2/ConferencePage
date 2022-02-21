@@ -169,7 +169,7 @@ public class RegistrationServlet extends HttpServlet {
                     Paper paper = new PaperBuilder().withTitle(title).withStatus("new")
                             .withAbstract(abstr).inSection(concreteSection)
                             .presents(user)
-                            .withCoAuthors(concreteCoAuthors.size() != 0 ? concreteCoAuthors.toArray(new String[]{}) : null)
+                            .withCoAuthors(!concreteCoAuthors.isEmpty() ? concreteCoAuthors.toArray(new String[]{}) : null)
                             .build();
 
                     try {

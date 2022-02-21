@@ -37,7 +37,7 @@ public final class ConnectionManager {
         }
     }
 
-    public synchronized static ConnectionManager getInstance() {
+    public static synchronized ConnectionManager getInstance() {
         if (Objects.isNull(instance)) {
             instance = new ConnectionManager();
         }
@@ -46,7 +46,7 @@ public final class ConnectionManager {
     }
 
     public synchronized Connection getConnection() throws RepositoryException {
-        if (pool.size() == 0) throw new RepositoryException("Empty connection pool.");
+        if (pool.isEmpty()) throw new RepositoryException("Empty connection pool.");
 
         Connection c = pool.get(0);
         pool.remove(0);
