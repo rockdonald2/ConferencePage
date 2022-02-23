@@ -49,16 +49,18 @@ public class LoginServlet extends HttpServlet {
         boolean successful;
         try {
             successful = uService.login(requestedLogin);
-            requestedLogin = uService.getByEmail(requestedLogin.getEmail());
+
+            if (successful) {
+                requestedLogin = uService.getByEmail(requestedLogin.getEmail());
+            }
         } catch (ServiceException e) {
             LOG.error("Failed to login user {}.", requestedLogin.getEmail());
             alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/index");
             return;
         }
 
-        requestedLogin.setPwd(null);
-
         if (successful) {
+            requestedLogin.setPwd(null);
             session.setAttribute(LOGGED, true);
             session.setAttribute(USER, requestedLogin);
             session.setAttribute(POPUP, new String[] {"Sikeres bejelentkezés."});
