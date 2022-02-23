@@ -48,8 +48,6 @@ public class GetPaperServlet extends HttpServlet {
 
         long paperId = Long.parseLong(req.getParameter("paperId"));
 
-        HttpSession session = req.getSession();
-
         Paper paper;
         try {
             paper = pService.getById(paperId);
