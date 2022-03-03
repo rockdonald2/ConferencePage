@@ -33,8 +33,7 @@ import static edu.conference.utils.Utility.*;
 
 @WebServlet("/registration")
 @MultipartConfig(maxFileSize = 1024 * 1024 * 5 * 5 * 2,
-        maxRequestSize = 1024 * 1024 * 5 * 5 * 2,
-        location = "/tmp")
+        maxRequestSize = 1024 * 1024 * 5 * 5 * 2)
 public class RegistrationServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(RegistrationServlet.class);

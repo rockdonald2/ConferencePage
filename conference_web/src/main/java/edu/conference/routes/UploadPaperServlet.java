@@ -21,8 +21,7 @@ import static edu.conference.utils.Utility.alertRedirectUser;
 
 @WebServlet({"/uploadpaper", "/uploadPaper"})
 @MultipartConfig(maxFileSize = 1024 * 1024 * 5 * 5 * 2,
-        maxRequestSize = 1024 * 1024 * 5 * 5 * 2,
-        location = "/tmp")
+        maxRequestSize = 1024 * 1024 * 5 * 5 * 2)
 public class UploadPaperServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadPaperServlet.class);
