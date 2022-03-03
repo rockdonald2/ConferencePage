@@ -7,6 +7,8 @@ import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.exception.ServiceException;
 import edu.conference.utils.ModelFactory;
+import edu.conference.utils.commands.CommandException;
+import edu.conference.utils.commands.impl.DeleteFileCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -57,12 +59,28 @@ public class DeletePaperServlet extends HttpServlet {
             return;
         }
 
+        Paper paper;
+        try {
+            paper = pService.getById(paperId);
+        } catch (ServiceException e) {
+            LOG.error("Failed to access paper {}.", paperId);
+            alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
+            return;
+        }
+
         try {
             pService.delete(paperId);
         } catch (ServiceException e) {
             LOG.error("Failed to access paper {}.", paperId);
             alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/profile");
             return;
+        }
+
+        try {
+            new DeleteFileCommand(req, paper).execute();
+        } catch (CommandException e) {
+            LOG.error("Failed to delete paper {} phsyically from disk.", paperId);
+            // nem ertesitsuk a felhasznalot
         }
 
         session.setAttribute(POPUP, new String[]{"Dolgozat sikeresen törölve."});

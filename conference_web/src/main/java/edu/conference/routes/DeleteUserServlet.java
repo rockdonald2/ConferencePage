@@ -8,6 +8,8 @@ import edu.conference.service.ServiceFactory;
 import edu.conference.service.UserService;
 import edu.conference.service.exception.ServiceException;
 import edu.conference.utils.ModelFactory;
+import edu.conference.utils.commands.CommandException;
+import edu.conference.utils.commands.impl.DeleteFileCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -87,6 +89,13 @@ public class DeleteUserServlet extends HttpServlet {
             LOG.error("Failed to delete papers for user {}.", user.getEmail());
             alertRedirectUser(req, resp, "Hiba történt, próbáld újra.", 500, "/users");
             return;
+        }
+
+        try {
+            papers.forEach(paper -> new DeleteFileCommand(req, paper).execute());
+        } catch (CommandException e) {
+            LOG.error("Failed to delete paper phsyically from disk.");
+            // nem ertesitsuk a felhasznalot
         }
 
         try {

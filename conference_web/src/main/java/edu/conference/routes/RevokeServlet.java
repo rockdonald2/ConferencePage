@@ -8,6 +8,8 @@ import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.exception.ServiceException;
 import edu.conference.utils.ModelFactory;
+import edu.conference.utils.commands.CommandException;
+import edu.conference.utils.commands.impl.DeleteFileCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -56,6 +58,13 @@ public class RevokeServlet extends HttpServlet {
 
         paper.setStatus(Status.NEW);
         paper.setDoc(null);
+
+        try {
+            new DeleteFileCommand(req, paper).execute();
+        } catch (CommandException e) {
+            LOG.error("Failed to delete paper {} phsyically from disk.", paper.getId());
+            // nem ertesitsuk a felhasznalot
+        }
 
         try {
             pService.update(paper);

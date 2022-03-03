@@ -7,9 +7,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import static edu.conference.utils.Constants.UPLOAD_DIRECTORY;
 
 public class DownloadFileCommand implements Command {
 
@@ -31,7 +34,7 @@ public class DownloadFileCommand implements Command {
         resp.setContentType("text/plain");
         resp.setHeader("Content-disposition", "attachment; filename=" + path);
 
-        try (InputStream in = req.getServletContext().getResourceAsStream("/uploads/" + path);
+        try (InputStream in = req.getServletContext().getResourceAsStream(File.separator +UPLOAD_DIRECTORY + File.separator + path);
              OutputStream out = resp.getOutputStream()) {
 
             byte[] buffer = new byte[SIZE];

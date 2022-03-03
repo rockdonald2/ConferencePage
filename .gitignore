@@ -28,3 +28,4 @@ bin
 tmp
 EDU.CONFERENCE.log
 EDU.CONFERENCE.*.gz
+**/webapp/uploads
