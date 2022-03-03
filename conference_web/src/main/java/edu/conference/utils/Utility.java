@@ -2,9 +2,12 @@ package edu.conference.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+
+import static edu.conference.utils.Constants.PDF_CONTENT_TYPE;
 
 public final class Utility {
 
@@ -35,6 +38,14 @@ public final class Utility {
         if (statusCode != -1) {
             resp.setStatus(statusCode);
         }
+    }
+
+    public static boolean isPdfFile(Part file) {
+        return file.getContentType().equals(PDF_CONTENT_TYPE);
+    }
+
+    public static boolean isEmptyFile(Part file) {
+        return file == null || file.getSize() == 0;
     }
 
 }

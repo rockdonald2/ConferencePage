@@ -4,6 +4,7 @@ import edu.conference.model.Paper;
 import edu.conference.service.PaperService;
 import edu.conference.service.ServiceFactory;
 import edu.conference.service.exception.ServiceException;
+import edu.conference.utils.Utility;
 import edu.conference.utils.commands.CommandException;
 import edu.conference.utils.commands.impl.UploadFileCommand;
 import jakarta.servlet.ServletException;
@@ -15,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static edu.conference.utils.Constants.*;
 import static edu.conference.utils.Utility.POPUP;
 import static edu.conference.utils.Utility.alertRedirectUser;
 
@@ -40,7 +40,7 @@ public class UploadPaperServlet extends HttpServlet {
         Part filePart = req.getPart("paper-file");
         HttpSession session = req.getSession();
 
-        if (!filePart.getContentType().equals(PDF_CONTENT_TYPE)) {
+        if (Utility.isEmptyFile(filePart) || Utility.isPdfFile(filePart)) {
             LOG.warn("Invalid file type {} tried to be uploaded.", filePart.getContentType());
             alertRedirectUser(req, resp, "Hiba történt, nem megfelelő fájltípus, próbáld újra.", 406, "/profile");
         } else {

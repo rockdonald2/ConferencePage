@@ -145,7 +145,7 @@ public class RegistrationServlet extends HttpServlet {
                 String abstr = req.getParameter("reg-abstract").trim();
                 Part filePart = req.getPart("reg-file");
 
-                if (filePart != null && !filePart.getContentType().equals(PDF_CONTENT_TYPE)) {
+                if (!Utility.isEmptyFile(filePart) && !Utility.isPdfFile(filePart)) {
                     errors.put("file", "Nem megfelelő fájlkiterjesztés.");
                     successful = false;
                 }
@@ -188,23 +188,28 @@ public class RegistrationServlet extends HttpServlet {
                         return;
                     }
 
-                    if (filePart != null) {
-                        try {
-                            if (filePart.getContentType().equals(PDF_CONTENT_TYPE)) {
-                                new UploadFileCommand(filePart, getServletContext(), paper).execute();
-                                pService.update(paper);
-                            } else {
-                                LOG.error("User {} tried to upload a different file type {}.", user.getEmail(), filePart.getContentType());
-                                alertRedirectUser(req, resp, "Dolgozat sikeresen regisztrálva, azonban hibás fájlttípus, próbáld újra a Profil-ból.", 406, "/index");
-                                return;
-                            }
-                        } catch (CommandException e) {
-                            LOG.error("Failed to upload document for paper {}.", paper.getId());
-                            alertRedirectUser(req, resp, "Hiba történt a dokumentum feltöltésekor, jelentkezz be és próbáld újra.", 406, "/index");
+                    try {
+                        if (Utility.isPdfFile(filePart)) {
+                            new UploadFileCommand(filePart, getServletContext(), paper).execute();
+                            pService.update(paper);
+                        } else if (!Utility.isEmptyFile(filePart)) {
+                            LOG.error("User {} tried to upload a different file type {}.", user.getEmail(), filePart.getContentType());
+                            alertRedirectUser(req, resp, "Dolgozat sikeresen regisztrálva, azonban hibás fájlttípus, próbáld újra a Profil-ból.", 406, "/index");
                             return;
                         }
+                    } catch (CommandException e) {
+                        LOG.error("Failed to upload document for paper {}.", paper.getId());
+                        alertRedirectUser(req, resp, "Hiba történt a dokumentum feltöltésekor, jelentkezz be és próbáld újra.", 406, "/index");
+                        return;
                     }
                 } else {
+                    // azonban ekkor a User már beszúrásra került, kikell törölni
+                    try {
+                        uService.delete(user.getId());
+                    } catch (ServiceException ignored) {
+                        LOG.error("Failed to delete user {} after paper registration failure.", user.getEmail());
+                    }
+
                     session.setAttribute(ERROR, errors);
                     resp.sendRedirect(req.getContextPath() + "/registration");
                     return;
