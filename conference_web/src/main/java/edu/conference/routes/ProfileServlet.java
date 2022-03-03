@@ -92,6 +92,9 @@ public class ProfileServlet extends HttpServlet {
             int page = currPage == null ? 1 : Integer.parseInt(currPage);
             int maxPages = (int) Math.ceil((double) papers.size() / PAGE_SIZE);
 
+            // ha nincs találat az adott keresésre/nincs feltöltött dolgozat
+            if (maxPages == 0) maxPages = 1;
+
             boolean onFirstPage = page == 1;
             boolean onLastPage = page == maxPages;
 

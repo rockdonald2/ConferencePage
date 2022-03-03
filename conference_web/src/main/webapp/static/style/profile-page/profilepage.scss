@@ -167,6 +167,17 @@
 				}
 			}
 
+			&--noresults {
+				@include flexAlignCenterize;
+
+				svg {
+					height: $size-md;
+					width: $size-md;
+					color: $color-main;
+					margin-right: $size-sm;
+				}
+			}
+
 			&--admin {
 				grid-template-columns: 15% 32.5% 15% 15% 1fr;
 			}
