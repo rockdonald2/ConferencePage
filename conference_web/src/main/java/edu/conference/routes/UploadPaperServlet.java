@@ -20,9 +20,9 @@ import static edu.conference.utils.Utility.POPUP;
 import static edu.conference.utils.Utility.alertRedirectUser;
 
 @WebServlet({"/uploadpaper", "/uploadPaper"})
-@MultipartConfig(fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 1024 * 1024 * 5,
-        maxRequestSize = 1024 * 1024 * 5 * 5)
+@MultipartConfig(maxFileSize = 1024 * 1024 * 5 * 5 * 2,
+        maxRequestSize = 1024 * 1024 * 5 * 5 * 2,
+        location = "/tmp")
 public class UploadPaperServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadPaperServlet.class);
@@ -40,7 +40,7 @@ public class UploadPaperServlet extends HttpServlet {
         Part filePart = req.getPart("paper-file");
         HttpSession session = req.getSession();
 
-        if (Utility.isEmptyFile(filePart) || Utility.isPdfFile(filePart)) {
+        if (Utility.isEmptyFile(filePart) || !Utility.isPdfFile(filePart)) {
             LOG.warn("Invalid file type {} tried to be uploaded.", filePart.getContentType());
             alertRedirectUser(req, resp, "Hiba történt, nem megfelelő fájltípus, próbáld újra.", 406, "/profile");
         } else {

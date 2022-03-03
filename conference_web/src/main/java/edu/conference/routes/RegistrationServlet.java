@@ -32,9 +32,9 @@ import static edu.conference.utils.Constants.*;
 import static edu.conference.utils.Utility.*;
 
 @WebServlet("/registration")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 1024 * 1024 * 5,
-        maxRequestSize = 1024 * 1024 * 5 * 5)
+@MultipartConfig(maxFileSize = 1024 * 1024 * 5 * 5 * 2,
+        maxRequestSize = 1024 * 1024 * 5 * 5 * 2,
+        location = "/tmp")
 public class RegistrationServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(RegistrationServlet.class);
@@ -206,7 +206,7 @@ public class RegistrationServlet extends HttpServlet {
                     // azonban ekkor a User már beszúrásra került, kikell törölni
                     try {
                         uService.delete(user.getId());
-                    } catch (ServiceException ignored) {
+                    } catch (ServiceException e) {
                         LOG.error("Failed to delete user {} after paper registration failure.", user.getEmail());
                     }
 
