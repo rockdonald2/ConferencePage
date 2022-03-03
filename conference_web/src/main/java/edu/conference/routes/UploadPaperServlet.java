@@ -42,6 +42,7 @@ public class UploadPaperServlet extends HttpServlet {
         if (Utility.isEmptyFile(filePart) || !Utility.isPdfFile(filePart)) {
             LOG.warn("Invalid file type {} tried to be uploaded.", filePart.getContentType());
             alertRedirectUser(req, resp, "Hiba történt, nem megfelelő fájltípus, próbáld újra.", 406, "/profile");
+            return;
         } else {
             long paperId = Long.parseLong(req.getParameter("paper-id"));
             Paper paper = pService.getById(paperId);
