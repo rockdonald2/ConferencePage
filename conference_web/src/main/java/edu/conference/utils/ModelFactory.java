@@ -29,7 +29,7 @@ public final class ModelFactory {
         Object popups = session.getAttribute(POPUP);
         model.put(POPUP, popups == null ? Collections.emptyList() : popups);
         session.setAttribute(POPUP, Collections.emptyList());
-        Object errors = session.getAttribute(USER);
+        Object errors = session.getAttribute(ERROR);
         model.put(ERROR, errors == null ? Collections.emptyList() : errors);
         session.setAttribute(ERROR, Collections.emptyList());
 

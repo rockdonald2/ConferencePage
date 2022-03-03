@@ -110,8 +110,8 @@
                     Bejelentkezés
                 </a>
             {{/if}}
-
         </nav>
+
         <nav class="header--menu">
             <ul class="header--menu--list">
                 <li class="header--menu--list__item"><a class="header-link"
@@ -204,9 +204,17 @@
                 <li class="header--menu--list__item"><a class="header-link"
                                                         href="contact">Kapcsolat</a></li>
             </ul>
-            <a href="login" class="btn btn--header btn--modal"
-               type="button">Bejelentkezés
-            </a>
+            {{#if logged }}
+                <a href="profile" class="btn btn--header btn--modal"
+                   type="button">
+                    Profil
+                </a>
+            {{else}}
+                <a href="login" class="btn btn--header btn--modal"
+                   type="button">
+                    Bejelentkezés
+                </a>
+            {{/if}}
             </nav>
     </div>
 </header>
