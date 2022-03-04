@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 
 import static edu.conference.utils.Constants.PDF_SUFFIX;
 import static edu.conference.utils.Constants.UPLOAD_DIRECTORY;
