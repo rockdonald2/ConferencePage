@@ -43,7 +43,6 @@ public class UsersServlet extends HttpServlet {
         Map<String, Object> model = ModelFactory.createModel(req);
         User curr = (User) model.get("user");
 
-        HttpSession session = req.getSession();
         if (!Role.ADMIN.equals(curr.getRole())) {
             LOG.warn("Someone tried to access admin resource {}.", curr.getEmail());
             alertRedirectUser(req, resp, "Nincs megfelelő jogosultsága.", 403, "/profile");
@@ -71,7 +70,7 @@ public class UsersServlet extends HttpServlet {
         int page;
         boolean onFirstPage;
         boolean onLastPage;
-        if (users.size() == 0) {
+        if (users.isEmpty()) {
             page = 1;
             onFirstPage = true;
             onLastPage = true;
